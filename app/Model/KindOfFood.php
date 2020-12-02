@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class KindOfFood extends Model
 {
-    protected $table = 'kindoffoods';
+    protected $table = 'kindOfFoods';
     protected $primaryKey = 'parentID';
     protected $keyType = 'integer';
     protected $guarded = [];
