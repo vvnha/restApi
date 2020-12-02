@@ -50,7 +50,7 @@ Route::group(['namespace' => 'Api'], function() {
     Route::get('/abc', ['as' => 'abc', 'uses' => 'AbcController@index']);
     Route::post('/abc', ['as' => 'abc', 'uses' => 'AbcController@postAbc']);
 
-    Route::post('login', 'AuthController@login');
+    Route::post('login', 'AuthController@login')->name('login');
     Route::post('signup', 'AuthController@signup');
     Route::group(['middleware' => 'auth:api'], function() {
         Route::get('logout', 'AuthController@logout');
