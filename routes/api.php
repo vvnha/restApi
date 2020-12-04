@@ -20,7 +20,7 @@ Route::group(['namespace' => 'Api'], function() {
 
     Route::get('/users/parent/{id}', ['as' => 'user', 'uses' => 'UserController@getOneModel']);
      
-    Route::get('/user/getFood/{id}', ['as' => 'user', 'uses' => 'FoodController@index']);
+    Route::get('/user/getFoods', ['as' => 'user', 'uses' => 'FoodController@index']);
 
 //--------------------------------------------
 
