@@ -76,7 +76,7 @@ class FoodController extends Controller
         'parentID' => 'required'
       ]);
       if ($validator->fails()) { 
-          return response()->json(['error'=>$validator->errors()], 401);            
+          return response()->json(['error'=>$validator->errors(), 'code' => 401]);            
       }
       if (Gate::allows('admin')) {
         $food->save();

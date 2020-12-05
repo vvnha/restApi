@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use App\User;
+use Validator;
 class AuthController extends Controller
 {
     /**
@@ -18,20 +19,23 @@ class AuthController extends Controller
      */
     public function signup(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'phone'=> 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'password' => 'required|string|confirmed',
             'positionID' => 'required'
         ]);
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors(), 'code' => 401]);            
+        }
         $user = new User;
         $user->name=$request->name;
         $user->email =$request->email;
         $user->phone =$request->phone;
         $user->password =bcrypt($request->password);
         $user->positionID =$request->positionID;
-        $user->save();
+        $def = $user->save();
         return response()->json([
             'message' => 'Successfully created user!'
         ], 201);
@@ -49,10 +53,13 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'email' => 'required|string|email',
             'password' => 'required|string'
         ]);
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors(), 'code' => 401]);            
+        }
         $credentials = request(['email', 'password']);
         if(!Auth::attempt($credentials))
             return response()->json([
