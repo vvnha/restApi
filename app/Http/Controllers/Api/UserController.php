@@ -153,6 +153,7 @@ class UserController extends Controller
   }
   public function getOrderOfUser(Request $request){
     $data = Auth :: user();
+    echo $data;
     // if($data==true){
     //   return response()->json(['success' => true, 'code' => '200', 'data' => $data->orderTable]);
     // }else{
