@@ -130,7 +130,7 @@ class OrderTbController extends Controller
           $name = Foods::find((integer)$food->foodID)->foodName;
           $food ->foodName = $name;
         }
-        return response()->json(['success' => true, 'code' => '200']);
+        return response()->json(['success' => true, 'code' => '200', 'data' => $data->detail]);
       }else{
         return response()->json(['success' => true, 'code' => '400']);
       }
