@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\Gate;
 use App\Model\OrderTb;
+use App\Model\Foods;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
