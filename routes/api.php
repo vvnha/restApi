@@ -59,6 +59,7 @@ Route::group(['namespace' => 'Api'], function() {
         Route::get('role', 'UserController@role');
         Route::resource('users', 'UserController');
         Route::get('/users/getOrder/{id}', ['as' => 'user', 'uses' => 'UserController@getChildOrder']);
+        Route::get('/users/getOrder', ['as' => 'user', 'uses' => 'UserController@getOrderOfUser']);
         Route::get('/users/getContact/{id}', ['as' => 'user', 'uses' => 'UserController@getChildContact']);
         Route::resource('orders', 'OrderTbController');
         Route::get('/orders/getDetail/{id}',['as'=>'getID','uses'=>'OrderTbController@getChildDetail']);

@@ -151,6 +151,23 @@ class UserController extends Controller
       return response()->json(['success' => true, 'code' => '400']);
     }
   }
+  public function getOrderOfUser(Request $request){
+    $data = Auth :: user();
+    // if($data==true){
+    //   return response()->json(['success' => true, 'code' => '200', 'data' => $data->orderTable]);
+    // }else{
+    //   return response()->json(['success' => false, 'code' => '404']);
+    // }
+    if($data == true){
+      if (Gate::allows('admin-user', $data->id)) {
+        return response()->json(['success' => true, 'code' => '200', 'data' => $data->orderTable]);
+      } else {
+        return response()->json(['success' => false, 'code' => '401', 'data' => "No permission to delete"]);
+      }
+    }else{
+      return response()->json(['success' => true, 'code' => '400']);
+    }
+  }
   public function getChildFood(Request $request, $id){
     $data = User::find((integer)$id);
     if($data==true){
