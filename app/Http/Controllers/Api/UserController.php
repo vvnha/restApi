@@ -151,9 +151,8 @@ class UserController extends Controller
       return response()->json(['success' => true, 'code' => '400']);
     }
   }
-  public function getOrderOfUser(Request $request){
+  public function getUserOrder(Request $request){
     $data = Auth :: user();
-    echo $data;
     // if($data==true){
     //   return response()->json(['success' => true, 'code' => '200', 'data' => $data->orderTable]);
     // }else{
