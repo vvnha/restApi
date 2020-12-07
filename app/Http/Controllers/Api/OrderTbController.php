@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\Gate;
-use App\model\OrderTb;
+use App\Model\OrderTb;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
