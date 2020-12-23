@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use DB;
+use Validator;
 
 class UserController extends Controller
 {
@@ -19,6 +21,7 @@ class UserController extends Controller
 		$staff = count($accounts);
 		return $data = (['all'=>$collection,'manage'=>$manage,'use'=>$use,'staff'=>$staff]);
 	}
+	
     public function account()
     {
     	$tk = $this->thongke();
@@ -27,16 +30,43 @@ class UserController extends Controller
         return view('admin.users.index',['accounts'=>$accounts,'all'=>$all,'manage'=>$manage,'use'=>$use,'staff'=>$staff]);
     }
 
+    public function blocks()
+    {
+        $tk = $this->thongke();
+        extract($tk);
+        $accounts = User::where('positionID', '=', 5)->get();
+        return view('admin.users.index',['accounts'=>$accounts,'all'=>$all,'manage'=>$manage,'use'=>$use,'staff'=>$staff]);
+    }
+
+
     public function allusers()
     {	
     	$tk = $this->thongke();
     	extract($tk);
-    	$accounts = User::paginate(5);
+    	$accounts = User::paginate(8);
     	$collection = User::count();
         return view('admin.users.allusers',['accounts'=>$accounts,'all'=>$all,'manage'=>$manage,'use'=>$use,'staff'=>$staff]);
     }
-    public function blocks()
+    public function position(Request $request)
     {
-        return view('admin.users.blocks');
+         $validator = Validator::make($request->all(), [ 
+              'id' => 'required', 
+              'positionID' => 'required'
+            ]);
+            if ($validator->fails()) { 
+                return redirect()->back();        
+          }
+        DB::table('users')
+                ->where('id', $request->id)
+                ->update(['positionID' => $request->positionID]);
+        return redirect()->back();
+    }
+
+    public function block($id)
+    {
+        DB::table('users')
+                ->where('id', $id)
+                ->update(['positionID' => 5]);
+        return redirect()->back();
     }
 }

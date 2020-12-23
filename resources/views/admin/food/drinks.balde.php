@@ -1,10 +1,9 @@
 
 @extends('layouts.admin')
 
-@section('title', 'Block')
+@section('title', 'Drink')
 
 @section('css')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .tables{
     padding: 15px 15px 0 15px;
@@ -33,6 +32,7 @@
   background-color: #212529;
   color: white;
 }
+
 </style>
 
 @endsection
@@ -42,12 +42,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Dashboard Block
+        Dash
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Admin</a></li>
-        <li class="active">Block</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
       </ol>
     </section>
   <!-- /.content-wrapper -->
@@ -61,8 +61,8 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>{{$all}}</h3>
-              <p>Tổng số tài khoản</p>
+              <h3>{{$collection}}</h3>
+              <p>Tổng số thực đơn</p>
             </div>
             <div class="icon">
               <i class="ion ion-bag"></i>
@@ -75,7 +75,7 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>{{$use}}<sup style="font-size: 20px"></sup></h3>
+              <h3>10<sup style="font-size: 20px"></sup></h3>
               <p>Người dùng</p>
             </div>
             <div class="icon">
@@ -89,7 +89,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>{{$manage}}</h3>
+              <h3>10</h3>
               <p>Nhân viên</p>
             </div>
             <div class="icon">
@@ -103,7 +103,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>{{$staff}}</h3>
+              <h3>10</h3>
 
               <p>Đầu bếp</p>
             </div>
@@ -119,47 +119,31 @@
        <!--  Hang 2 contents -->
       <!-- /.row -->
       <!-- Main row -->
-  
       <div class="row tables">
 
          <table id="customers">
           <tr>
             <th>ID</th>
             <th>Tên</th>
-            <th>Email</th>
-            <th>Số ĐT</th>
+            <th>Hình ảnh</th>
+            <th>Giá</th>
+            <th>Đánh giá</th>
+            <th>Parent ID</th>
             <th>Ngày tạo</th>
-            <th>updated_at</th>
-            <th>Position</th>
-            <th>Khóa</th>
-
+            <th>Edit/Del</th>
           </tr>
-          @foreach($accounts as $value)
+          @foreach($foods as $value)
           <tr>
-            <td>{{$value->id}}</td>
-            <td>{{$value->name}}</td>
-            <td>{{$value->email}}</td>
-            <td>{{$value->phone}}</td>
+            <td>{{$value->foodID}}</td>
+            <td>{{$value->foodName}}</td>
+            <td>{{$value->img}}</td>
+            <td>{{$value->price}}</td>
+            <td>{{$value->rating}}</td>
+            <td>{{$value->parentID}}</td>
             <td>{{$value->created_at}}</td>
-            <td>{{$value->updated_at}}</td>
             <td>
-              <form action="{{url('admin/account/position')}}" method="POST">
-                {{ csrf_field() }}
-                <input type="" name="id" hidden value="{{$value->id}}">
-                <select name="positionID" class="bg-green">
-                  <option value="{{$value->positionID}}">{{$value->positionID}}</option>
-                  <option value="1">----</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-                <button type="submit" class="bg-primary small">CẬP NHẬT</button>
-              </form>
-         <!--      <a href="admin/account/edit/{{$value->id}}" class="fa fa-pencil-square-o bg-warning"></a> /  -->
-            </td>
-            <td> 
-              <a href="admin/account/block/{{$value->id}}" class="fa fa-pencil-square-o bg-warning" onclick="return confirm('Block Account?')"></a>
+              <a href="admin/food/edit/{{$value->id}}" class="fa fa-pencil-square-o bg-warning"></a> / 
+              <a href="admin/food/delete/{{$value->id}}" onclick="return confirm('Delete Account?')" class="fa fa-trash bg-red"></a>
             </td>
           </tr>
           @endforeach
@@ -170,3 +154,5 @@
     </section>
 
 @endsection
+
+<!-- foodID`, `foodName`, `img`, `price`, `rating`, `hits`, `ingres`, `parentID`, `created_at`, `updated_at -->

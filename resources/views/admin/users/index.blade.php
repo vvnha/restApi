@@ -121,16 +121,16 @@
       <!-- Main row -->
       <div class="row tables">
 
-         <table id="customers">
+          <table id="customers">
           <tr>
             <th>ID</th>
             <th>Tên</th>
             <th>Email</th>
             <th>Số ĐT</th>
-            <th>Position</th>
             <th>Ngày tạo</th>
             <th>updated_at</th>
-            <th>Edit/Del</th>
+            <th>Position</th>
+            <th>Khóa</th>
 
           </tr>
           @foreach($accounts as $value)
@@ -139,12 +139,26 @@
             <td>{{$value->name}}</td>
             <td>{{$value->email}}</td>
             <td>{{$value->phone}}</td>
-            <td>{{$value->positionID}}</td>
             <td>{{$value->created_at}}</td>
             <td>{{$value->updated_at}}</td>
             <td>
-              <a href="admin/account/edit/{{$value->id}}" class="fa fa-pencil-square-o bg-warning"></a> / 
-              <a href="admin/account/delete/{{$value->id}}" onclick="return confirm('Delete Account?')" class="fa fa-trash bg-red"></a>
+              <form action="{{url('admin/account/position')}}" method="POST">
+                {{ csrf_field() }}
+                <input type="" name="id" hidden value="{{$value->id}}">
+                <select name="positionID" class="bg-green">
+                  <option value="{{$value->positionID}}">{{$value->positionID}}</option>
+                  <option value="1">----</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+                <button type="submit" class="bg-primary small">CẬP NHẬT</button>
+              </form>
+         <!--      <a href="admin/account/edit/{{$value->id}}" class="fa fa-pencil-square-o bg-warning"></a> /  -->
+            </td>
+            <td> 
+              <a href="admin/account/block/{{$value->id}}" class="fa fa-pencil-square-o bg-warning" onclick="return confirm('Block Account?')"></a>
             </td>
           </tr>
           @endforeach
