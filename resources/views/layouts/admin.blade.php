@@ -5,9 +5,11 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>@yield('title')</title>
+  <base href="{{asset('')}}">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
 
+  @yield('css')
   <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="public/css/font-awesome.min.css">
@@ -19,18 +21,15 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="public/css/_all-skins.min.css">
 
-
-
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 
   <div class="wrapper">
     <header class="main-header">
     <!-- Logo -->
-    <a href="/" class="logo">
+    <a href="admin" class="logo">
       <span class="logo-mini"><b>A</b>LT</span>
       <span class="logo-lg"><b>Admin</b>LTE</span>
     </a>
@@ -134,7 +133,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="public/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p> {{ Auth::user()->name }} </p>
@@ -196,10 +195,23 @@
           </a>
         </li>
 
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+        <li><a href=""><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+        <li class="header">Users</li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-edit"></i> <span>Accounts</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="admin/account"><i class="fa fa-circle-o"></i>Nhân viên</a></li>
+            <li><a href="admin/account/allusers"><i class="fa fa-circle-o"></i>Tất cả</a></li>
+            <li><a href="admin/account/blocks"><i class="fa fa-circle-o"></i>Đã khóa</a></li>
+          </ul>
+        </li>
+        <li><a href="admin"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+        <li><a href=""><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
