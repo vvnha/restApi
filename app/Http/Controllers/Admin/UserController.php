@@ -49,24 +49,24 @@ class UserController extends Controller
     }
     public function position(Request $request)
     {
-         $validator = Validator::make($request->all(), [ 
+        $validator = Validator::make($request->all(), [ 
               'id' => 'required|integer', 
               'positionID' => 'required'
             ]);
             if ($validator->fails()) { 
                 return redirect()->back();        
-          }
-        DB::table('users')
-                ->where('id', $request->id)
-                ->update(['positionID' => $request->positionID]);
+        }
+        $ldate = date('Y-m-d H:i:s');
+            DB::table('users')
+                    ->where('id', $request->id)
+                    ->update(['positionID' => $request->positionID,'updated_at'=>$ldate]);
         return redirect()->back();
     }
 
     public function block($id)
     {
-        DB::table('users')
-                ->where('id', $id)
-                ->update(['positionID' => 5]);
+        $ldate = date('Y-m-d H:i:s');
+        DB::table('users')->where('id', $id)->update(['positionID' => 5,'updated_at'=>$ldate]);
         return redirect()->back();
     }
 }

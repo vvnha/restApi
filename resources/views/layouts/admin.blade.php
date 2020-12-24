@@ -164,8 +164,10 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-            <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
+            <li><a href="admin/order"><i class="fa fa-circle-o"></i>Hôm nay</a></li>
+            <li><a href="admin/order/allorder"><i class="fa fa-circle-o"></i>Xem tất cả</a></li>
+            <li><a href="admin/order/success"><i class="fa fa-circle-o"></i>Hoàn thành</a></li>
+            <li><a href="admin/order/dahuy"><i class="fa fa-circle-o"></i>Đã hủy</a></li>
           </ul>
         </li>
 
