@@ -16,6 +16,14 @@ Route::get('/', function () {
     // return redirect('/welcome');
 });
 
+<<<<<<< Updated upstream
+=======
+// Route::get('/home', function () {
+//     return redirect('/admin');
+// });
+
+
+>>>>>>> Stashed changes
 Auth::routes();
 Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin', 'middleware' => ['auth', 'acl']], function() {
     Route::get('/', ['as' => 'home', 'uses' => 'AdminController@index']);
