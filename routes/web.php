@@ -16,10 +16,11 @@ Route::get('/', function () {
     // return redirect('/welcome');
 });
 
-// Route::get('/home', function () {
-//     return redirect('/admin');
-// });
-// ,'middleware' => ['auth', 'acl']
+Route::get('/home', function () {
+    return redirect('/');
+});
+
+// 'middleware' => ['auth', 'acl']
 Auth::routes();
 Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin'], function() {
     Route::get('/', ['as' => 'homes', 'uses' => 'AdminController@index']);
