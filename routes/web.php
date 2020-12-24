@@ -20,10 +20,10 @@ Route::get('/home', function () {
     return redirect('/');
 });
 
-
+// 'middleware' => ['auth', 'acl']
 Auth::routes();
-Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin', 'middleware' => ['auth', 'acl']], function() {
-    Route::get('/', ['as' => 'home', 'uses' => 'AdminController@index']);
+Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin'], function() {
+    Route::get('/', ['as' => 'homes', 'uses' => 'AdminController@index']);
  
  	#Accounts
     Route::get('/account', ['as' => 'users', 'uses' => 'UserController@account']);
