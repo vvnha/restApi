@@ -14,8 +14,9 @@
 Route::get('/', function () {
     return redirect('/admin');
 });
-
-
+Route::get('/home', function () {
+    return redirect('/admin');
+});
 Auth::routes();
 Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin', 'middleware' => ['auth', 'acl']], function() {
     Route::get('/', ['as' => 'home', 'uses' => 'AdminController@index']);
@@ -24,7 +25,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin', 'm
     Route::get('/account', ['as' => 'users', 'uses' => 'UserController@account']);
     Route::get('account/allusers', ['as' => 'usersall', 'uses' => 'UserController@allusers']);
     Route::get('account/block/{id}', ['as' => 'block', 'uses' => 'UserController@block']);
-     Route::get('account/blocks', ['as' => 'blocks', 'uses' => 'UserController@blocks']);
+    Route::get('account/blocks', ['as' => 'blocks', 'uses' => 'UserController@blocks']);
     Route::post('/account/position', ['as' => 'positions', 'uses' => 'UserController@position']);
 
     #foods
@@ -34,6 +35,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin', 'm
     Route::get('/food/addfood', ['as' => 'doan3', 'uses' => 'FoodController@addfood']);
     Route::post('/food/addfood1', ['as' => 'doan4', 'uses' => 'FoodController@store']);
 
-
+    Route::get('/food/edit/{id}', ['as' => 'edi', 'uses' => 'FoodController@edit']);
+    Route::post('/food/edit/{id}', ['as' => 'edits', 'uses' => 'FoodController@update']);
+    Route::get('/food/delete/{id}', ['as' => 'edits', 'uses' => 'FoodController@delete']);
+    Route::post('/food/edita/upload/{id}', ['as' => 'editA', 'uses' => 'FoodController@upload']);
   
 });

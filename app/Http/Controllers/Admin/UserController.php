@@ -50,7 +50,7 @@ class UserController extends Controller
     public function position(Request $request)
     {
          $validator = Validator::make($request->all(), [ 
-              'id' => 'required', 
+              'id' => 'required|integer', 
               'positionID' => 'required'
             ]);
             if ($validator->fails()) { 

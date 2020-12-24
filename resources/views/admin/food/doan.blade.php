@@ -121,6 +121,8 @@
       <!-- Main row -->
       <div class="row tables">
 
+           <div class="row tables">
+
          <table id="customers">
           <tr>
             <th>ID</th>
@@ -131,23 +133,27 @@
             <th>Parent ID</th>
             <th>Ngày tạo</th>
             <th>Edit/Del</th>
+
           </tr>
           @foreach($foods as $value)
           <tr>
             <td>{{$value->foodID}}</td>
             <td>{{$value->foodName}}</td>
-            <td>{{$value->img}}</td>
+            <td>
+              <a href="{{$value->img}}">{{$value->img}}</a>
+            </td>
             <td>{{$value->price}}</td>
             <td>{{$value->rating}}</td>
             <td>{{$value->parentID}}</td>
             <td>{{$value->created_at}}</td>
             <td>
-              <a href="admin/food/edit/{{$value->id}}" class="fa fa-pencil-square-o bg-warning"></a> / 
-              <a href="admin/food/delete/{{$value->id}}" onclick="return confirm('Delete Account?')" class="fa fa-trash bg-red"></a>
+              <a href="admin/food/edit/{{$value->foodID}}" class="fa fa-pencil-square-o bg-warning"></a> / 
+              <a href="admin/food/delete/{{$value->foodID}}" onclick="return confirm('Delete Food?')" class="fa fa-trash bg-red"></a>
             </td>
           </tr>
           @endforeach
           </table>
+      </div>
       </div>
       <!-- /.row (main row) -->
       <!--  /Hang 2 contents -->

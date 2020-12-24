@@ -67,7 +67,7 @@
             <div class="icon">
               <i class="ion ion-bag"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="admin/food/addfood" class="small-box-footer">Thêm menu <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -137,14 +137,16 @@
           <tr>
             <td>{{$value->foodID}}</td>
             <td>{{$value->foodName}}</td>
-            <td>{{$value->img}}</td>
+            <td>
+              <a href="{{$value->img}}">{{$value->img}}</a>
+            </td>
             <td>{{$value->price}}</td>
             <td>{{$value->rating}}</td>
             <td>{{$value->parentID}}</td>
             <td>{{$value->created_at}}</td>
             <td>
-              <a href="admin/food/edit/{{$value->id}}" class="fa fa-pencil-square-o bg-warning"></a> / 
-              <a href="admin/food/delete/{{$value->id}}" onclick="return confirm('Delete Account?')" class="fa fa-trash bg-red"></a>
+              <a href="admin/food/edit/{{$value->foodID}}" class="fa fa-pencil-square-o bg-warning"></a> / 
+              <a href="admin/food/delete/{{$value->foodID}}" onclick="return confirm('Delete Food?')" class="fa fa-trash bg-red"></a>
             </td>
           </tr>
           @endforeach

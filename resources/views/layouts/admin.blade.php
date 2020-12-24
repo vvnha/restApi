@@ -158,7 +158,7 @@
         <li class="treeview">
           <a href="#">
             <i class="fa fa-pie-chart"></i>
-            <span>Charts</span>
+            <span>Order</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -166,8 +166,6 @@
           <ul class="treeview-menu">
             <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
             <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
-            <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
-            <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
           </ul>
         </li>
 
@@ -182,22 +180,12 @@
             <li><a href="admin/food"><i class="fa fa-circle-o"></i>Tất cả thực đơn</a></li>
             <li><a href="admin/food/doan"><i class="fa fa-circle-o"></i> Đồ ăn</a></li>
             <li><a href="admin/food/drink"><i class="fa fa-circle-o"></i> Đồ uống</a></li>
-            <li><a href="admin/food/tm"><i class="fa fa-circle-o"></i> Tráng miệng</a></li>
+           <!--  <li><a href="admin/food/tm"><i class="fa fa-circle-o"></i> Tráng miệng</a></li> -->
             <li><a href="admin/food/addfood"><i class="fa fa-circle-o"></i>Thêm ngay</a></li>
           </ul>
         </li>
 
-        <li>
-          <a href="pages/calendar.html">
-            <i class="fa fa-calendar"></i> <span>Calendar</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-red">3</small>
-              <small class="label pull-right bg-blue">17</small>
-            </span>
-          </a>
-        </li>
-
-        <li><a href=""><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+        <li><a href=""><i class="fa fa-book"></i> <span>Ghi chú</span></a></li>
         <li class="header">Users</li>
         <li class="treeview">
           <a href="#">
@@ -212,7 +200,7 @@
             <li><a href="admin/account/blocks"><i class="fa fa-circle-o"></i>Đã khóa</a></li>
           </ul>
         </li>
-        <li><a href="admin"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+        <li><a href="admin"><i class="fa fa-circle-o text-red"></i> <span>Admin</span></a></li>
         <li><a href=""><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
       </ul>
     </section>
