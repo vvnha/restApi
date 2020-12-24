@@ -1,7 +1,7 @@
 
 @extends('layouts.admin')
 
-@section('title', 'Order Status')
+@section('title', 'All orders')
 
 @section('css')
 <style>
@@ -46,8 +46,8 @@
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="admin"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">{{$xacnhan}}</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Hoàn thành</li>
       </ol>
     </section>
   <!-- /.content-wrapper -->
@@ -115,7 +115,7 @@
         </div>
         <!-- ./col 4 cai tren-->
       </div>
-      <p class="active bg-primary" style="padding: 10px">{{$xacnhan}}</p>
+
        <!--  Hang 2 contents -->
       <!-- /.row -->
       <!-- Main row -->
@@ -126,11 +126,11 @@
             <th>ID</th>
             <th>userID</th>
             <th>Tổng tiền</th>
-            <th>Order Date</th>
-            <th>PerNum</th>
-            <th>Trạng thái</th>
-            <th>DateClick</th>
-            <th>Edit/Del</th>
+            <th>orderDate</th>
+            <th>perNum</th>
+            <th>service</th>
+            <th>dateClick</th>
+           <!--  <th>Edit/Del</th> -->
 
           </tr>
           @foreach($foods as $value)
@@ -142,10 +142,10 @@
             <td>{{$value->perNum}}</td>
             <td>{{$value->service}}</td>
             <td>{{$value->dateClick}}</td>
-            <td>
+            <!-- <td>
               <a href="admin/order/edit/{{$value->orderID}}" class="fa fa-pencil-square-o bg-warning"></a> / 
               <a href="admin/order/delete/{{$value->orderID}}" onclick="return confirm('Delete Food?')" class="fa fa-trash bg-red"></a>
-            </td>
+            </td> -->
           </tr>
           @endforeach
           </table>

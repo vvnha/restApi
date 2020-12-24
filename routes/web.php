@@ -12,11 +12,10 @@
 */
 
 Route::get('/', function () {
-    return redirect('/admin');
+    return view('welcome');
+    // return redirect('/welcome');
 });
-Route::get('/home', function () {
-    return redirect('/admin');
-});
+
 Auth::routes();
 Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin', 'middleware' => ['auth', 'acl']], function() {
     Route::get('/', ['as' => 'home', 'uses' => 'AdminController@index']);
@@ -42,6 +41,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin', 'm
 
     #Order
     Route::get('/order', ['as' => 'order', 'uses' => 'OrderController@today']);
+    Route::get('/order/xacnhan', ['as' => 'xacnhan', 'uses' => 'OrderController@xacnhan']);
     Route::get('/order/allorder', ['as' => 'allorder', 'uses' => 'OrderController@allorder']);
     Route::get('/order/success', ['as' => 'success', 'uses' => 'OrderController@success']);
     Route::get('/order/dahuy', ['as' => 'dahuy', 'uses' => 'OrderController@dahuy']);
