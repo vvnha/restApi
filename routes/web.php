@@ -16,9 +16,9 @@ Route::get('/', function () {
     // return redirect('/welcome');
 });
 
-Route::get('/home', function () {
-    return view('admin.index');
-});
+// Route::get('/home', function () {
+//     return redirect('/admin');
+// });
 
 // 'middleware' => ['auth', 'acl']
 Auth::routes();
