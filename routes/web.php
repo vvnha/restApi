@@ -17,13 +17,13 @@ Route::get('/', function () {
 });
 
 Route::get('/home', function () {
-    return redirect('admin');
+    return view('admin.index');
 });
 
-
+// 'middleware' => ['auth', 'acl']
 Auth::routes();
-Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin', 'middleware' => ['auth', 'acl']], function() {
-    Route::get('/11', ['as' => 'homes', 'uses' => 'AdminController@index']);
+Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin'], function() {
+    Route::get('/', ['as' => 'homes', 'uses' => 'AdminController@index']);
  
  	#Accounts
     Route::get('/account', ['as' => 'users', 'uses' => 'UserController@account']);
