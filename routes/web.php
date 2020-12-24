@@ -19,9 +19,9 @@ Route::get('/', function () {
 // Route::get('/home', function () {
 //     return redirect('/admin');
 // });
-
+// ,'middleware' => ['auth', 'acl']
 Auth::routes();
-Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','middleware' => ['auth', 'acl']], function() {
+Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin'], function() {
     Route::get('/', ['as' => 'homes', 'uses' => 'AdminController@index']);
  
  	#Accounts
