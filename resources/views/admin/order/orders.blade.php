@@ -137,6 +137,7 @@ table {
        <!--  Hang 2 contents -->
       <!-- /.row -->
       <!-- Main row -->
+      <p class="active bg-primary" style="padding: 10px">{{$xacnhan}}</p>
       <div class="row tables div1">
         <div class="div2">
 
@@ -145,11 +146,11 @@ table {
             <th>ID</th>
             <th>userID</th>
             <th>Tổng tiền</th>
-            <th>orderDate</th>
-            <th>perNum</th>
-            <th>service</th>
-            <th>dateClick</th>
-           <!--  <th>Edit/Del</th> -->
+            <th>OrderDate</th>
+            <th>PerNum</th>
+            <th>Service</th>
+            <th>DateClick</th>
+            <th>Xem</th>
 
           </tr>
           @foreach($foods as $value)
@@ -161,6 +162,9 @@ table {
             <td>{{$value->perNum}}</td>
             <td>{{$value->service}}</td>
             <td>{{$value->dateClick}}</td>
+            <td>
+              <a href="admin/order/vieworder/{{$value->orderID}}" class="fa fa-pencil-square-o bg-warning"></a>
+            </td>
             <!-- <td>
               <a href="admin/order/edit/{{$value->orderID}}" class="fa fa-pencil-square-o bg-warning"></a> / 
               <a href="admin/order/delete/{{$value->orderID}}" onclick="return confirm('Delete Food?')" class="fa fa-trash bg-red"></a>

@@ -149,7 +149,7 @@ table {
             <th>PerNum</th>
             <th>Trạng thái</th>
             <th>DateClick</th>
-            <th>Edit/Del</th>
+            <th>Xem / Hủy</th>
 
           </tr>
           @foreach($foods as $value)
@@ -162,8 +162,8 @@ table {
             <td>{{$value->service}}</td>
             <td>{{$value->dateClick}}</td>
             <td>
-              <a href="admin/order/edit/{{$value->orderID}}" class="fa fa-pencil-square-o bg-warning"></a> / 
-              <a href="admin/order/delete/{{$value->orderID}}" onclick="return confirm('Delete Food?')" class="fa fa-trash bg-red"></a>
+              <a href="admin/order/vieworder/{{$value->orderID}}" class="fa fa-pencil-square-o bg-warning"></a>   /   
+              <a href="admin/order/delete/{{$value->orderID}}" onclick="return confirm('Hủy đơn này?')" class="fa fa-trash bg-red"></a>
             </td>
           </tr>
           @endforeach
