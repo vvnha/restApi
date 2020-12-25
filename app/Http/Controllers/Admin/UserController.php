@@ -57,16 +57,20 @@ class UserController extends Controller
                 return redirect()->back();        
         }
         $ldate = date('Y-m-d H:i:s');
-            DB::table('users')
-                    ->where('id', $request->id)
-                    ->update(['positionID' => $request->positionID,'updated_at'=>$ldate]);
+        $user = User::find($request->id);
+        $user->positionID = $request->positionID;
+        $user->updated_at = $ldate;
+        $user->save();
         return redirect()->back();
     }
 
     public function block($id)
     {
         $ldate = date('Y-m-d H:i:s');
-        DB::table('users')->where('id', $id)->update(['positionID' => 5,'updated_at'=>$ldate]);
+        $user = User::find($id);
+        $user->positionID = 5;
+        $user->updated_at = $ldate;
+        $user->save();
         return redirect()->back();
     }
 }
