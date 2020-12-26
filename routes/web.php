@@ -20,7 +20,6 @@ Route::get('/home', function () {
     return redirect('/');
 });
 
-
 Auth::routes();
 Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','middleware' => ['auth', 'acl']], function() {
     Route::get('/', ['as' => 'homes', 'uses' => 'AdminController@index']);
