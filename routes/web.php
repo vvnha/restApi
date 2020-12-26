@@ -20,9 +20,8 @@ Route::get('/home', function () {
     return redirect('/');
 });
 
-// 'middleware' => ['auth', 'acl']
 Auth::routes();
-Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin'], function() {
+Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','middleware' => ['auth', 'acl']], function() {
     Route::get('/', ['as' => 'homes', 'uses' => 'AdminController@index']);
  
  	#Accounts
@@ -50,5 +49,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin'], f
     Route::get('/order/allorder', ['as' => 'allorder', 'uses' => 'OrderController@allorder']);
     Route::get('/order/success', ['as' => 'success', 'uses' => 'OrderController@success']);
     Route::get('/order/dahuy', ['as' => 'dahuy', 'uses' => 'OrderController@dahuy']);
-  
+    Route::get('/order/vieworder/{id}', ['as' => 'vieworder', 'uses' => 'OrderController@vieworder']);
+    Route::post('/order/vieworder/editservice', ['as' => 'editO', 'uses' => 'OrderController@editservice']);
+
+
 });

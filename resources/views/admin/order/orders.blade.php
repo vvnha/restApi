@@ -8,6 +8,24 @@
 .tables{
     padding: 15px 15px 0 15px;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.div1 {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.div2 {
+  display: table-cell;
+  overflow-x: auto;
+  width: 100%;
+}
+
+
 #customers {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   border-collapse: collapse;
@@ -119,18 +137,20 @@
        <!--  Hang 2 contents -->
       <!-- /.row -->
       <!-- Main row -->
-      <div class="row tables">
+      <p class="active bg-primary" style="padding: 10px">{{$xacnhan}}</p>
+      <div class="row tables div1">
+        <div class="div2">
 
          <table id="customers">
           <tr>
             <th>ID</th>
             <th>userID</th>
             <th>Tổng tiền</th>
-            <th>orderDate</th>
-            <th>perNum</th>
-            <th>service</th>
-            <th>dateClick</th>
-           <!--  <th>Edit/Del</th> -->
+            <th>OrderDate</th>
+            <th>PerNum</th>
+            <th>Service</th>
+            <th>DateClick</th>
+            <th>Xem</th>
 
           </tr>
           @foreach($foods as $value)
@@ -142,6 +162,9 @@
             <td>{{$value->perNum}}</td>
             <td>{{$value->service}}</td>
             <td>{{$value->dateClick}}</td>
+            <td>
+              <a href="admin/order/vieworder/{{$value->orderID}}" class="fa fa-pencil-square-o bg-warning"></a>
+            </td>
             <!-- <td>
               <a href="admin/order/edit/{{$value->orderID}}" class="fa fa-pencil-square-o bg-warning"></a> / 
               <a href="admin/order/delete/{{$value->orderID}}" onclick="return confirm('Delete Food?')" class="fa fa-trash bg-red"></a>
@@ -149,6 +172,7 @@
           </tr>
           @endforeach
           </table>
+        </div>
       </div>
       <!-- /.row (main row) -->
       <!--  /Hang 2 contents -->

@@ -18,9 +18,8 @@ class Permission
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->user()->positionID != 1) {
-            return redirect('/login');
+            return redirect('/');
         }
-
         return $next($request);
     }
 }
