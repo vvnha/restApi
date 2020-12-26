@@ -47,8 +47,9 @@ class OrderController extends Controller
     }
     public function vieworder($id)
     {
-        $user = User::find($id);
         $data = OrderTb::find((int)$id);
+        $iduser = $data->userID;
+        $user = User::find($iduser);
         $timeorder = $data->orderDate;
         $time = $data->dateClick;
         $total = $data->total;
