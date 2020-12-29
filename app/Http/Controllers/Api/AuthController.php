@@ -106,7 +106,7 @@ class AuthController extends Controller
                 return response()->json(['error' => $validator->errors()], 401);
             }
             if (Gate::allows('admin-user', $user->id)) {
-                $user->save();
+                $userEdit->save();
                 return response()->json(['success' => true, 'code' => '200']);
             } else {
                 return response()->json(['success' => false, 'code' => '401', 'data' => "No permission to update"]);
