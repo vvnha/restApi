@@ -57,7 +57,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');
-        Route::resource('user', 'AuthController@user');
+        Route::resource('user', 'AuthController');
         Route::get('role', 'UserController@role');
         Route::get('/users/getOrderUser', ['as' => 'user', 'uses' => 'UserController@getUserOrder']);
         Route::resource('users', 'UserController');
