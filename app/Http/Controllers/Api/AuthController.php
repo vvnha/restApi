@@ -1,11 +1,14 @@
 <?php
+
 namespace App\Http\Controllers\Api;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use App\User;
 use Validator;
+
 class AuthController extends Controller
 {
     /**
@@ -19,28 +22,28 @@ class AuthController extends Controller
      */
     public function signup(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
-            'phone'=> 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'password' => 'required|string|confirmed',
             'positionID' => 'required'
         ]);
-        if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors(), 'code' => 401]);            
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors(), 'code' => 401]);
         }
         $user = new User;
-        $user->name=$request->name;
-        $user->email =$request->email;
-        $user->phone =$request->phone;
-        $user->password =bcrypt($request->password);
-        $user->positionID =$request->positionID;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->password = bcrypt($request->password);
+        $user->positionID = $request->positionID;
         $def = $user->save();
         return response()->json([
             'message' => 'Successfully created user!'
         ], 201);
     }
-  
+
     /**
      * Login user and create token
      *
@@ -53,15 +56,15 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string'
         ]);
-        if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors(), 'code' => 401]);            
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors(), 'code' => 401]);
         }
         $credentials = request(['email', 'password']);
-        if(!Auth::attempt($credentials))
+        if (!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
@@ -79,7 +82,43 @@ class AuthController extends Controller
             )->toDateTimeString()
         ]);
     }
-  
+
+    public function update(Request $request, $id)
+    {
+        $user = Auth::user();
+        $userEdit = User::find((int)$id);
+
+        // $user = User::find((integer)$id);
+        // $user->name=$request->name;
+        // $user->email=$request->email;
+        // $user->phone =$request->phone;
+        // $user->password =bcrypt($request->password);
+        // $user->positionID =$request->positionID;
+        if ($userEdit == true) {
+            $userEdit->fill($request->all());
+            $validator = Validator::make(json_decode($userEdit, TRUE), [
+                'name' => 'required',
+                'email' => 'required|email',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10'
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()], 401);
+            }
+            if (Gate::allows('admin-user', $user->id)) {
+                $user->save();
+                return response()->json(['success' => true, 'code' => '200']);
+            } else {
+                return response()->json(['success' => false, 'code' => '401', 'data' => "No permission to update"]);
+            }
+        } else {
+            return response()->json(['success' => false, 'code' => '404']);
+        }
+
+
+        // $user->save();
+        // return response()->json(['success' => true, 'code' => 200]);
+    }
+
     /**
      * Logout user (Revoke the token)
      *
@@ -92,7 +131,7 @@ class AuthController extends Controller
             'message' => 'Successfully logged out'
         ]);
     }
-  
+
     /**
      * Get the authenticated User
      *
