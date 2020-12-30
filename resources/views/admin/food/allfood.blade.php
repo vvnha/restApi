@@ -6,7 +6,7 @@
 @section('css')
 <style>
 .tables{
-    padding: 15px 15px 0 15px;
+    padding: 15px 1px 0 15px;
 }
 table {
   width: 100%;
@@ -17,6 +17,7 @@ table {
   display: table;
   table-layout: fixed;
   width: 100%;
+
 }
 
 .div2 {
@@ -159,7 +160,7 @@ table {
             <td>
               <a href="{{$value->img}}">{{$value->img}}</a>
             </td>
-            <td>{{$value->price}}</td>
+            <td>{{number_format($value->price)}}</td>
             <td>{{$value->rating}}</td>
             <td>{{$value->parentID}}</td>
             <td>{{$value->created_at}}</td>

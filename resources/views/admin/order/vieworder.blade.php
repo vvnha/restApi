@@ -6,7 +6,7 @@
 @section('css')
 <style>
 .tables{
-    padding: 15px 15px 0 15px;
+   padding: 15px 1px 0 15px;
 }
 table {
   width: 100%;
@@ -110,7 +110,7 @@ table {
             <td>{{$stt+=1}}</td>
             <td>{{$value->foodName}}</td>
             <td>{{$value->qty}}</td>
-            <td>{{$value->price}}</td>
+            <td>{{number_format($value->price)}}</td>
              <td>
               <a href="admin/order/editdetail/{{$value->detailID}}" class="fa fa-pencil-square-o bg-warning"></a> / 
               <a href="admin/order/deldetail/{{$value->detailID}}" class="fa fa-trash bg-red bg-warning"></a>
@@ -121,7 +121,7 @@ table {
         </div>
       </div>
       <div class="active" style="padding: 10px">
-        <p class="active" style="font-size: 16px;color:#0a51f1"> Thành tiền: {{$total}}</p> 
+        <p class="active" style="font-size: 16px;color:#0a51f1"> Thành tiền: {{number_format($total)}} VND</p> 
          <form action="{{url('admin/order/vieworder/editservice')}}" method="POST">
           {{ csrf_field() }}
           <input name="id" hidden value="{{$id}}">
