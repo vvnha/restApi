@@ -6,7 +6,7 @@
 @section('css')
 <style>
 .tables{
-    padding: 15px 15px 0 15px;
+    padding: 15px 1px 0 15px;
 }
 table {
   width: 100%;
@@ -157,7 +157,7 @@ table {
           <tr>
             <td>{{$value->orderID}}</td>
             <td>{{$value->userID}}</td>
-            <td>{{$value->total}}</td>
+            <td>{{number_format($value->total)}} VND</td>
             <td>{{$value->orderDate}}</td>
             <td>{{$value->perNum}}</td>
             <td>{{$value->service}}</td>

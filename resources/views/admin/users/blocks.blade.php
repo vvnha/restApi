@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .tables{
-    padding: 15px 15px 0 15px;
+  padding: 15px 1px 0 15px;
 }
 table {
   width: 100%;
