@@ -9,6 +9,23 @@
 .tables{
     padding: 15px 15px 0 15px;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.div1 {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.div2 {
+  display: table-cell;
+  overflow-x: auto;
+  width: 100%;
+}
+
 #customers {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   border-collapse: collapse;
@@ -120,7 +137,8 @@
       <!-- /.row -->
       <!-- Main row -->
   
-      <div class="row tables">
+      <div class="row tables div1">
+        <div class="div2">
 
          <table id="customers">
           <tr>
@@ -164,8 +182,9 @@
           </tr>
           @endforeach
           </table>
-          {!! $accounts->links() !!}
+        </div>
       </div>
+      {!! $accounts->links() !!}
       <!-- /.row (main row) -->
       <!--  /Hang 2 contents -->
     </section>

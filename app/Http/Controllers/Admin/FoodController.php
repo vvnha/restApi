@@ -88,6 +88,7 @@ class FoodController extends Controller
     {
 
         $validator = Validator::make($request->all(), [ 
+          'name' => 'required',
           'price' => 'required|integer', 
           'hits' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/', 
           'ingres' => 'required',
@@ -98,11 +99,16 @@ class FoodController extends Controller
         }
 
         $ldate = date('Y-m-d H:i:s');
-        $food= DB::table('foods')->where('foodID', $id)->update(['foodName' => $request->name,'price'=>$request->price,'hits'=>$request->hits,'ingres'=>$request->ingres,'parentID'=> $request->parentID,'updated_at'=>$ldate]);
-
+        $food = Foods::find($id);
+        $food->foodName = $request->name;
+        $food->price = $request->price;
+        $food->hits = $request->hits;
+        $food->ingres = $request->ingres;
+        $food->parentID = $request->parentID;
+        $food->updated_at = $ldate;
+        $food->save();
         return redirect()->back()->with('success', 'Cập nhật thành công!');
     }
-
 
 
     public function upload(Request $request,$id)
@@ -127,7 +133,10 @@ class FoodController extends Controller
 
                 $img = "public/img/".$fileName;
                 $ldate = date('Y-m-d H:i:s');
-                $food= DB::table('foods')->where('foodID', $id)->update(['img'=> $img,'updated_at'=>$ldate]);
+                $food = Foods::find($id);
+                $food->img = $img;
+                $food->updated_at = $ldate;
+                $food->save();
                 return redirect()->back()->with('success', 'Upload files thành công!');
             }
             else {

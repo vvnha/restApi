@@ -16,17 +16,14 @@ Route::get('/', function () {
     // return redirect('/welcome');
 });
 
-<<<<<<< Updated upstream
-=======
-// Route::get('/home', function () {
-//     return redirect('/admin');
-// });
 
+Route::get('/home', function () {
+    return redirect('/');
+});
 
->>>>>>> Stashed changes
 Auth::routes();
-Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin', 'middleware' => ['auth', 'acl']], function() {
-    Route::get('/', ['as' => 'home', 'uses' => 'AdminController@index']);
+Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','middleware' => ['auth', 'acl']], function() {
+    Route::get('/', ['as' => 'homes', 'uses' => 'AdminController@index']);
  
  	#Accounts
     Route::get('/account', ['as' => 'users', 'uses' => 'UserController@account']);
@@ -53,5 +50,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin', 'm
     Route::get('/order/allorder', ['as' => 'allorder', 'uses' => 'OrderController@allorder']);
     Route::get('/order/success', ['as' => 'success', 'uses' => 'OrderController@success']);
     Route::get('/order/dahuy', ['as' => 'dahuy', 'uses' => 'OrderController@dahuy']);
-  
+    Route::get('/order/vieworder/{id}', ['as' => 'vieworder', 'uses' => 'OrderController@vieworder']);
+    Route::post('/order/vieworder/editservice', ['as' => 'editO', 'uses' => 'OrderController@editservice']);
+
+
 });

@@ -34,12 +34,6 @@
                 position: relative;
             }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
             .content {
                 text-align: center;
             }
@@ -48,10 +42,10 @@
                 font-size: 66px;
             }
 
-            .links > a {
-                color: #636b6f;
+            .title > a {
+                /*color: #636b6f;*/
                 padding: 0 25px;
-                font-size: 13px;
+                /*font-size: 13px;*/
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
@@ -61,17 +55,33 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            .title > a:hover{
+                background-color: black;
+            }
         </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
 
             <div class="content">
+                @if (Route::has('login'))
                 <div class="title m-b-md">
-                    <a href="admin">ADMIN</a>
+                    @auth
+
+                        <a href="{{ url('/admin') }}">Admin</a>
+                        <a href="{{ route('logout') }}" style="color: red;" 
+                             onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                             {{ __('Logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+
+                    @else
+                    <a href="{{ route('login') }}">Login</a>
+                    @endauth
                 </div>
-<<<<<<< Updated upstream
-=======
                  <div class="pull-right">
                    <a href="{{ route('logout') }}"  class="btn btn-default btn-flat" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                           Logout
@@ -80,9 +90,7 @@
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                       {{ csrf_field() }}
                   </form>
->>>>>>> Stashed changes
-
-            </div>
+                @endif
         </div>
     </body>
 </html>

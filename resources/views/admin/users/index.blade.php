@@ -8,6 +8,24 @@
 .tables{
     padding: 15px 15px 0 15px;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.div1 {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.div2 {
+  display: table-cell;
+  overflow-x: auto;
+  width: 100%;
+}
+
+
 #customers {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   border-collapse: collapse;
@@ -47,7 +65,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
+        <li class="active">Quản lý</li>
       </ol>
     </section>
   <!-- /.content-wrapper -->
@@ -119,8 +137,8 @@
        <!--  Hang 2 contents -->
       <!-- /.row -->
       <!-- Main row -->
-      <div class="row tables">
-
+      <div class="row tables div1">
+        <div class="div2">
           <table id="customers">
           <tr>
             <th>ID</th>
@@ -163,9 +181,9 @@
           </tr>
           @endforeach
           </table>
+        </div>
       </div>
-      <!-- /.row (main row) -->
-      <!--  /Hang 2 contents -->
+
     </section>
 
 @endsection

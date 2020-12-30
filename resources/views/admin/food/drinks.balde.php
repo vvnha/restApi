@@ -8,6 +8,22 @@
 .tables{
     padding: 15px 15px 0 15px;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.div1 {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.div2 {
+  display: table-cell;
+  overflow-x: auto;
+  width: 100%;
+}
 #customers {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   border-collapse: collapse;
@@ -116,13 +132,8 @@
         <!-- ./col 4 cai tren-->
       </div>
 
-       <!--  Hang 2 contents -->
-      <!-- /.row -->
-      <!-- Main row -->
-      <div class="row tables">
-
-           <div class="row tables">
-
+      <div class="row tables div1">
+        <div class="div2">
          <table id="customers">
           <tr>
             <th>ID</th>
@@ -133,7 +144,6 @@
             <th>Parent ID</th>
             <th>Ngày tạo</th>
             <th>Edit/Del</th>
-
           </tr>
           @foreach($foods as $value)
           <tr>
@@ -153,10 +163,9 @@
           </tr>
           @endforeach
           </table>
+        </div>
       </div>
-      </div>
-      <!-- /.row (main row) -->
-      <!--  /Hang 2 contents -->
+      
     </section>
 
 @endsection
