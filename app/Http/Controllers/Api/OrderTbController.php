@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use Auth;
 use Carbon\Carbon;
+use Dotenv\Regex\Result;
 
 class OrderTbController extends Controller
 {
@@ -139,9 +140,9 @@ class OrderTbController extends Controller
         // if ($datetime->diffInHours($itemOrderDate) < 2) {
         //   $result = array_push($result, $order);
         // }
-        //$result = array_push($result, 1);
+        $result = array_push($result, $items);
       }
-      return response()->json(['success' => true, 'code' => '200', 'data' => count($order)]);
+      return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
     } else {
       return response()->json(['success' => false, 'code' => '404']);
     }
