@@ -127,7 +127,7 @@ class OrderTbController extends Controller
     $order = OrderTb::where('orderDate', 'LIKE', '%' . $date . '%')->get();
 
     if ($order == true) {
-      return response()->json(['success' => true, 'code' => '200', 'data' => $timeInput]);
+      return response()->json(['success' => true, 'code' => '200', 'data' => strtotime($timeInput)]);
     } else {
       return response()->json(['success' => false, 'code' => '404']);
     }
