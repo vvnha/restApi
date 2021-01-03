@@ -121,8 +121,7 @@ class OrderTbController extends Controller
   {
     $date = $request->input('date');
     $timeInput = $request->input('time');
-    $timeInput = strtotime($timeInput);
-    $time = date("h:m:s", $timeInput);
+    $time = date("h:m:s", strtotime($timeInput));
 
     //$order = OrderTb::query();
     $order = OrderTb::where('orderDate', 'LIKE', '%' . $date . '%')->get();
