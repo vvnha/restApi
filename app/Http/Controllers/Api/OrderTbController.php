@@ -124,7 +124,7 @@ class OrderTbController extends Controller
     $timeInput = $request->input('time');
     $date = date("Y-m-d", strtotime($dateInput));
     $time = date("H:i:s", strtotime($timeInput));
-    $datetime = Carbon::createFromFormat("Y-m-d H:i:s", $dateInput + ' ' + $timeInput);
+    $datetime = Carbon::parse($dateInput + ' ' + $timeInput)->format("Y-m-d H:i:s");
 
     //$order = OrderTb::query();
     $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
