@@ -137,7 +137,7 @@ class OrderTbController extends Controller
       foreach ($order as $items) {
         $itemOrderDate = Carbon::create($items->orderDate);
         if ($datetime->diffInHours($itemOrderDate) < 2) {
-          $result = array_push($result, $items);
+          $result = array_push($result, $order);
         }
       }
       return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
