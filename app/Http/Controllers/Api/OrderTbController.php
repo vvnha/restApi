@@ -128,13 +128,13 @@ class OrderTbController extends Controller
     $hour = date("H", strtotime($timeInput));
     $minute = date("i", strtotime($timeInput));
     $second = date("s", strtotime($timeInput));
-    $datetime = Carbon::parse($year, $month, $day, $hour, $minute, $second)->subHours(2);
+    $datetime = Carbon::create($year, $month, $day, $hour, $minute, $second);
+    $aboutTime = $datetime->subHours(2);
 
-    //$order = OrderTb::query();
     $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
 
     if ($order == true) {
-      return response()->json(['success' => true, 'code' => '200', 'data' => $datetime]);
+      return response()->json(['success' => true, 'code' => '200', 'data' => $aboutTime]);
     } else {
       return response()->json(['success' => false, 'code' => '404']);
     }
