@@ -139,7 +139,7 @@ class OrderTbController extends Controller
         // if ($datetime->diffInHours($itemOrderDate) < 2) {
         //   $result = array_push($result, $order);
         // }
-        $result = array_push($result, $order);
+        $result = array_push($result, $items);
       }
       return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
     } else {
