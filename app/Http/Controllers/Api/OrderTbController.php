@@ -119,11 +119,15 @@ class OrderTbController extends Controller
   }
   public function search(Request $request)
   {
-    $datetime = $request->input('datetime');
+    $date = $request->input('date');
+    $timeInput = $request->input('time');
+    $time = date("hh:mm:ss", $timeInput);
+
     //$order = OrderTb::query();
-    $order = OrderTb::where('orderDate', 'LIKE', '%' . $datetime . '%')->get();
+    $order = OrderTb::where('orderDate', 'LIKE', '%' . $date . '%')->get();
+
     if ($order == true) {
-      return response()->json(['success' => true, 'code' => '200', 'data' => $order]);
+      return response()->json(['success' => true, 'code' => '200', 'data' => $time]);
     } else {
       return response()->json(['success' => false, 'code' => '404']);
     }
