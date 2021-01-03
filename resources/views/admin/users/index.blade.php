@@ -6,7 +6,7 @@
 @section('css')
 <style>
 .tables{
-    padding: 15px 15px 0 15px;
+  padding: 15px 1px 0 15px;
 }
 table {
   width: 100%;
