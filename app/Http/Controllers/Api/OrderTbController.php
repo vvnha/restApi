@@ -133,15 +133,15 @@ class OrderTbController extends Controller
     $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
     if ($order == true) {
 
-      $result = [];
+      //$result = [1];
       foreach ($order as $items) {
         // $itemOrderDate = Carbon::create($items->orderDate);
         // if ($datetime->diffInHours($itemOrderDate) < 2) {
         //   $result = array_push($result, $order);
         // }
-        $result = array_push($result, 1);
+        //$result = array_push($result, 1);
       }
-      return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
+      return response()->json(['success' => true, 'code' => '200', 'data' => count($order)]);
     } else {
       return response()->json(['success' => false, 'code' => '404']);
     }
