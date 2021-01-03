@@ -121,13 +121,13 @@ class OrderTbController extends Controller
   {
     $date = $request->input('date');
     $timeInput = $request->input('time');
-    $time = date("hh:mm:ss", $timeInput);
+    $time = date("h:m:s", $timeInput);
 
     //$order = OrderTb::query();
     $order = OrderTb::where('orderDate', 'LIKE', '%' . $date . '%')->get();
 
     if ($order == true) {
-      return response()->json(['success' => true, 'code' => '200', 'data' => $time]);
+      return response()->json(['success' => true, 'code' => '200', 'data' => $timeInput]);
     } else {
       return response()->json(['success' => false, 'code' => '404']);
     }
