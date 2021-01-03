@@ -143,7 +143,10 @@ class OrderTbController extends Controller
           $result =  $items->perNum . "," . $result;
         }
       }
-      return response()->json(['success' => true, 'code' => '200', 'data' => substr($result, 0, -1)]);
+      if ($result != "") {
+        $result = substr($result, 0, -1);
+      }
+      return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
     } else {
       return response()->json(['success' => false, 'code' => '404']);
     }
