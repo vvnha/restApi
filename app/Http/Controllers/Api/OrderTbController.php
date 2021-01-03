@@ -129,6 +129,7 @@ class OrderTbController extends Controller
     $minute = date("i", strtotime($timeInput));
     $second = date("s", strtotime($timeInput));
     $datetime = Carbon::parse($year, $month, $day, $hour, $minute, $second);
+    $datetime = $datetime->sub('2 hours');
 
     //$order = OrderTb::query();
     $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
