@@ -120,16 +120,17 @@ class OrderTbController extends Controller
   }
   public function search(Request $request)
   {
-    $date = $request->input('date');
+    $dateInput = $request->input('date');
     $timeInput = $request->input('time');
-    $time = date("Y-m-d", strtotime($date));
-    //$datetime = Carbon::parse($time);
+    $date = date("Y-m-d", strtotime($dateInput));
+    $time = date("H:i:s", strtotime($timeInput));
+    $datetime = Carbon::parse($date + ' ' + $time);
 
     //$order = OrderTb::query();
-    $order = OrderTb::where('orderDate', 'LIKE', '%' . $date . '%')->get();
+    $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
 
     if ($order == true) {
-      return response()->json(['success' => true, 'code' => '200', 'data' => $time]);
+      return response()->json(['success' => true, 'code' => '200', 'data' => $datetime]);
     } else {
       return response()->json(['success' => false, 'code' => '404']);
     }
