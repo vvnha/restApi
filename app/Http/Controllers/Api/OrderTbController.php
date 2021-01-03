@@ -122,7 +122,7 @@ class OrderTbController extends Controller
   {
     $date = $request->input('date');
     $timeInput = $request->input('time');
-    $time = date("H:i:s", strtotime($timeInput));
+    $time = date("Y-m-d", strtotime($date));
     //$datetime = Carbon::parse($time);
 
     //$order = OrderTb::query();
