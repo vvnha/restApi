@@ -128,7 +128,7 @@ class OrderTbController extends Controller
     $hour = date("H", strtotime($timeInput));
     $minute = date("i", strtotime($timeInput));
     $second = date("s", strtotime($timeInput));
-    $datetime = Carbon::parse($year, $month, $day, $hour, $minute, $second)->format("Y-m-d H:i:s");
+    $datetime = Carbon::parse($year, $month, $day, $hour, $minute, $second, 'Asia/Ho_Chi_Minh');
     $datetime = $datetime->sub('2 hours');
 
     //$order = OrderTb::query();
