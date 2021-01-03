@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use Auth;
-use Carbon;
+use Carbon\Carbon;
 
 class OrderTbController extends Controller
 {
