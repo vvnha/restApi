@@ -134,7 +134,7 @@ class OrderTbController extends Controller
     $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
     if ($order == true) {
 
-      $result = [''];
+      $result = array();
       foreach ($order as $items) {
         $itemOrderDate = Carbon::create($items->orderDate);
         if ($datetime->diffInHours($itemOrderDate) <= 2) {
