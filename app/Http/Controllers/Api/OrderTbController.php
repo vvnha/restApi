@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use Auth;
+use Cabon;
 
 class OrderTbController extends Controller
 {
@@ -122,12 +123,13 @@ class OrderTbController extends Controller
     $date = $request->input('date');
     $timeInput = $request->input('time');
     $time = date("H:i:s", strtotime($timeInput));
+    $datetime = Carbon::parse($date + " " + $timeInput);
 
     //$order = OrderTb::query();
     $order = OrderTb::where('orderDate', 'LIKE', '%' . $date . '%')->get();
 
     if ($order == true) {
-      return response()->json(['success' => true, 'code' => '200', 'data' => $time]);
+      return response()->json(['success' => true, 'code' => '200', 'data' => $datetime]);
     } else {
       return response()->json(['success' => false, 'code' => '404']);
     }
