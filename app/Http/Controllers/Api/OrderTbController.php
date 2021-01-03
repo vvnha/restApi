@@ -134,13 +134,13 @@ class OrderTbController extends Controller
     $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
     if ($order == true) {
 
-      $result = '';
+      $result = [''];
       foreach ($order as $items) {
         $itemOrderDate = Carbon::create($items->orderDate);
         if ($datetime->diffInHours($itemOrderDate) <= 2) {
-          //   $result = array_push($result, $order);
+          $result = array_push($result, $items);
           //$result = $items->perNum + "," + $result;
-          echo $result = "," + $items->perNum;
+
         }
       }
       return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
