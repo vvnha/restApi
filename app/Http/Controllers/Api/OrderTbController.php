@@ -137,7 +137,7 @@ class OrderTbController extends Controller
       $result = "";
       foreach ($order as $items) {
         $itemOrderDate = Carbon::create($items->orderDate);
-        if ($datetime->diffInHours($itemOrderDate) <= 2 && $items->service == '1') {
+        if ($datetime->diffInHours($itemOrderDate) <= 2 && ($items->service == '1' || $items->service == '0')) {
           //$result = array_push($result, $items->);
           //$result = $items->perNum + "," + $result;
           $result =  $items->perNum . "," . $result;
