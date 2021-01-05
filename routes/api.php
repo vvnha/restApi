@@ -28,6 +28,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     //Route::resource('foods', 'FoodController');
     Route::get('/foods/parent/{id}', ['as' => 'food', 'uses' => 'FoodController@getOneModel']);
+    Route::post('/foods/search', 'FoodController@search');
 
     // test tiếp phần này
     Route::get('/posis', ['as' => 'posi', 'uses' => 'PositionController@index']);
@@ -52,6 +53,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::get('/abc', ['as' => 'abc', 'uses' => 'AbcController@index']);
     Route::post('/abc', ['as' => 'abc', 'uses' => 'AbcController@postAbc']);
+
 
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
