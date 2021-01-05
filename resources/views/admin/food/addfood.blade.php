@@ -5,33 +5,6 @@
 
 @section('css')
 <style>
-.tables{
-    padding: 15px 15px 0 15px;
-}
-#customers {
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-  border-collapse: collapse;
-  width: 100%;
-
-}
-#customers td, #customers th {
-/*  border: 3px solid #32383e;*/
-  padding: 8px;
-  border-top: 1px solid #dee2e6;
-  
-}
-#customers tr:nth-child(even){
-  background-color: #6c757d;
-  color: #fff;
-}
-#customers tr:hover {background-color: #17a2b8;}
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #212529;
-  color: white;
-}
 .add {
   border: 1px solid blue;
   text-align: left;

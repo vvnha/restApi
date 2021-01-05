@@ -12,12 +12,10 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-
 .div1 {
   display: table;
   table-layout: fixed;
   width: 100%;
-
 }
 
 .div2 {
@@ -25,34 +23,8 @@ table {
   overflow-x: auto;
   width: 100%;
 }
-
-#customers {
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-  border-collapse: collapse;
-  width: 100%;
-
-}
-#customers td, #customers th {
-/*  border: 3px solid #32383e;*/
-  padding: 8px;
-  border-top: 1px solid #dee2e6;
-  
-}
-#customers tr:nth-child(even){
-  background-color: #6c757d;
-  color: #fff;
-}
-#customers tr:hover {background-color: #17a2b8;}
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #212529;
-  color: white;
-}
-
 </style>
-
+ <link rel="stylesheet" href="public/css/table.css">
 @endsection
 
 @section('content')
@@ -137,43 +109,56 @@ table {
        <!--  Hang 2 contents -->
       <!-- /.row -->
       <!-- Main row -->
-      
-      <div class="row tables div1">
-        <div class="div2">
+      <div class="div1">
+        <div class="table-wrapper div2">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Manage <b>Food</b></h2>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Tên</th>
+                      <th>Hình ảnh</th>
+                      <th>Giá</th>
+                      <th>Đánh giá</th>
+                      <th>Parent ID</th>
+                      <th>Ngày tạo</th>
+                      <th>Edit/Del</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     @foreach($foods as $value)
+                    <tr>
+                      <td>{{$value->foodID}}</td>
+                      <td>{{$value->foodName}}</td>
+                      <td>
+                        <a href="{{$value->img}}">
+                          <img src="{{$value->img}}" alt="..." style="height: 60px;width: 80px;"></a>
 
-         <table id="customers">
-          <tr>
-            <th>ID</th>
-            <th>Tên</th>
-            <th>Hình ảnh</th>
-            <th>Giá</th>
-            <th>Đánh giá</th>
-            <th>Parent ID</th>
-            <th>Ngày tạo</th>
-            <th>Edit/Del</th>
-
-          </tr>
-          @foreach($foods as $value)
-          <tr>
-            <td>{{$value->foodID}}</td>
-            <td>{{$value->foodName}}</td>
-            <td>
-              <a href="{{$value->img}}">{{$value->img}}</a>
-            </td>
-            <td>{{number_format($value->price)}}</td>
-            <td>{{$value->rating}}</td>
-            <td>{{$value->parentID}}</td>
-            <td>{{$value->created_at}}</td>
-            <td>
-              <a href="admin/food/edit/{{$value->foodID}}" class="fa fa-pencil-square-o bg-warning"></a> / 
-              <a href="admin/food/delete/{{$value->foodID}}" onclick="return confirm('Delete Food?')" class="fa fa-trash bg-red"></a>
-            </td>
-          </tr>
-          @endforeach
-          </table>
+                      </td>
+                      <td>{{number_format($value->price)}}</td>
+                      <td>{{$value->rating}}</td>
+                      <td>{{$value->parentID}}</td>
+                      <td>{{$value->created_at}}</td>
+                      <td>
+                        <a href="admin/food/edit/{{$value->foodID}}" class="edit open-modal" ><i class="fa fa-pencil-square-o" data-toggle="tooltip" title="Edit"></i></a>
+                        <a href="admin/food/delete/{{$value->foodID}}" onclick="return confirm('Delete Food?')" class="delete"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
+                      </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
       </div>
-      {!! $foods->links() !!}
+      <div class="active" style="margin-top: 0px;height: 50px;">
+        {!! $foods->links() !!}
+      </div>
+    
       <!-- /.row (main row) -->
       <!--  /Hang 2 contents -->
     </section>
