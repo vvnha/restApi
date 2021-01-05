@@ -26,32 +26,8 @@ table {
   width: 100%;
 }
 
-#customers {
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-  border-collapse: collapse;
-  width: 100%;
-
-}
-#customers td, #customers th {
-/*  border: 3px solid #32383e;*/
-  padding: 8px;
-  border-top: 1px solid #dee2e6;
-  
-}
-#customers tr:nth-child(even){
-  background-color: #6c757d;
-  color: #fff;
-}
-#customers tr:hover {background-color: #17a2b8;}
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #212529;
-  color: white;
-}
 </style>
-
+  <link rel="stylesheet" href="public/css/table.css">
 @endsection
 
 @section('content')
@@ -136,55 +112,65 @@ table {
        <!--  Hang 2 contents -->
       <!-- /.row -->
       <!-- Main row -->
-  
-      <div class="row tables div1">
-        <div class="div2">
-
-         <table id="customers">
-          <tr>
-            <th>ID</th>
-            <th>Tên</th>
-            <th>Email</th>
-            <th>Số ĐT</th>
-            <th>Ngày tạo</th>
-            <th>updated_at</th>
-            <th>Position</th>
-            <th>Khóa</th>
-
-          </tr>
-          @foreach($accounts as $value)
-          <tr>
-            <td>{{$value->id}}</td>
-            <td>{{$value->name}}</td>
-            <td>{{$value->email}}</td>
-            <td>{{$value->phone}}</td>
-            <td>{{$value->created_at}}</td>
-            <td>{{$value->updated_at}}</td>
-            <td>
-              <form action="{{url('admin/account/position')}}" method="POST">
-                {{ csrf_field() }}
-                <input type="" name="id" hidden value="{{$value->id}}">
-                <select name="positionID" class="bg-green">
-                  <option value="{{$value->positionID}}">{{$value->positionID}}</option>
-                  <option value="1">----</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-                <button type="submit" class="bg-primary small">CẬP NHẬT</button>
-              </form>
-         <!--      <a href="admin/account/edit/{{$value->id}}" class="fa fa-pencil-square-o bg-warning"></a> /  -->
-            </td>
-            <td> 
-              <a href="admin/account/block/{{$value->id}}" class="fa fa-pencil-square-o bg-warning" onclick="return confirm('Block Account?')"></a>
-            </td>
-          </tr>
-          @endforeach
-          </table>
+      <div class="div1">
+        <div class="table-wrapper div2">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Manage <b>Accounts</b></h2>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Tên</th>
+                      <th>Email</th>
+                      <th>Số ĐT</th>
+                      <th>Ngày tạo</th>
+                      <th>updated_at</th>
+                      <th>Position</th>
+                      <th>Khóa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     @foreach($accounts as $value)
+                    <tr>
+                      <td>{{$value->id}}</td>
+                      <td>{{$value->name}}</td>
+                      <td>{{$value->email}}</td>
+                      <td>{{$value->phone}}</td>
+                      <td>{{$value->created_at}}</td>
+                      <td>{{$value->updated_at}}</td>
+                      <td>
+                        <form action="{{url('admin/account/position')}}" method="POST">
+                          {{ csrf_field() }}
+                          <input type="" name="id" hidden value="{{$value->id}}">
+                          <select name="positionID" class="bg-green">
+                            <option value="{{$value->positionID}}">{{$value->positionID}}</option>
+                            <option value="1">----</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                          </select>
+                          <button type="submit" class="bg-primary small">CẬP NHẬT</button>
+                        </form>
+                      </td>
+                      <td>
+                          <a href="admin/account/block/{{$value->id}}" class="delete" ><i class="fa fa-ban" aria-hidden="true" title="Block"></i></a>
+                      </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
       </div>
-      {!! $accounts->links() !!}
+      <div class="active" style="margin-top: 0px;height: 50px;">
+        {!! $accounts->links() !!}
+      </div>
+      
       <!-- /.row (main row) -->
       <!--  /Hang 2 contents -->
     </section>
