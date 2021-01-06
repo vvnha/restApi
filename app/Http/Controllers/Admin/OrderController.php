@@ -17,7 +17,7 @@ class OrderController extends Controller
     public function today()
     {
     	$collection = OrderTb::count();
-    	$foods = OrderTb::where('service', '0')->get();
+    	$foods = OrderTb::where('service', '0')->paginate(8);
     	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Chưa xác nhận']);
     }
 
@@ -25,7 +25,7 @@ class OrderController extends Controller
     {
         $collection = OrderTb::count();
         $ldate = date('Y-m-d');
-        $order = OrderTb::orderBy('orderID', 'DESC')->whereIn('service', [0,1,2,3])->get();
+        $order = OrderTb::orderBy('orderID', 'DESC')->whereIn('service', [0,1,2,3])->paginate(8);
         return view('admin.order.allorder',['foods'=>$order,'collection'=>$collection,'xacnhan'=>'all']);
     }
 
@@ -33,28 +33,28 @@ class OrderController extends Controller
     {
         $collection = OrderTb::count();
         $ldate = date('Y-m-d');
-        $order = OrderTb::where('orderDate', 'LIKE', '%' . $ldate . '%')->get();
+        $order = OrderTb::where('orderDate', 'LIKE', '%' . $ldate . '%')->paginate(8);
         return view('admin.order.allorder',['foods'=>$order,'collection'=>$collection,'xacnhan'=>'day']);
     }
 
     public function xacnhan()
     {
     	$collection = OrderTb::count();
-    	$foods = OrderTb::where('service', '1')->get();
+    	$foods = OrderTb::where('service', '1')->paginate(8);
     	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Đã xác nhận']);
     }
 
     public function success()
     {
     	$collection = OrderTb::count();
-    	$foods = OrderTb::where('service', '2')->get();
+    	$foods = OrderTb::where('service', '2')->paginate(8);
     	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Đã hoàn thành']);
     }
    
     public function dahuy()
     {
     	$collection = OrderTb::count();
-    	$foods = OrderTb::where('service', '3')->get();
+    	$foods = OrderTb::where('service', '3')->paginate(8);
     	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Đã hủy']);
     }
     public function vieworder($id)
