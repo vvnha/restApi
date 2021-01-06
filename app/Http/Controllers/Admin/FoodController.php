@@ -12,7 +12,8 @@ class FoodController extends Controller
 {
     public function allfood()
     {	
-    	$foods = Foods::paginate(8);
+
+        $foods = Foods::orderBy('foodID', 'DESC')->paginate(8);
     	$collection = Foods::count();
         return view('admin.food.allfood',['foods'=>$foods,'collection'=>$collection]);
     }
@@ -61,7 +62,7 @@ class FoodController extends Controller
                 // File này có thực, bắt đầu đổi tên và move
                 $fileExtension = $request->file('file')->getClientOriginalExtension(); // Lấy . của file
                 
-                $fileName = time() . "_" . rand(0,9999999) . "_" . md5(rand(0,9999999)) . "." . $fileExtension;
+                $fileName = time() . "_" . rand(0,9999999) . "." . $fileExtension;
 
                 $uploadPath = public_path('img');
                 $request->file('file')->move($uploadPath, $fileName);
@@ -126,7 +127,7 @@ class FoodController extends Controller
                 // File này có thực, bắt đầu đổi tên và move
                 $fileExtension = $request->file('file')->getClientOriginalExtension(); // Lấy . của file
                 
-                $fileName = time() . "_" . rand(0,9999999) . "_" . md5(rand(0,9999999)) . "." . $fileExtension;
+                $fileName = time() . "_" . rand(0,9999999) . "." . $fileExtension;
 
                 $uploadPath = public_path('img');
                 $request->file('file')->move($uploadPath, $fileName);

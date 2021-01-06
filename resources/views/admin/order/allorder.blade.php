@@ -107,7 +107,7 @@ table {
         </div>
         <!-- ./col 4 cai tren-->
       </div>
-      <p class="active bg-primary" style="padding: 10px">{{$xacnhan}}</p>
+      <!-- <p class="active bg-primary" style="padding: 10px">{{$xacnhan}}</p> -->
        <!--  Hang 2 contents -->
       <!-- /.row -->
       <!-- Main row -->
@@ -119,7 +119,11 @@ table {
                       <h2>Manage <b>Order</b></h2>
                   </div>
                   <div class="col-sm-6">
-                      <!-- <a  href="#" class="btn btn-success" data-toggle="modal"><span>Add New Order</span></a>    -->                   
+                    @if($xacnhan=="all")
+                       <a href="admin/order/allorder/day" class="btn btn-success" data-toggle="modal"><span>Xem hôm nay</span></a>
+                     @else
+                       <a href="admin/order/allorder" class="btn btn-success" data-toggle="modal"><span>Xem tất cả</span></a>
+                    @endif          
                   </div>
               </div>
           </div>
@@ -129,7 +133,7 @@ table {
                     <th>ID</th>
                     <th>userID</th>
                     <th>Tổng tiền</th>
-                    <th>Đặt ngày giờ</th>
+                    <th>Ngày đặt</th>
                     <th>Số bàn</th>
                     <th>Trạng thái</th>
                     <th>DateClick</th>

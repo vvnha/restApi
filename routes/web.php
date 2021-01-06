@@ -48,6 +48,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     Route::get('/order/xacnhan', ['as' => 'xacnhan', 'uses' => 'OrderController@xacnhan']);
     Route::get('/order/success', ['as' => 'success', 'uses' => 'OrderController@success']);
     Route::get('/order/dahuy', ['as' => 'dahuy', 'uses' => 'OrderController@dahuy']);
+    Route::get('/order/allorder', ['as' => 'allorder', 'uses' => 'OrderController@allorder']);
+    Route::get('/order/allorder/day', ['as' => 'dayorder', 'uses' => 'OrderController@dayorder']);
     Route::get('/order/vieworder/{id}', ['as' => 'show1', 'uses' => 'OrderController@vieworder']);
     Route::post('/order/vieworder/editservice', ['as' => 'editO', 'uses' => 'OrderController@editservice']);
     Route::post('/order/vieworder/thanhtoan', ['as'   => 'thanhtoan','uses' => 'OrderController@thanhtoan']);
