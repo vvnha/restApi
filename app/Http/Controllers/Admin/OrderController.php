@@ -25,7 +25,7 @@ class OrderController extends Controller
     {
         $collection = OrderTb::count();
         $ldate = date('Y-m-d');
-        $order = OrderTb::orderBy('orderID', 'DESC')->get();
+        $order = OrderTb::orderBy('orderID', 'DESC')->whereIn('service', [0,1,2,3])->get();
         return view('admin.order.allorder',['foods'=>$order,'collection'=>$collection,'xacnhan'=>'all']);
     }
 
