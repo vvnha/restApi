@@ -48,6 +48,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     Route::get('/order/xacnhan', ['as' => 'xacnhan', 'uses' => 'OrderController@xacnhan']);
     Route::get('/order/success', ['as' => 'success', 'uses' => 'OrderController@success']);
     Route::get('/order/dahuy', ['as' => 'dahuy', 'uses' => 'OrderController@dahuy']);
+    Route::get('/order/delete/{id}', ['as' => 'deleteorder', 'uses' => 'OrderController@deleteorder']);
     Route::get('/order/allorder', ['as' => 'allorder', 'uses' => 'OrderController@allorder']);
     Route::get('/order/allorder/day', ['as' => 'dayorder', 'uses' => 'OrderController@dayorder']);
     Route::get('/order/vieworder/{id}', ['as' => 'show1', 'uses' => 'OrderController@vieworder']);
@@ -58,6 +59,5 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     Route::delete('/order/vieworder/delete/{id}', ['as'   => 'destroy','uses' => 'OrderController@destroy']);
     Route::get('/order/vieworder/detail/{id}', ['as'   => 'show2','uses' => 'OrderController@show']);
     Route::put('/order/vieworder/update/{id}', ['as'   => 'update','uses' => 'OrderController@update']);
-
 
 });

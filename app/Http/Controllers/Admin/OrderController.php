@@ -87,6 +87,16 @@ class OrderController extends Controller
         return redirect()->back();
     }
 
+    public function deleteorder($id)
+    {
+        $ldate = date('Y-m-d H:i:s');
+        $data = OrderTb::find((int)$id);
+        $data->service="3";
+        $data->updated_at = $ldate;
+        $data->save();
+        return redirect()->back();
+    }
+
     public function thanhtoan(Request $request )
     {   
         $ldate = date('Y-m-d H:i:s');
