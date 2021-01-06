@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use Auth;
+use Carbon\Carbon;
+use Dotenv\Regex\Result;
 
 class OrderTbController extends Controller
 {
@@ -113,6 +115,38 @@ class OrderTbController extends Controller
     $data = OrderTb::find((int)$id);
     if ($data == true) {
       return response()->json(['success' => true, 'code' => '200', 'data' => $data->user]);
+    } else {
+      return response()->json(['success' => false, 'code' => '404']);
+    }
+  }
+  public function search(Request $request)
+  {
+    $dateInput = $request->input('date');
+    $timeInput = $request->input('time');
+    $year = date("Y", strtotime($dateInput));
+    $month = date("m", strtotime($dateInput));
+    $day = date("d", strtotime($dateInput));
+    $hour = date("H", strtotime($timeInput));
+    $minute = date("i", strtotime($timeInput));
+    $second = date("s", strtotime($timeInput));
+    $datetime = Carbon::create($year, $month, $day, $hour, $minute, $second);
+
+    $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
+    if ($order == true) {
+
+      $result = "";
+      foreach ($order as $items) {
+        $itemOrderDate = Carbon::create($items->orderDate);
+        if ($datetime->diffInHours($itemOrderDate) <= 2 && ($items->service == '1' || $items->service == '0')) {
+          //$result = array_push($result, $items->);
+          //$result = $items->perNum + "," + $result;
+          $result =  $items->perNum . "," . $result;
+        }
+      }
+      if ($result != "") {
+        $result = substr($result, 0, -1);
+      }
+      return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
     } else {
       return response()->json(['success' => false, 'code' => '404']);
     }
