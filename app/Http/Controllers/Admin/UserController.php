@@ -43,7 +43,7 @@ class UserController extends Controller
     {	
     	$tk = $this->thongke();
     	extract($tk);
-    	$accounts = User::paginate(8);
+    	$accounts = User::orderBy('id', 'ASC')->paginate(8);
     	$collection = User::count();
         return view('admin.users.allusers',['accounts'=>$accounts,'all'=>$all,'manage'=>$manage,'use'=>$use,'staff'=>$staff]);
     }

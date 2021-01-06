@@ -9,13 +9,32 @@ use App\Model\OrderDetail;
 use App\Model\Foods;
 use App\User;
 use Validator;
+
+
 class OrderController extends Controller
 {
+
     public function today()
     {
     	$collection = OrderTb::count();
     	$foods = OrderTb::where('service', '0')->get();
     	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Chưa xác nhận']);
+    }
+
+    public function allorder()
+    {
+        $collection = OrderTb::count();
+        $ldate = date('Y-m-d');
+        $order = OrderTb::orderBy('orderID', 'DESC')->get();
+        return view('admin.order.allorder',['foods'=>$order,'collection'=>$collection,'xacnhan'=>'all']);
+    }
+
+      public function dayorder()
+    {
+        $collection = OrderTb::count();
+        $ldate = date('Y-m-d');
+        $order = OrderTb::where('orderDate', 'LIKE', '%' . $ldate . '%')->get();
+        return view('admin.order.allorder',['foods'=>$order,'collection'=>$collection,'xacnhan'=>'day']);
     }
 
     public function xacnhan()
