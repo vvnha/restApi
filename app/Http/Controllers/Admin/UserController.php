@@ -34,7 +34,7 @@ class UserController extends Controller
     {
         $tk = $this->thongke();
         extract($tk);
-        $accounts = User::where('positionID', '=', 5)->get();
+        $accounts = User::where('positionID', '=', 5)->paginate(8);
         return view('admin.users.index',['accounts'=>$accounts,'all'=>$all,'manage'=>$manage,'use'=>$use,'staff'=>$staff]);
     }
 
