@@ -199,7 +199,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="admin/account"><i class="fa fa-circle-o"></i>Nhân viên</a></li>
+            <li><a href="admin/account"><i class="fa fa-circle-o"></i>Nội bộ</a></li>
             <li><a href="admin/account/allusers"><i class="fa fa-circle-o"></i>Tất cả</a></li>
             <li><a href="admin/account/blocks"><i class="fa fa-circle-o"></i>Đã khóa</a></li>
           </ul>

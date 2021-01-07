@@ -164,6 +164,9 @@ table {
             </table>
         </div>
       </div>
+            <div class="active" style="margin-top: 0px;height: 50px;">
+        {!! $accounts->links() !!}
+      </div>
     </section>
 
 @endsection
