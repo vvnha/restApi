@@ -114,9 +114,9 @@ class FoodController extends Controller
 
   public function search(Request $request)
   {
-    $foodInput = $request->input('name');
+    $foodInput = strtolower($request->input('name'));
 
-    $foods = Foods::query()->where('foodName', 'LIKE', "%%%{$foodInput}%%%")->get();
+    $foods = Foods::query()->where("LOWER('foodName')", 'LIKE', "%%%{$foodInput}%%%")->get();
     if ($foods == true) {
       return response()->json(['success' => true, 'code' => '200', 'data' => $foods]);
     } else {
