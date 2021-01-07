@@ -1,16 +1,16 @@
 
 @extends('layouts.admin')
 
-@section('title', 'All orders')
+@section('title', 'Order Status')
 
 @section('css')
-<style>
-.tables{
-    padding: 15px 1px 0 15px;
-}
+<style type="text/css">
 table {
   width: 100%;
   border-collapse: collapse;
+}
+.tables{
+  padding: 15px 1px 0 15px;
 }
 
 .div1 {
@@ -24,34 +24,8 @@ table {
   overflow-x: auto;
   width: 100%;
 }
-
-
-#customers {
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-  border-collapse: collapse;
-  width: 100%;
-
-}
-#customers td, #customers th {
-/*  border: 3px solid #32383e;*/
-  padding: 8px;
-  border-top: 1px solid #dee2e6;
-  
-}
-#customers tr:nth-child(even){
-  background-color: #6c757d;
-  color: #fff;
-}
-#customers tr:hover {background-color: #17a2b8;}
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #212529;
-  color: white;
-}
-
 </style>
+<link rel="stylesheet" href="public/css/table.css">
 
 @endsection
 
@@ -64,8 +38,8 @@ table {
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Hoàn thành</li>
+        <li><a href="admin"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">{{$xacnhan}}</li>
       </ol>
     </section>
   <!-- /.content-wrapper -->
@@ -133,46 +107,62 @@ table {
         </div>
         <!-- ./col 4 cai tren-->
       </div>
-
+      <!-- <p class="active bg-primary" style="padding: 10px">{{$xacnhan}}</p> -->
        <!--  Hang 2 contents -->
       <!-- /.row -->
       <!-- Main row -->
-      <p class="active bg-primary" style="padding: 10px">{{$xacnhan}}</p>
-      <div class="row tables div1">
-        <div class="div2">
-
-         <table id="customers">
-          <tr>
-            <th>ID</th>
-            <th>userID</th>
-            <th>Tổng tiền</th>
-            <th>OrderDate</th>
-            <th>PerNum</th>
-            <th>Service</th>
-            <th>DateClick</th>
-            <th>Xem</th>
-
-          </tr>
-          @foreach($foods as $value)
-          <tr>
-            <td>{{$value->orderID}}</td>
-            <td>{{$value->userID}}</td>
-            <td>{{number_format($value->total)}} VND</td>
-            <td>{{$value->orderDate}}</td>
-            <td>{{$value->perNum}}</td>
-            <td>{{$value->service}}</td>
-            <td>{{$value->dateClick}}</td>
-            <td>
-              <a href="admin/order/vieworder/{{$value->orderID}}" class="fa fa-pencil-square-o bg-warning"></a>
-            </td>
-            <!-- <td>
-              <a href="admin/order/edit/{{$value->orderID}}" class="fa fa-pencil-square-o bg-warning"></a> / 
-              <a href="admin/order/delete/{{$value->orderID}}" onclick="return confirm('Delete Food?')" class="fa fa-trash bg-red"></a>
-            </td> -->
-          </tr>
-          @endforeach
+      <div class="div1">
+        <div class="table-wrapper div2">
+          <div class="table-title">
+              <div class="row">
+                  <div class="col-sm-6">
+                      <h2>Manage <b>Order</b></h2>
+                  </div>
+                  <div class="col-sm-6">
+                    @if($xacnhan=="all")
+                       <a href="admin/order/allorder/day" class="btn btn-success" data-toggle="modal"><span>Xem hôm nay</span></a>
+                     @else
+                       <a href="admin/order/allorder" class="btn btn-success" data-toggle="modal"><span>Xem tất cả</span></a>
+                    @endif          
+                  </div>
+              </div>
+          </div>
+          <table class="table table-striped table-hover">
+              <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>userID</th>
+                    <th>Tổng tiền</th>
+                    <th>Ngày đặt</th>
+                    <th>Số bàn</th>
+                    <th>Trạng thái</th>
+                    <th>DateClick</th>
+                    <th>Xem / Hủy</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <p hidden="">{{$valueT=0}}</p>
+                  @foreach($foods as $value)
+                  <tr>
+                    <td>{{$value->orderID}}</td>
+                    <td>{{$value->userID}}</td>
+                    <td>{{number_format($value->total)}} VND</td>
+                    <td>{{$value->orderDate}}</td>
+                    <td>{{$value->perNum}}</td>
+                    <td>{{$value->service}}</td>
+                    <td>{{$value->dateClick}}</td>
+                    <td>
+                        <a href="admin/order/vieworder/{{$value->orderID}}" class="edit open-modal"><i class="fa fa-pencil-square-o" data-toggle="tooltip" title="Xem"></i></a>
+                        <a href="admin/order/delete/{{$value->orderID}}" class="delete" ><i class="fa fa-trash-o" title="Xóa" onclick="return confirm('Hủy đơn này?')"></i></a>
+                    </td>
+                  </tr>
+                  @endforeach
+              </tbody>
           </table>
         </div>
+      </div>
+      <div class="active" style="margin-top: 0px;height: 50px;">
+        {!! $foods->links() !!}
       </div>
       <!-- /.row (main row) -->
       <!--  /Hang 2 contents -->

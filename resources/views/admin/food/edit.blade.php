@@ -5,33 +5,6 @@
 
 @section('css')
 <style>
-.tables{
-    padding: 15px 15px 0 15px;
-}
-#customers {
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-  border-collapse: collapse;
-  width: 100%;
-
-}
-#customers td, #customers th {
-/*  border: 3px solid #32383e;*/
-  padding: 8px;
-  border-top: 1px solid #dee2e6;
-  
-}
-#customers tr:nth-child(even){
-  background-color: #6c757d;
-  color: #fff;
-}
-#customers tr:hover {background-color: #17a2b8;}
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #212529;
-  color: white;
-}
 .add {
   border: 1px solid blue;
   text-align: left;
@@ -42,7 +15,6 @@
   padding: 15px 32px;
   font-size: 35px;
 }
-
 </style>
 
 @endsection
@@ -66,11 +38,10 @@
     <section class="content">
       <div class="row">
         <div class="container">
-<!-- foodID`, `foodName`, `img`, `price`, `rating`, `hits`, `ingres`, `parentID`, `created_at`, `updated_at -->
           <p class="ds btn btn-lg btn-block" style="font-size: 35px;">Sửa Đồ Ăn</p>
           <div>
             @if ($errors->any())
-             <div class="alert alert-danger content-header">
+             <div class="alert alert-danger">
                 <ul>
                     @foreach ($errors->all() as $error)
                       <li>{{ $error }}</li>
@@ -81,7 +52,7 @@
           </div>
 
           @if (\Session::has('success'))
-            <div class="alert alert-success content-header">
+            <div class="alert alert-success">
                 <ul>
                     <li>{!! \Session::get('success') !!}</li>
                 </ul>
@@ -105,7 +76,7 @@
                     <select class="form-control custom-select custom-select-lg mb-3" name="parentID">
                       <option selected value="{{$food->parentID}}" >{{$food->parentID}}</option>
 
-                      <option value="1"  >1 - Đồ ăn</option>
+                      <option value="1">1 - Đồ ăn</option>
                       <option value="2">2 - Đồ uống</option>
                       <option value="3">3 - Khác</option>
                     </select>
@@ -127,14 +98,12 @@
                 <a href="admin/food"><button class="btn btn-danger" type="button" >HỦY </button></a>
             </form>
 
-            
-
             <form action="{{url('admin/food/edita/upload/' . $food->foodID)}}" method="POST" style="margin-bottom: 100px;margin-right: 60px;margin-left: 60px;" enctype="multipart/form-data">
                 {{ csrf_field() }}
                <div class="form-group">
                 <label for="formGroupExampleInput2">Link: 
                    <a href="{{$food->img}}">{{$food->img}}</a></br>
-                   <img src="{{$food->img}}">
+                   <img src="{{$food->img}}" style="height: 300px;width: 400px;">
                 </label></br>
                 <label for="formGroupExampleInput2">Thay ảnh</label>
                 <input type="file" name="file" class="form-control" required="true">

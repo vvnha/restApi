@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>@yield('title')</title>
+  <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
   <base href="{{asset('')}}">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -210,18 +211,18 @@
     <!-- /.sidebar -->
   </aside>
 
-      <div class="content-wrapper" >
+      <div class="content-wrapper">
         @yield('content')
       </div>
   </div>
 
-  <footer class="main-footer">
+<!--   <footer class="main-footer" >
     <div class="pull-right hidden-xs">
       <b>Version</b> 2.4.13
     </div>
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
+    <strong>Copyright &copy; 2020-2021 <a href="https://adminlte.io">Restaurent</a>.</strong> All rights
     reserved.
-  </footer>
+  </footer> -->
 
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
