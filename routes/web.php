@@ -42,6 +42,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     Route::post('/food/edit/{id}', ['as' => 'edits', 'uses' => 'FoodController@update']);
     Route::get('/food/delete/{id}', ['as' => 'edits', 'uses' => 'FoodController@delete']);
     Route::post('/food/edita/upload/{id}', ['as' => 'editA', 'uses' => 'FoodController@upload']);
+    Route::post('/food/edita/urlimg/{id}', ['as' => 'updateurl', 'uses' => 'FoodController@updateurl']);
 
     #Order
     Route::get('/order', ['as' => 'order', 'uses' => 'OrderController@today']);

@@ -59,7 +59,7 @@
             </div>
           @endif
 
-           <form  action="{{url('admin/food/edit/' . $food->foodID)}}" method="POST" style="margin-bottom: 100px;margin-right: 60px;margin-left: 60px;" >
+           <form  action="{{url('admin/food/edit/' . $food->foodID)}}" method="POST" style="margin-bottom: 20px;margin-right: 60px;margin-left: 60px;" >
                     {{ csrf_field() }}
                 <div class="form-group">
                   <label for="formGroupExampleInput">Tên</label>
@@ -98,7 +98,7 @@
                 <a href="admin/food"><button class="btn btn-danger" type="button" >HỦY </button></a>
             </form>
 
-            <form action="{{url('admin/food/edita/upload/' . $food->foodID)}}" method="POST" style="margin-bottom: 100px;margin-right: 60px;margin-left: 60px;" enctype="multipart/form-data">
+            <form action="{{url('admin/food/edita/upload/' . $food->foodID)}}" method="POST" style="margin-bottom: 20px;margin-right: 60px;margin-left: 60px;" enctype="multipart/form-data">
                 {{ csrf_field() }}
                <div class="form-group">
                 <label for="formGroupExampleInput2">Link: 
@@ -108,6 +108,15 @@
                 <label for="formGroupExampleInput2">Thay ảnh</label>
                 <input type="file" name="file" class="form-control" required="true">
                 <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Tải lên</button>
+              </div>
+            </form>
+
+            <form action="{{url('admin/food/edita/urlimg/' . $food->foodID)}}" method="POST" style="margin-bottom: 20px;margin-right: 60px;margin-left: 60px;">
+                {{ csrf_field() }}
+               <div class="form-group">
+                <label for="formGroupExampleInput2" >Thay link ảnh</label>
+                  <input type="text" class="form-control" name="urlimg" required value="{{$food->img}}">
+                <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Lưu</button>
               </div>
             </form>
 

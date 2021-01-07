@@ -153,4 +153,23 @@ class FoodController extends Controller
         $del=Foods::where('foodID', $id)->delete();
         return redirect()->back()->with('success', 'Xóa thành công!');
     }
+
+      public function updateurl(Request $request,$id)
+    {
+
+        $validator = Validator::make($request->all(), [ 
+          'urlimg' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $ldate = date('Y-m-d H:i:s');
+        $food = Foods::find($id);
+        $food->img = $request->urlimg;
+        $food->updated_at = $ldate;
+        $food->save();
+        return redirect()->back()->with('success', 'Cập nhật thành công!');
+    }
+
 }
