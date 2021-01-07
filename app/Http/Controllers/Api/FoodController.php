@@ -116,7 +116,7 @@ class FoodController extends Controller
   {
     $foodInput = $request->input('name');
 
-    $foods = Foods::where('foodName', 'LIKE', "%{$foodInput}'%")->get();
+    $foods = Foods::query()->where('foodName', 'LIKE', "%{$foodInput}'%")->get();
     if ($foods == true) {
       return response()->json(['success' => true, 'code' => '200', 'data' => $foods]);
     } else {
