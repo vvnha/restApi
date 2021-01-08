@@ -67,13 +67,14 @@ class OrderController extends Controller
         $time = $data->dateClick;
         $total = $data->total;
         $service = $data->service;
+       $perNum =$data->perNum;
         if ($data == true) {
             foreach ($data->detail as $food) {
               $name = Foods::find((int)$food->foodID)->foodName;
               $food->foodName = $name;
             }
         }
-        return view('admin.order.vieworder',['foods'=>$data->detail,'userss'=>$user,'stt'=> 0,'giodat'=>$time,'datngay'=>$timeorder,'total'=>$total,'service'=>$service,'id'=>$id, 'Namefood'=>$Namefood]);
+        return view('admin.order.vieworder',['foods'=>$data->detail,'userss'=>$user,'stt'=> 0,'giodat'=>$time,'datngay'=>$timeorder,'total'=>$total,'service'=>$service,'id'=>$id, 'Namefood'=>$Namefood,'perNum'=>$perNum]);
     }
 
     public function editservice(Request $request)
