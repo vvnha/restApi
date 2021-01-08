@@ -56,6 +56,7 @@ table {
         <p class="active"> Số điện thoại: {{$userss->phone}}</p>
         <p class="active"> Ngày đặt: {{$giodat}}</p>
         <p class="active"> Đặt ngày: {{$datngay}}</p>
+        <p class="active"> Số bàn: {{$perNum}}</p>
         <form action="{{url('admin/order/vieworder/editservice')}}" method="POST">
           {{ csrf_field() }}
           <input type="" name="id" hidden value="{{$id}}">
@@ -138,7 +139,7 @@ table {
             {{ csrf_field() }}
             <input name="id" hidden value="{{$id}}">
             <input name="service" hidden value="3">
-            <button type="submit" class="btn btn-danger" style="float: left;margin-left: 10px;">Hủy</button>
+            <button type="submit" class="btn btn-danger" style="float: left;margin-left: 10px;">Hủy đơn này</button>
           </form>
         </div>
       </div>
