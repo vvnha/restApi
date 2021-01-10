@@ -115,20 +115,23 @@
         </div>
         <div class="row" style="padding: 15px">
 
-        <ul class="list-group list-group-horizontal">
-          @foreach($sb as $value)
-          <?php 
-            if ($datas=="1") {
-              $result = explode( ',', $value );
-              $counts = count($result);
-              echo "<a href='admin/order/vieworder/".$result[1]."'><li class='list-group-item col-lg-2 ' style='background-color: #dd4b39;color: #f9f9f9;margin: 0px 10px 10px 0px;''>Bàn số: ";
-                 echo $result[0].", Ngày ".$result[2];
-              echo "</li></a>";
-            }
-          ?>
-         <!--  <li class="list-group-item col-lg-2" style="margin: 0px 10px 10px 0px;">Bàn số {{$value}}</li> -->
-          @endforeach
-        </ul>
+          <ul class="list-group list-group-horizontal">
+            @foreach($sb as $value)
+            <?php 
+              if ($datas=="1") {
+                $result = explode( ',', $value );
+                $counts = count($result);
+                echo "<a href='admin/order/vieworder/".$result[1]."'><li class='list-group-item col-lg-2 ' style='background-color: #dd4b39;color: #f9f9f9;margin: 0px 10px 10px 0px;''>Bàn số: ";
+                   echo $result[0].", Ngày ".$result[2];
+                echo "</li></a>";
+              }else 
+              {
+                echo "<li class='list-group-item col-lg-2' style='margin: 0px 10px 10px 0px;'>Bàn số ".$value."</li>";
+              }
+            ?>
+           <!--  <li class="list-group-item col-lg-2" style="margin: 0px 10px 10px 0px;">Bàn số {{$value}}</li> -->
+            @endforeach
+          </ul>
       </div>
       </div>
       
@@ -136,5 +139,4 @@
       <!--  /Hang 2 contents -->
 
     </section>
-
 @endsection
