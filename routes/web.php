@@ -23,6 +23,7 @@ Route::get('/home', function () {
 Auth::routes();
 Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','middleware' => ['auth', 'acl']], function() {
     Route::get('/', ['as' => 'homes', 'uses' => 'AdminController@index']);
+    Route::post('/', ['as' => 'seachOrder', 'uses' => 'AdminController@seachOrder']);
  
     #Accounts
     Route::get('/account', ['as' => 'users', 'uses' => 'UserController@account']);
