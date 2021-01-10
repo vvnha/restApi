@@ -28,7 +28,10 @@ class AdminController extends Controller
                         $t = explode( '//', $d);
                         $result = array_merge($result, $t);
                     }      	
-    	        }
+    	        }else{
+                    $sb = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+                    return view('admin.index',['sb'=>$sb, 'datas'=>"0",'dateS'=> $dateInput]);   
+                }
 	        }
 	       return view('admin.index',['sb'=>$result,'datas'=>"1",'dateS'=> $dateInput]);
 	    }else {
@@ -52,6 +55,9 @@ class AdminController extends Controller
                         $t = explode( '//', $d);
                         $result = array_merge($result, $t);
                     }       
+                }else{
+                    $sb = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+                    return view('admin.index',['sb'=>$sb, 'datas'=>"0",'dateS'=> $dateInput]);   
                 }
             }
             return view('admin.index',['sb'=>$result,'datas'=>"1",'dateS'=> $dateInput]);
