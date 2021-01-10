@@ -15,6 +15,7 @@ class AdminController extends Controller
 
     	$order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
     	// $order = OrderTb::where('orderDate', 'LIKE', '%' . '2021-01-07' . '%')->get();
+
     	if (count($order) > 0) {
     	   $result = array();
 	       foreach ($order as $items) {
