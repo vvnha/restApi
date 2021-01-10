@@ -13,8 +13,8 @@ class AdminController extends Controller
     {
     	$dateInput =  date('Y-m-d');
 
-    	//$order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
-    	$order = OrderTb::where('orderDate', 'LIKE', '%' . '2021-01-07' . '%')->get();
+    	$order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
+    	// $order = OrderTb::where('orderDate', 'LIKE', '%' . '2021-01-07' . '%')->get();
     	if (count($order) > 0) {
     	   $result = array();
 	       foreach ($order as $items) {
@@ -29,18 +29,16 @@ class AdminController extends Controller
                     }      	
     	        }
 	        }
-	       return view('admin.index',['sb'=>$result,'datas'=>"1"]);
+	       return view('admin.index',['sb'=>$result,'datas'=>"1",'dateS'=> $dateInput]);
 	    }else {
            $sb = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-           return view('admin.index',['sb'=>$sb]);
+           return view('admin.index',['sb'=>$sb, 'datas'=>"0",'dateS'=> $dateInput]);
         }
     }
-    public function searchOrder(Request $request)
+    public function seachOrder(Request $request)
     {
-        $dateInput =  date('Y-m-d');
- 
-        //$order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
-        $order = OrderTb::where('orderDate', 'LIKE', '%' . '2021-01-07' . '%')->get();
+        $dateInput =  $request->dateS;
+        $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
         if (count($order) > 0) {
            $result = array();
            foreach ($order as $items) {
@@ -55,10 +53,10 @@ class AdminController extends Controller
                     }       
                 }
             }
-           return view('admin.index',['sb'=>$result,'datas'=>"1"]);
+            return view('admin.index',['sb'=>$result,'datas'=>"1",'dateS'=> $dateInput]);
         }else {
            $sb = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-           return view('admin.index',['sb'=>$sb]);
+           return view('admin.index',['sb'=>$sb, 'datas'=>"0",'dateS'=> $dateInput]);
         }
     }
 

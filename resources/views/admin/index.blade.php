@@ -101,8 +101,15 @@
                 <div class="col-sm-6">
                     <h2>Manage <b>Order</b></h2>
                 </div>
-                <div class="col-sm-6">
-                    <!-- <a  href="#" class="btn btn-success" data-toggle="modal"><span>Add New Order</span></a>    -->                   
+                <div class="col-sm-6" data-toggle="modal">
+                  <form action="{{url('admin')}}" method="POST">
+                      {{ csrf_field() }}
+                      <div class="row" style="margin: 5px 0 0;">
+                      <p class="col-sm-6"></p>
+                      <input class="col-sm-5" type="date" class="form-control" id="dateS" name="dateS" value="{{$dateS}}" style="color: black;border-radius: 5px 5px 5px 5px;">
+                      <button type="submit" class="col-sm-1" style="background: #39a8dd; color: white;">OK </button>   
+                    </div>  
+                  </form>   
                 </div>
             </div>
         </div>
