@@ -72,8 +72,7 @@ class AdminController extends Controller
     public function week()
     {
         $range = Carbon::now()->subDays(7);
-        $stats = DB::table('ordertables')
-          ->where('service', 2)
+        $stats = OrderTb::where('service', 2)
           ->where('orderDate', '>=', $range)
           ->groupBy('date')
           ->orderBy('date', 'ASC')
@@ -100,8 +99,7 @@ class AdminController extends Controller
     public function year()
     {
         $range = Carbon::now()->subDays(30);
-        $stats = DB::table('ordertables')
-          ->where('service', 2)
+        $stats = OrderTb::where('service', 2)
           ->where('orderDate', '>=', $range)
           ->groupBy('date')
           ->orderBy('date', 'ASC')
