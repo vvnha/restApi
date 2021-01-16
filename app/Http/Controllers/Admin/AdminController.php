@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use App\Model\OrderTb;
+use DB;
+use App\Model\Contact;
 
 class AdminController extends Controller
 {
@@ -67,4 +69,63 @@ class AdminController extends Controller
         }
     }
 
+    public function week()
+    {
+        $range = Carbon::now()->subDays(7);
+        $stats = DB::table('ordertables')
+          ->where('service', 2)
+          ->where('orderDate', '>=', $range)
+          ->groupBy('date')
+          ->orderBy('date', 'ASC')
+          ->get([DB::raw('Date(orderDate) as date'),
+            DB::raw('sum(total) as sums')
+          ])->All();
+
+        $counts = count($stats);
+        for ($i=0; $i< $counts; $i++) {
+            $cl[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
+        }
+    
+        for ($i=0; $i<$counts ; $i++) { 
+           $lb[] = $stats[$i]->date;
+           $dt[] = $stats[$i]->sums;
+        }
+        if ($counts==0) {
+          return view('admin.chart.nochart');
+        }
+        return view('admin.chart.week',compact('lb','cl','dt'));
+    }
+    #chart
+   
+    public function year()
+    {
+        $range = Carbon::now()->subDays(30);
+        $stats = DB::table('ordertables')
+          ->where('service', 2)
+          ->where('orderDate', '>=', $range)
+          ->groupBy('date')
+          ->orderBy('date', 'ASC')
+          ->get([DB::raw('Date(orderDate) as date'),
+            DB::raw('sum(total) as sums')
+          ])->All();
+
+        $counts = count($stats);
+        for ($i=0; $i< $counts; $i++) {
+            $cl[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
+        }
+    
+        for ($i=0; $i<$counts ; $i++) { 
+           $lb[] = $stats[$i]->date;
+           $dt[] = $stats[$i]->sums;
+        }
+        if ($counts==0) {
+          return view('admin.chart.nochart');
+        }
+        return view('admin.chart.year',compact('lb','cl','dt'));
+    }
+    public function phanhoi()
+    {
+        $contacts = Contact::orderBy('contactID', 'DESC')->paginate(8);
+        return view('admin.ghichu',compact('contacts'));
+    }
 }
