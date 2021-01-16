@@ -46,7 +46,7 @@ table {
                         <h2>Doanh Thu <b>Hotel</b></h2>
                     </div>
                       <div class="col-sm-6">
-                        <a  href="admin/week" class="btn btn-success" data-toggle="modal"><span>Trong 7 Ngày</span></a>                   
+                        <a  href="admin/year" class="btn btn-success" data-toggle="modal"><span>Trong 30 Ngày</span></a>                   
                     </div>
                 </div>
             </div>

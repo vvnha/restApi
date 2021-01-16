@@ -65,4 +65,5 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     #chart
     Route::get('/week', ['as' => 'week', 'uses' => 'AdminController@week']);
     Route::get('/year', ['as' => 'monthe', 'uses' => 'AdminController@year']);
+    Route::post('/chart', ['as' => 'seachChart', 'uses' => 'AdminController@chart']);
 });
