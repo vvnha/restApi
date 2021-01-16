@@ -83,7 +83,7 @@ class AdminController extends Controller
           ->where('orderDate', '>=', $range)
           ->groupBy('date')
           ->orderBy('date', 'ASC')
-          ->get(['select Date(orderDate) as date',
+          ->get(["select Date(orderDate)" as "date",
             DB::raw('sum(total) as sums')
           ])->all();
         $counts = count($stats);
