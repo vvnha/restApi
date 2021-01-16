@@ -61,5 +61,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     Route::delete('/order/vieworder/delete/{id}', ['as'   => 'destroy','uses' => 'OrderController@destroy']);
     Route::get('/order/vieworder/detail/{id}', ['as'   => 'show2','uses' => 'OrderController@show']);
     Route::put('/order/vieworder/update/{id}', ['as'   => 'update','uses' => 'OrderController@update']);
-
+    Route::get('/phanhoi', ['as' => 'monthe', 'uses' => 'AdminController@phanhoi']);
+    #chart
+    Route::get('/week', ['as' => 'week', 'uses' => 'AdminController@week']);
+    Route::get('/year', ['as' => 'monthe', 'uses' => 'AdminController@year']);
 });

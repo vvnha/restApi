@@ -189,8 +189,22 @@
             <li><a href="admin/food/addfood"><i class="fa fa-circle-o"></i>Thêm ngay</a></li>
           </ul>
         </li>
-
-        <li><a href=""><i class="fa fa-book"></i> <span>Ghi chú</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-bar-chart"></i>
+            <span>Statistic</span>
+            <span class="pull-right-container">
+              <span class="label label-primary pull-right">Today</span>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="admin/week"><i class="fa fa-bar-chart"></i>Thống kê 7 ngày</a></li>
+            <li><a href="admin/year"><i class="fa fa-bar-chart"></i>Thống kê 30 ngày</a></li>
+            <li><a href="admin/analysis"><i class="fa fa-area-chart"></i>Analysis </a></li>
+          </ul>
+        </li>
+        <li><a href="admin/phanhoi"><i class="fa fa-book"></i> <span>Phản hồi</span></a></li>
+        @if(Auth::user()->positionID==1)
         <li class="header">Users</li>
         <li class="treeview">
           <a href="#">
@@ -205,6 +219,8 @@
             <li><a href="admin/account/blocks"><i class="fa fa-circle-o"></i>Đã khóa</a></li>
           </ul>
         </li>
+        @endif
+
         <li><a href="admin"><i class="fa fa-circle-o text-red"></i> <span>Admin</span></a></li>
         <li><a href=""><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
       </ul>
