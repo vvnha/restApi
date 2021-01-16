@@ -73,12 +73,12 @@ class AdminController extends Controller
     {
         $range = Carbon::now()->subDays(7);
         $stats = OrderTb::where('service', 2)
-          ->where('orderDate', '>=', $range)
+          ->where('created_at', '>=', $range)
           ->groupBy('date')
           ->orderBy('date', 'ASC')
-          ->get([DB::raw('Date(orderDate) as date'),
+          ->get([DB::raw('Date(created_at) as date'),
             DB::raw('sum(total) as sums')
-          ])->All();
+          ])->all();
 
         $counts = count($stats);
         for ($i=0; $i< $counts; $i++) {
@@ -105,7 +105,7 @@ class AdminController extends Controller
           ->orderBy('date', 'ASC')
           ->get([DB::raw('Date(orderDate) as date'),
             DB::raw('sum(total) as sums')
-          ])->All();
+          ])->all();
 
         $counts = count($stats);
         for ($i=0; $i< $counts; $i++) {
