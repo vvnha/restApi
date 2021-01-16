@@ -83,7 +83,7 @@ div.doanhthu {
 @endsection
 
 @section('scripts')
-<script src="public/js/chart.min.js"></script>
+<script src="public/js/Chart.min.js"></script>
 
 <script>
 var ctx = document.getElementById('myChart').getContext('2d');
