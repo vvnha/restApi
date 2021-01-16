@@ -10,6 +10,9 @@ class OrderTb extends Model
     protected $primaryKey = 'orderID';
     protected $keyType = 'integer';
     protected $guarded = [];
+    protected $fillable = [
+       'userID', 'total', 'orderDate', 'perNum', 'service', 'dateClick', 'created_at', 'updated_at'
+    ];
     protected function user(){
         return $this->belongsTo('App\Model\User','userID');
     }
