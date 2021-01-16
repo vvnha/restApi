@@ -60,14 +60,21 @@ div.doanhthu {
                     <div class="col-sm-6">
                         <h2>Doanh Thu <b>Nhà Hàng</b></h2>
                     </div>
-                      <div class="col-sm-6">
-                        <a  href="admin/week" class="btn btn-success" data-toggle="modal"><span>Thống kê trong 7 ngày</span></a>                       
+                    <div class="col-sm-6" data-toggle="modal">
+                      <form method="POST" action="{{url('admin/chart')}}" >
+                          {{ csrf_field() }}
+                          <div class="row" style="margin: 5px 0 0;">
+                          <p class="col-sm-6"></p>
+                          <input class="col-sm-5" type="date" class="form-control" id="dateS" name="dateS" value="{{$dateS}}" style="color: black;border-radius: 5px 5px 5px 5px;">
+                          <button type="submit" class="col-sm-1" style="background: #39a8dd; color: white;">OK </button>   
+                        </div>  
+                      </form>   
                     </div>
                 </div>
             </div>
             <div class="container">
               <div class="doanhthu">
-                <h3>Thống kê doanh thu trong 30 ngày</h3>
+                <h3>Thống kê doanh thu từ {{$dateS}}</h3>
               </div>
               <canvas id="myChart"></canvas>
             </div>
@@ -91,7 +98,7 @@ var myChart = new Chart(ctx, {
     data: {
         labels: {!!json_encode($lb)!!},
         datasets: [{
-             label: ['Doanh thu:'],
+             label: ['Doanh thu'],
             data: {!!json_encode($dt)!!} ,
             backgroundColor: {!!json_encode($cl)!!},
             borderColor:{!!json_encode($cl)!!},

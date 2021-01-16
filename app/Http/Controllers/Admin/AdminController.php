@@ -69,6 +69,13 @@ class AdminController extends Controller
         }
     }
 
+    public function phanhoi()
+    {
+        $contacts = Contact::orderBy('contactID', 'DESC')->paginate(8);
+        return view('admin.ghichu',compact('contacts'));
+    }
+
+
     public function week()
     {
         $range = Carbon::now()->subDays(7);
@@ -119,11 +126,36 @@ class AdminController extends Controller
         if ($counts==0) {
           return view('admin.chart.nochart');
         }
-        return view('admin.chart.year',compact('lb','cl','dt'));
+        
+        $date1 = explode(' ',$range);
+        $dateS = $date1[0];
+        return view('admin.chart.year',compact('lb','cl','dt','dateS'));
     }
-    public function phanhoi()
+    public function chart(Request $request)
     {
-        $contacts = Contact::orderBy('contactID', 'DESC')->paginate(8);
-        return view('admin.ghichu',compact('contacts'));
+        $dateInput =  $request->dateS;
+        $stats = OrderTb::where('service', 2)
+          ->where('updated_at', '>=', $dateInput)
+          ->groupBy('date')
+          ->orderBy('date', 'ASC')
+          ->get([DB::raw('Date(updated_at) as date'),
+            DB::raw('sum(total) as sums')
+          ])->all();
+
+        $counts = count($stats);
+        for ($i=0; $i< $counts; $i++) {
+            $cl[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
+        }
+    
+        for ($i=0; $i<$counts ; $i++) { 
+           $lb[] = $stats[$i]->date;
+           $dt[] = $stats[$i]->sums;
+        }
+        if ($counts==0) {
+          return view('admin.chart.nochart');
+        }
+        $dateS = $dateInput;
+        return view('admin.chart.year',compact('lb','cl','dt','dateS'));
     }
+   
 }
