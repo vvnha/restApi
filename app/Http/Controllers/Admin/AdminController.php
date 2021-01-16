@@ -80,7 +80,7 @@ class AdminController extends Controller
     {
         $range = Carbon::now()->subDays(7);
         $stats = OrderTb::where('service', 2)
-          ->where('"orderDate"', '>=', $range)
+          ->where("orderDate", '>=', $range)
           ->groupBy('date')
           ->orderBy('date', 'ASC')
           ->get([DB::raw('Date("orderDate") as date'),
