@@ -92,7 +92,7 @@ var myChart = new Chart(ctx, {
     data: {
         labels: {!!json_encode($lb)!!},
         datasets: [{
-            label: ['Doanh thu:'],
+            label: ['Doanh thu'],
             data: {!!json_encode($dt)!!} ,
             backgroundColor: {!!json_encode($cl)!!},
             borderColor:{!!json_encode($cl)!!},
