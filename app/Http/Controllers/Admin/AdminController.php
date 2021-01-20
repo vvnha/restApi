@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use App\Model\OrderTb;
 use DB;
 use App\Model\Contact;
-use PDF;
 
 class AdminController extends Controller
 {
