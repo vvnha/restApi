@@ -9,6 +9,7 @@ use App\Model\OrderDetail;
 use App\Model\Foods;
 use App\User;
 use Validator;
+use Auth;
 
 
 class OrderController extends Controller
@@ -177,6 +178,25 @@ class OrderController extends Controller
             'error' => false,
             'task'  => $task,
         ], 200);
+    }
+
+    
+    public function hoadon($id)
+    {
+        $data = OrderTb::find((int)$id);
+        $iduser = $data->userID;
+        $user = User::find($iduser);
+        $perNum =$data->perNum;
+        if ($data == true) {
+            foreach ($data->detail as $food) {
+              $name = Foods::find((int)$food->foodID)->foodName;
+              $food->foodName = $name;
+            }
+        }
+        $date = date('Y-m-d H:i:s');
+        $nameA = Auth::user()->name;
+        return view('admin.order.hoadon',['foods'=>$data->detail,'userss'=>$user,'id'=>$id,'stt'=> 1,'tongsotien'=>0,'date'=>$date,'perNum'=>$perNum,'nameA'=>$nameA]);
+        // return view('admin.order.hoadon');
     }
 
 

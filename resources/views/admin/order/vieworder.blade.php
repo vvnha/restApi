@@ -142,6 +142,7 @@ table {
             <button type="submit" class="btn btn-danger" style="float: left;margin-left: 10px;">Hủy đơn này</button>
           </form>
         </div>
+        <a href="admin/printorder/{{$id}}" target="_blank" class="text-success"><b>In hóa đơn</b></a><br/><br/>
       </div>
     </section>
     

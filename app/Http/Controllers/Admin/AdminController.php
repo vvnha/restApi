@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Model\OrderTb;
 use DB;
 use App\Model\Contact;
+use PDF;
 
 class AdminController extends Controller
 {
@@ -156,5 +157,4 @@ class AdminController extends Controller
         $dateS = $dateInput;
         return view('admin.chart.year',compact('lb','cl','dt','dateS'));
     }
-   
 }
