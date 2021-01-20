@@ -81,10 +81,10 @@ class AdminController extends Controller
     {
         $range = Carbon::now()->subDays(7);
         $stats = OrderTb::where('service', 2)
-          ->where('updated_at', '>=', $range)
+          ->where("orderDate", '>=', $range)
           ->groupBy('date')
           ->orderBy('date', 'ASC')
-          ->get([DB::raw('Date(updated_at) as date'),
+          ->get([DB::raw('Date("orderDate") as date'),
             DB::raw('sum(total) as sums')
           ])->all();
         $counts = count($stats);
@@ -107,10 +107,10 @@ class AdminController extends Controller
     {
         $range = Carbon::now()->subDays(30);
         $stats = OrderTb::where('service', 2)
-          ->where('updated_at', '>=', $range)
+          ->where("orderDate", '>=', $range)
           ->groupBy('date')
           ->orderBy('date', 'ASC')
-          ->get([DB::raw('Date(updated_at) as date'),
+          ->get([DB::raw('Date("orderDate") as date'),
             DB::raw('sum(total) as sums')
           ])->all();
 
@@ -135,10 +135,10 @@ class AdminController extends Controller
     {
         $dateInput =  $request->dateS;
         $stats = OrderTb::where('service', 2)
-          ->where('updated_at', '>=', $dateInput)
+          ->where("orderDate", '>=', $dateInput)
           ->groupBy('date')
           ->orderBy('date', 'ASC')
-          ->get([DB::raw('Date(updated_at) as date'),
+          ->get([DB::raw('Date("orderDate") as date'),
             DB::raw('sum(total) as sums')
           ])->all();
 
@@ -158,3 +158,4 @@ class AdminController extends Controller
         return view('admin.chart.year',compact('lb','cl','dt','dateS'));
     }
 }
+
