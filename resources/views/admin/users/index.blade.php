@@ -156,7 +156,7 @@ table {
                         </form>
                       </td>
                       <td>
-                          <a href="admin/account/block/{{$value->id}}" class="delete" ><i class="fa fa-ban" aria-hidden="true" title="Block"></i></a>
+                          <a href="admin/account/block/{{$value->id}}" class="delete" onclick="return confirm('Khóa tài khoản này?')"><i class="fa fa-ban" aria-hidden="true" title="Block"></i></a>
                       </td>
                     </tr>
                     @endforeach
