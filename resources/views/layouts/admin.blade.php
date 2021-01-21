@@ -221,6 +221,22 @@
         </li>
         @endif
 
+        @if(Auth::user()->positionID==2)
+        <li class="header">Users</li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-edit"></i> <span>Accounts</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="admin/account/manager"><i class="fa fa-circle-o"></i>Tất cả</a></li>
+            <li><a href="admin/account/blocks"><i class="fa fa-circle-o"></i>Đã khóa</a></li>
+          </ul>
+        </li>
+        @endif
+
         <li><a href="admin"><i class="fa fa-circle-o text-red"></i> <span>Admin</span></a></li>
         <li><a href=""><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
       </ul>

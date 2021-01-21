@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     Route::get('account/block/{id}', ['as' => 'block', 'uses' => 'UserController@block']);
     Route::get('account/blocks', ['as' => 'blocks', 'uses' => 'UserController@blocks']);
     Route::post('/account/position', ['as' => 'positions', 'uses' => 'UserController@position']);
+    Route::get('account/manager', ['as' => 'manager', 'uses' => 'UserController@manager']);
 
     #foods
     Route::get('/food', ['as' => 'foods', 'uses' => 'FoodController@allfood']);

@@ -13,21 +13,18 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-
 .div1 {
   display: table;
   table-layout: fixed;
   width: 100%;
 }
-
 .div2 {
   display: table-cell;
   overflow-x: auto;
   width: 100%;
 }
-
 </style>
-  <link rel="stylesheet" href="public/css/table.css">
+ <link rel="stylesheet" href="public/css/table.css">
 @endsection
 
 @section('content')
@@ -40,7 +37,7 @@ table {
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
+        <li class="active">Quản lý</li>
       </ol>
     </section>
   <!-- /.content-wrapper -->
@@ -83,7 +80,7 @@ table {
           <div class="small-box bg-yellow">
             <div class="inner">
               <h3>{{$manage}}</h3>
-              <p>Nhân viên</p>
+              <p>Quản lý</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
@@ -98,7 +95,7 @@ table {
             <div class="inner">
               <h3>{{$staff}}</h3>
 
-              <p>Đầu bếp</p>
+              <p>Nhân viên</p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>
@@ -149,7 +146,6 @@ table {
                           <input type="" name="id" hidden value="{{$value->id}}">
                           <select name="positionID" class="bg-green">
                             <option value="{{$value->positionID}}">{{$value->positionID}}</option>
-                            <option value="1">1 - Admin</option>
                             <option value="2">2 - Manager</option>
                             <option value="3">3 - User</option>
                             <option value="4">4 - Staff</option>
@@ -166,12 +162,9 @@ table {
             </table>
         </div>
       </div>
-      <div class="active" style="margin-top: 0px;height: 50px;">
+            <div class="active" style="margin-top: 0px;height: 50px;">
         {!! $accounts->links() !!}
       </div>
-      
-      <!-- /.row (main row) -->
-      <!--  /Hang 2 contents -->
     </section>
 
 @endsection
