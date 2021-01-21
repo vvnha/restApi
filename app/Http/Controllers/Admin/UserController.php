@@ -73,4 +73,12 @@ class UserController extends Controller
         $user->save();
         return redirect()->back();
     }
+
+    public function manager()
+    {
+        $tk = $this->thongke();
+        extract($tk);
+        $accounts = User::orderBy('id', 'ASC')->whereIn('positionID', [2,3,4])->paginate(8);
+        return view('admin.users.manager',['accounts'=>$accounts,'all'=>$all,'manage'=>$manage,'use'=>$use,'staff'=>$staff]);
+    }
 }
