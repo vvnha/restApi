@@ -21,10 +21,11 @@ class AdminController extends Controller
       //
 
     	if (count($order) > 0) {
-        dd(count($order));
+        
     	   $result = array();
 	       foreach ($order as $items) {
     	        if ($items->service == '0' || $items->service == '1') {
+                dd(count($order));
     	        	$result1 = explode( ',', $items->perNum );
                     $counts = count($result1);
                     $i=0;
