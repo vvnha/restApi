@@ -16,7 +16,7 @@ class AdminController extends Controller
     	$dateInput =  date('Y-m-d');
 
       $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
-      dd(count($order));
+      dd($dateInput);
     	// $order = OrderTb::where('orderDate', 'LIKE', '%' . '2021-01-07' . '%')->get();
 
     	if (count($order) > 0) {
