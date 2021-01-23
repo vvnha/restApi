@@ -25,7 +25,6 @@ class AdminController extends Controller
     	   $result = array();
 	       foreach ($order as $items) {
     	        if ($items->service == '0' || $items->service == '1') {
-                dd(count($order));
     	        	$result1 = explode( ',', $items->perNum );
                     $counts = count($result1);
                     $i=0;
@@ -39,7 +38,8 @@ class AdminController extends Controller
                     return view('admin.index',['sb'=>$sb, 'datas'=>"0",'dateS'=> $dateInput]);   
                 }
           }
-	       return view('admin.index',['sb'=>$result,'datas'=>"1",'dateS'=> $dateInput]);
+          dd($result);
+	       //return view('admin.index',['sb'=>$result,'datas'=>"1",'dateS'=> $dateInput]);
 	    }else {
         
            $sb = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
