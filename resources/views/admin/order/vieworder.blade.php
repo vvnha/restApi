@@ -132,16 +132,17 @@ table {
             <input name="id" hidden value="{{$id}}">
             <input name="tongtien" hidden value="{{$valueT}}">
             <input name="service" hidden value="2">
-            <button type="submit" class="btn btn-success" style="float: left;">Thanh toán</button>
+            <button type="submit" class="btn btn-success" style="float: left;" onclick="return confirm('Xác nhận thanh toán?')">Thanh toán</button>
           </form>
 
           <form action="{{url('admin/order/vieworder/editservice')}}" method="POST">
             {{ csrf_field() }}
             <input name="id" hidden value="{{$id}}">
             <input name="service" hidden value="3">
-            <button type="submit" class="btn btn-danger" style="float: left;margin-left: 10px;">Hủy đơn này</button>
+            <button type="submit" class="btn btn-danger" style="float: left;margin-left: 10px;" onclick="return confirm('Hủy đơn này?')">Hủy đơn này</button>
           </form>
         </div>
+        <a href="admin/printorder/{{$id}}" target="_blank" class="text-success"><b>In hóa đơn</b></a><br/><br/>
       </div>
     </section>
     

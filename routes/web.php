@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     Route::get('account/block/{id}', ['as' => 'block', 'uses' => 'UserController@block']);
     Route::get('account/blocks', ['as' => 'blocks', 'uses' => 'UserController@blocks']);
     Route::post('/account/position', ['as' => 'positions', 'uses' => 'UserController@position']);
+    Route::get('account/manager', ['as' => 'manager', 'uses' => 'UserController@manager']);
 
     #foods
     Route::get('/food', ['as' => 'foods', 'uses' => 'FoodController@allfood']);
@@ -57,13 +58,16 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     Route::post('/order/vieworder/editservice', ['as' => 'editO', 'uses' => 'OrderController@editservice']);
     Route::post('/order/vieworder/thanhtoan', ['as'   => 'thanhtoan','uses' => 'OrderController@thanhtoan']);
 
-    Route::post('/order/vieworder/add', ['as'   => 'store', 'uses' => 'OrderController@addfood']);
-    Route::delete('/order/vieworder/delete/{id}', ['as'   => 'destroy','uses' => 'OrderController@destroy']);
-    Route::get('/order/vieworder/detail/{id}', ['as'   => 'show2','uses' => 'OrderController@show']);
-    Route::put('/order/vieworder/update/{id}', ['as'   => 'update','uses' => 'OrderController@update']);
+    Route::post('/order/vieworder/add', ['as'   => 'store1', 'uses' => 'OrderController@addfood']);
+    Route::delete('/order/vieworder/delete/{id}', ['as'   => 'destroy1','uses' => 'OrderController@destroy']);
+    Route::get('/order/vieworder/detail/{id}', ['as'   => 'show21','uses' => 'OrderController@show']);
+    Route::put('/order/vieworder/update/{id}', ['as'   => 'update1','uses' => 'OrderController@update']);
     Route::get('/phanhoi', ['as' => 'monthe', 'uses' => 'AdminController@phanhoi']);
     #chart
     Route::get('/week', ['as' => 'week', 'uses' => 'AdminController@week']);
     Route::get('/year', ['as' => 'monthe', 'uses' => 'AdminController@year']);
     Route::post('/chart', ['as' => 'seachChart', 'uses' => 'AdminController@chart']);
+
+    #In hoa don
+    Route::get('/printorder/{id}', 'OrderController@hoadon');
 });

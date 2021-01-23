@@ -9,53 +9,73 @@ use App\Model\OrderDetail;
 use App\Model\Foods;
 use App\User;
 use Validator;
+use Auth;
 
 
 class OrderController extends Controller
 {
 
+    public function thongke()
+    {
+        $collection = OrderTb::count();
+        $cxn = OrderTb::where('service', '0')->get();
+        $chuaxacnhan =count($cxn);
+        $dxn = OrderTb::where('service', '1')->get();
+        $daxacnhan = count($dxn);
+        $ht = OrderTb::where('service', '2')->get();
+        $hoanthanh = count($ht);
+        return $data = (['collection'=>$collection,'chuaxacnhan'=>$chuaxacnhan,'daxacnhan'=>$daxacnhan,'hoanthanh'=>$hoanthanh]);
+    }
+
+
     public function today()
     {
-    	$collection = OrderTb::count();
+        $tk = $this->thongke();
+        extract($tk);
     	$foods = OrderTb::where('service', '0')->paginate(8);
-    	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Chưa xác nhận']);
+    	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Chưa xác nhận','chuaxacnhan'=>$chuaxacnhan,'daxacnhan'=>$daxacnhan,'hoanthanh'=>$hoanthanh]);
     }
 
     public function allorder()
     {
-        $collection = OrderTb::count();
+        $tk = $this->thongke();
+        extract($tk);
         $ldate = date('Y-m-d');
         $order = OrderTb::orderBy('orderID', 'DESC')->whereIn('service', [0,1,2,3])->paginate(8);
-        return view('admin.order.allorder',['foods'=>$order,'collection'=>$collection,'xacnhan'=>'all']);
+        return view('admin.order.allorder',['foods'=>$order,'collection'=>$collection,'xacnhan'=>'all','chuaxacnhan'=>$chuaxacnhan,'daxacnhan'=>$daxacnhan,'hoanthanh'=>$hoanthanh]);
     }
 
       public function dayorder()
     {
-        $collection = OrderTb::count();
+        $tk = $this->thongke();
+        extract($tk);
         $ldate = date('Y-m-d');
         $order = OrderTb::where('orderDate', 'LIKE', '%' . $ldate . '%')->paginate(8);
-        return view('admin.order.allorder',['foods'=>$order,'collection'=>$collection,'xacnhan'=>'day']);
+        return view('admin.order.allorder',['foods'=>$order,'collection'=>$collection,'xacnhan'=>'day','chuaxacnhan'=>$chuaxacnhan,'daxacnhan'=>$daxacnhan,'hoanthanh'=>$hoanthanh]);
     }
 
     public function xacnhan()
     {
-    	$collection = OrderTb::count();
+        $tk = $this->thongke();
+        extract($tk);
     	$foods = OrderTb::where('service', '1')->paginate(8);
-    	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Đã xác nhận']);
+    	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Đã xác nhận','chuaxacnhan'=>$chuaxacnhan,'daxacnhan'=>$daxacnhan,'hoanthanh'=>$hoanthanh]);
     }
 
     public function success()
     {
-    	$collection = OrderTb::count();
+        $tk = $this->thongke();
+        extract($tk);
     	$foods = OrderTb::where('service', '2')->paginate(8);
-    	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Đã hoàn thành']);
+    	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Đã hoàn thành','chuaxacnhan'=>$chuaxacnhan,'daxacnhan'=>$daxacnhan,'hoanthanh'=>$hoanthanh]);
     }
    
     public function dahuy()
     {
-    	$collection = OrderTb::count();
+        $tk = $this->thongke();
+        extract($tk);
     	$foods = OrderTb::where('service', '3')->paginate(8);
-    	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Đã hủy']);
+    	return view('admin.order.order',['foods'=>$foods,'collection'=>$collection,'xacnhan'=>'Đã hủy','chuaxacnhan'=>$chuaxacnhan,'daxacnhan'=>$daxacnhan,'hoanthanh'=>$hoanthanh]);
     }
     public function vieworder($id)
     {
@@ -177,6 +197,24 @@ class OrderController extends Controller
             'error' => false,
             'task'  => $task,
         ], 200);
+    }
+
+    
+    public function hoadon($id)
+    {
+        $data = OrderTb::find((int)$id);
+        $iduser = $data->userID;
+        $user = User::find($iduser);
+        $perNum =$data->perNum;
+        if ($data == true) {
+            foreach ($data->detail as $food) {
+              $name = Foods::find((int)$food->foodID)->foodName;
+              $food->foodName = $name;
+            }
+        }
+        $date = date('Y-m-d H:i:s');
+        $nameA = Auth::user()->name;
+        return view('admin.order.hoadon',['foods'=>$data->detail,'userss'=>$user,'id'=>$id,'stt'=> 1,'tongsotien'=>0,'date'=>$date,'perNum'=>$perNum,'nameA'=>$nameA]);
     }
 
 

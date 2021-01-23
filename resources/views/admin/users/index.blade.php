@@ -80,7 +80,7 @@ table {
           <div class="small-box bg-yellow">
             <div class="inner">
               <h3>{{$manage}}</h3>
-              <p>Nhân viên</p>
+              <p>Quản lý</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
@@ -95,7 +95,7 @@ table {
             <div class="inner">
               <h3>{{$staff}}</h3>
 
-              <p>Đầu bếp</p>
+              <p>Nhân viên</p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>
@@ -146,17 +146,16 @@ table {
                           <input type="" name="id" hidden value="{{$value->id}}">
                           <select name="positionID" class="bg-green">
                             <option value="{{$value->positionID}}">{{$value->positionID}}</option>
-                            <option value="1">----</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                            <option value="1">1 - Admin</option>
+                            <option value="2">2 - Manager</option>
+                            <option value="3">3 - User</option>
+                            <option value="4">4 - Staff</option>
                           </select>
                           <button type="submit" class="bg-primary small">CẬP NHẬT</button>
                         </form>
                       </td>
                       <td>
-                          <a href="admin/account/block/{{$value->id}}" class="delete" ><i class="fa fa-ban" aria-hidden="true" title="Block"></i></a>
+                          <a href="admin/account/block/{{$value->id}}" class="delete" onclick="return confirm('Khóa tài khoản này?')"><i class="fa fa-ban" aria-hidden="true" title="Block"></i></a>
                       </td>
                     </tr>
                     @endforeach

@@ -157,5 +157,5 @@ class AdminController extends Controller
         $dateS = $dateInput;
         return view('admin.chart.year',compact('lb','cl','dt','dateS'));
     }
-   
 }
+
