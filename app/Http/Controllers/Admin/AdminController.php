@@ -16,7 +16,7 @@ class AdminController extends Controller
     	$dateInput =  date('Y-m-d');
 
       $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
-      dd($order);
+      dd(count($order));
     	// $order = OrderTb::where('orderDate', 'LIKE', '%' . '2021-01-07' . '%')->get();
 
     	if (count($order) > 0) {
@@ -158,4 +158,3 @@ class AdminController extends Controller
         return view('admin.chart.year',compact('lb','cl','dt','dateS'));
     }
 }
-
