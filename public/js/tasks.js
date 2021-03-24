@@ -7,7 +7,7 @@ $(document).ready(function() {
         });
         $.ajax({
             type: 'POST',
-            url: '/admin/order/vieworder/add',
+            url: 'admin/order/vieworder/add',
             data: {
                 foodName: $("#frmAddTask :selected").val(),
                 soluong: $("#frmAddTask input[name=soluong]").val(),
@@ -41,7 +41,7 @@ $(document).ready(function() {
         });
         $.ajax({
             type: 'PUT',
-            url: '/admin/order/vieworder/update/' + $("#frmEditTask input[name=task_id]").val(),
+            url: 'admin/order/vieworder/update/' + $("#frmEditTask input[name=task_id]").val(),
             data: {
                 task: $("#frmEditTask input[name=task]").val(),
                 soluong: $("#frmEditTask input[name=soluong]").val(),
@@ -72,7 +72,7 @@ $(document).ready(function() {
         });
         $.ajax({
             type: 'DELETE',
-            url: '/admin/order/vieworder/delete/' + $("#frmDeleteTask input[name=task_id]").val(),
+            url: 'admin/order/vieworder/delete/' + $("#frmDeleteTask input[name=task_id]").val(),
             dataType: 'json',
             success: function(data) {
                 $("#frmDeleteTask .close").click();
@@ -95,7 +95,7 @@ function addTaskForm() {
 function editTaskForm(task_id) {
     $.ajax({
         type: 'GET',
-        url: '/admin/order/vieworder/detail/' + task_id,
+        url: 'admin/order/vieworder/detail/' + task_id,
         success: function(data) {
             $("#edit-error-bag").hide();
             $("#frmEditTask input[name=task]").val(data.namefood);
@@ -112,7 +112,7 @@ function editTaskForm(task_id) {
 function deleteTaskForm(task_id) {
     $.ajax({
         type: 'GET',
-        url: '/admin/order/vieworder/detail/' + task_id,
+        url: 'admin/order/vieworder/detail/' + task_id,
         success: function(data) {
             $("#frmDeleteTask #delete-title").html("Delete Food ("+ data.namefood +" ID: "+ data.task.detailID + ")?");
             $("#frmDeleteTask input[name=task_id]").val(data.task.detailID);
