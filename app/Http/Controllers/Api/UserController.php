@@ -192,4 +192,15 @@ class UserController extends Controller
         return response()->json(false);
       }
   }
+  public function getStaff(Request $request){
+    $data = Auth::user();
+  // return response()->json(['success' => true, 'code' => '200', 'data' => $data]);
+  
+    if (Gate::allows('admin', $data->id)) {
+      $data = User::where('positionID', 4)->get();
+      return response()->json(['success' => true, 'code' => '200', 'data' => $data]);
+    } else {
+      return response()->json(['success' => false, 'code' => '401', 'data' => "No permission to see"]);
+    }
+}
 }
