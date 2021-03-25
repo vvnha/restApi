@@ -60,6 +60,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');
+        Route::get('staff', 'UserController@getStaff');
         Route::resource('user', 'AuthController');
         Route::get('role', 'UserController@role');
         Route::get('/users/getOrderUser', ['as' => 'user', 'uses' => 'UserController@getUserOrder']);
