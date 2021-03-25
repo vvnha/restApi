@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSessionUserTable extends Migration
+class CreateAttendanceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateSessionUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('SessionUsers', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('token');
-            $table->string('refresh_token');
-            $table->dateTime('token_expried');
-            $table->dateTime('refresh_token_expried');
-            $table->bigInteger('user_id');
+            $table->integer('userID')->length(13)->unsigned();;
+            $table->dateTime('date');
             $table->timestamps();
+            $table->foreign('userID')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 
@@ -31,6 +32,6 @@ class CreateSessionUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('SessionUsers');
+        Schema::dropIfExists('attendances');
     }
 }
