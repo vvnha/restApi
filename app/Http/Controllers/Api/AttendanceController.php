@@ -53,13 +53,35 @@ class AttendanceController extends Controller
         $timeAttend = $request->timeAttend;
         $datetime = Carbon::create($now. ' '.$timeAttend);
         $insertDate = Carbon::create($request->date);
+        $checkAttend = Attendance::where('date', 'LIKE', '%' . $now . '%')->where('userID',$request->userID)->get();
+
         if($data == true){
-            if($insertDate->hour<$datetime->hour || ($insertDate->hour==$datetime->hour && $insertDate->minute<=$datetime->minute + 15)){
+            if($insertDate->hour<$datetime->hour || ($insertDate->hour==$datetime->hour && $insertDate->minute<=$datetime->minute + 15)){ // diem danh truoc khi ket thuc diem danh hoac sau khi do 15p
                 $attendance = new Attendance();
                 $attendance->userID = $request->userID;
                 $attendance->date =  $request->date;
-                $attendance->save();
-                return response()->json(['success' => true, 'code' => '200', 'data' => $attendance]);
+                // $attendance->save();
+                if($checkAttend->count()>0){
+                    $newTime = Carbon::create($now. ' 12:00:00');
+                    if($data->positionID == 6 && $checkAttend->count()<2 && ($insertDate->hour > $newTime->hour|| ($insertDate->hour ==  $newTime->hour && $insertDate->minute > $datetime->minute + 10 ))){ // diem danh lan 2 doi voi part time staff (position =6) và thgian phai truoc thoi gian diem danh (bat buoc sau 12h)
+                        if(Carbon::create($checkAttend[0]->date)->hour != $insertDate->hour){ // thoi gian diem danh khong duoc trung voi thoi gian diem danh cua ca1
+                            $result = true;
+                        }else{
+                            $result = false;
+                        }
+                        
+                    }else{
+                        $result = false;
+                    }
+                }else{
+                    $result = true;
+                }
+                if($result == true){
+                    $attendance->save();
+                    return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
+                }else{
+                    return response()->json(['success' => false, 'code' => '404', 'data' => 'You have alredy had attendance('.$checkAttend->count().')']);
+                }
             }else{
                 return response()->json(['success' => false, 'code' => '404']);
             }
