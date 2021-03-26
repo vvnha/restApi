@@ -53,7 +53,9 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::get('/abc', ['as' => 'abc', 'uses' => 'AbcController@index']);
     Route::post('/abc', ['as' => 'abc', 'uses' => 'AbcController@postAbc']);
-
+    Route::get('salary/{id}', 'UserController@getSalary');
+    Route::resource('attend', 'AttendanceController');
+    
 
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
