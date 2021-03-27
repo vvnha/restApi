@@ -19,5 +19,8 @@ class OrderTb extends Model
     protected function detail(){
         return $this->hasMany('App\Model\OrderDetail','orderID');
     }
+    protected function eatTime(){
+        return $this->hasOne('App\Model\EatTime','orderID');
+    }
     
 }

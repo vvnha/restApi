@@ -17,7 +17,9 @@ class UserSeeder extends Seeder
             ['name' => 'admin'],
             ['name' => 'manager'],
             ['name' => 'user'],
-            ['name' => 'staff']
+            ['name' => 'staff'],
+            ['name' => 'block'],
+            ['name' => 'part-time staff']
          ]);
          DB::table('users')->insert([
             ['name' => 'Võ Văn Nhã','email' => 'nhavo14@gmail.com','phone' => '0905903902', 'password'=>'$2y$10$iNvCL3cT.jJAomB5a.8eEOFsfxU1eeKPNpH3eWdxd83C.AJRCFys.', 'positionID' => '1'],

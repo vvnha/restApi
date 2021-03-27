@@ -28,10 +28,12 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     #Accounts
     Route::get('/account', ['as' => 'users', 'uses' => 'UserController@account']);
     Route::get('account/allusers', ['as' => 'usersall', 'uses' => 'UserController@allusers']);
+    Route::get('account/searchuser', ['as' => 'search', 'uses' => 'UserController@searchuser']);
     Route::get('account/block/{id}', ['as' => 'block', 'uses' => 'UserController@block']);
     Route::get('account/blocks', ['as' => 'blocks', 'uses' => 'UserController@blocks']);
     Route::post('/account/position', ['as' => 'positions', 'uses' => 'UserController@position']);
     Route::get('account/manager', ['as' => 'manager', 'uses' => 'UserController@manager']);
+    Route::post('/account/changetype', ['as' => 'changetype', 'uses' => 'UserController@changetype']);
 
     #foods
     Route::get('/food', ['as' => 'foods', 'uses' => 'FoodController@allfood']);
@@ -70,4 +72,10 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
 
     #In hoa don
     Route::get('/printorder/{id}', 'OrderController@hoadon');
+
+    #salary
+    #Route::get('/salary', 'AdminController@salary');
+    Route::resource('/salary','KindOfSalaryController');
+    #Route::post('/salary','KindOfSalaryController@store');
+
 });

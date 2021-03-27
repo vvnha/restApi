@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth; 
 use App\User;
 use App\Model\Foods;
+use App\Model\SpecficSalary;
+use App\Model\KindOfSalary;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -202,5 +204,22 @@ class UserController extends Controller
     } else {
       return response()->json(['success' => false, 'code' => '401', 'data' => "No permission to see"]);
     }
-}
+  }
+
+  public function getSalary(Request $request, $id){
+    $data = User::find((integer)$id);
+    if($data==true){
+      foreach($data->getSalary as $sal){
+        
+        $type = KindOfSalary::find((integer)$sal->specificSalaryID);
+        $sal->name = $data->name;
+        $sal->salary = $type->salary;
+        $sal->coefficient = $type->coeficient;
+      }
+      return response()->json(['success' => true, 'code' => '200', 'data' => $data->getSalary]);
+    }else{
+      return response()->json(['success' => false, 'code' => '404']);
+    }
+  }
+
 }
