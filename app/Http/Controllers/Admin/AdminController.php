@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use App\Model\OrderTb;
+use App\Model\KindOfSalary;
 use DB;
 use App\Model\Contact;
 
@@ -151,5 +152,17 @@ class AdminController extends Controller
         }
         $dateS = $dateInput;
         return view('admin.chart.year',compact('lb','cl','dt','dateS'));
+    }
+
+
+
+
+
+
+    public function salary()
+    {
+      $data = KindOfSalary::orderBy('id', 'DESC')->paginate(8);
+      $collection = KindOfSalary::count();
+      return view('admin.salary.index',['data'=>$data,'collection'=>$collection]);
     }
 }
