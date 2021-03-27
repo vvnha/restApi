@@ -76,6 +76,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     #salary
     #Route::get('/salary', 'AdminController@salary');
     Route::resource('/salary','KindOfSalaryController');
+    Route::resource('/attend','AttendanceController');
     #Route::post('/salary','KindOfSalaryController@store');
 
 });

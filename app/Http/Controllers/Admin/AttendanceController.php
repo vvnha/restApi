@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Admin;
 
 use App\Model\Attendance;
 use Illuminate\Http\Request;
@@ -11,33 +11,15 @@ use App\Http\Controllers\Controller;
 
 class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $attend = Attendance::all();
-        return response()->json(['success' => true, 'code' => '200', 'data' => $position]);
+        $data = Attendance::orderBy('id', 'DESC')->paginate(8);
+        $collection = Attendance::count();
+        foreach($data as $value){
+            $value->userName = $value->user->name;
+        }
+        return view('admin.attend.index',['data'=>$data,'collection'=>$collection]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
@@ -46,7 +28,10 @@ class AttendanceController extends Controller
             'timeAttend' => 'required'
         ]);
         if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 401);            
+            return response()->json([
+                'error'    => true,
+                'messages' => $validator->errors(),
+            ], 422);
         }
 
         $data = User::find((integer)$request->userID);
@@ -81,59 +66,63 @@ class AttendanceController extends Controller
                     $attendance->save();
                     return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
                 }else{
-                    return response()->json(['success' => false, 'code' => '404', 'data' => 'You have alredy had attendance('.$checkAttend->count().')']);
+                    return response()->json([
+                        'error'    => true,
+                        'messages' => 'You have alredy had attendance('.$checkAttend->count().')',
+                    ], 422);
                 }
             }else{
-                return response()->json(['success' => false, 'code' => '404']);
+                return response()->json([
+                    'error'    => true,
+                    'messages' => '404',
+                ], 422);
             }
           }else{
-            return response()->json(['success' => false, 'code' => '404']);
+            return response()->json([
+                'error'    => true,
+                'messages' => '404',
+            ], 422);
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Model\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
     public function show(Request $request, $id)
     {
         $data = Attendance::find((integer)$id);
-        return response()->json(['success' => true, 'code' => '200', 'data' => $position]);
+        return response()->json(['success' => true, 'code' => '200', 'data' => $data]);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Attendance $attendance)
-    {
-        //
+    public function update(Request $request, $id){
+        $data = Attendance::find((integer)$id);
+      
+          if($data == true){
+            $data->fill($request->all());
+            $validator = Validator::make($request->all(), [ 
+                'userID' => 'required', 
+                'date' => 'required'
+            ]);
+            if ($validator->fails()) { 
+                return response()->json([
+                    'error'    => true,
+                    'messages' => $validator->errors(),
+                ], 422);
+            }
+            $data->save();
+            return response()->json(['success' => true, 'code' => '200']);
+          }else{
+            return response()->json([
+                'error'    => true,
+                'messages' => ['404','khong tim thay du lieu'],
+            ], 422);
+          }
+          
+      
+          // $cmt->save();
+          // return response()->json(['success' => true, 'code' => 200]);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Attendance $attendance)
+    public function destroy(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Model\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Attendance $attendance)
-    {
-        //
+        $data = Attendance::destroy($id);
+        return response()->json([
+            'error' => false,
+            'data'  => $data,
+        ], 200);
     }
 }
