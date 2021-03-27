@@ -109,6 +109,8 @@ table {
     </div>
 
     <!--  Hang 2 contents -->
+    @component('admin/users/searchuser')
+    @endcomponent
     <!-- /.row -->
     <!-- Main row -->
     <div class="div1">
