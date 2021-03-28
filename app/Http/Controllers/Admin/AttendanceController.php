@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Model\Attendance;
+use App\Model\Salary;
 use Illuminate\Http\Request;
 use App\User;
 use Carbon\Carbon;
@@ -124,5 +125,36 @@ class AttendanceController extends Controller
             'error' => false,
             'data'  => $data,
         ], 200);
+    }
+    public function updateSalary($month,$year,$userID)
+    {
+        $user = User::find((integer)$userID);
+        $checkSalary = $user->getSalary->where('month', $month)->where('year','=',$year);
+        $spec = $user->specificSalary->where('note',1)->first();
+        $ksalary = $spec->kindOfSalaryID;
+        $price = $spec->kindOfSalary;
+        $totalDate = $user->attend->count();
+
+        if($checkSalary->count()>0){
+            $salary = Salary::find($checkSalary->first()->id);
+            $price = $spec->kindOfSalary;
+            $salary->totalDate = $totalDate;
+            $salary->total = $totalDate*4*$price->coeficient*$price->salary;
+            //$salary->save();
+            $data=$salary;
+        }else{
+            $newSalary = new Salary();
+            $newSalary->kindOfSalaryID = $ksalary;
+            $newSalary->totalDate = $totalDate;
+            $newSalary->bonus = 0;
+            $newSalary->deduction = 0;
+            $newSalary->total = $totalDate*4*$price->coeficient*$price->salary;
+            $newSalary->month = $month;
+            $newSalary->year = $year;
+            $newSalary->note = '';
+            //$newSalary->save();
+            $data = $newSalary;
+        }
+        return response()->json(['success' => false, 'code' => '200', 'data' => $data]);
     }
 }

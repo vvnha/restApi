@@ -13,4 +13,7 @@ class KindOfSalary extends Model
     protected function salary(){
         return $this->hasMany('App\Model\SpecficSalary','kindOfSalaryID');
     }
+    protected function user(){
+        return $this->belongsTo('App\User','userID');
+    }
 }

@@ -21,7 +21,8 @@ class AttendanceController extends Controller
     {
         //$attend = Attendance::all();
         //return response()->json(['success' => true, 'code' => '200', 'data' => $position]);
-        return $this->updateSalary(Carbon::now()->month);
+        $now = Carbon::now();
+        return $this->updateSalary($now->month, $now->year,2,4);
     }
 
     /**
@@ -139,17 +140,35 @@ class AttendanceController extends Controller
         //
     }
 
-    public function updateSalary($month)
+    public function updateSalary($month,$year,$userID,$hour)
     {
-        // $now = Carbon::now();
-        // $month = $now->month;
-        $attend = Attendance::whereMonth('date',$month)->count();
-        $salary = Salary::where('month','=',$month)->get();
-        if($salary->count()>=1){
-            return response()->json(['success' => true, 'code' => '200', 'data' => $salary]);
+        $user = User::find((integer)$userID);
+        $checkSalary = $user->getSalary->where('month', $month)->where('year','=',$year);
+        $spec = $user->specificSalary->where('note',1)->first();
+        $ksalary = $spec->kindOfSalaryID;
+        $price = $spec->kindOfSalary;
+        // $totalDate = $user->attend;
+        $totalDate = Attendance::where('userID','=',$userID)->whereMonth('date','=',$month)->whereYear('date','=',$year)->get()->count();
+
+        if($checkSalary->count()>0){
+            $salary = Salary::find($checkSalary->first()->id);
+            $salary->totalDate = $totalDate;
+            $salary->total = $totalDate*$hour*$price->coeficient*$price->salary;
+            //$salary->save();
+            $data=$salary;
         }else{
-            return response()->json(['success' => false, 'code' => '200', 'data' => "no data"]);
+            $newSalary = new Salary();
+            $newSalary->kindOfSalaryID = $ksalary;
+            $newSalary->totalDate = $totalDate;
+            $newSalary->bonus = 0;
+            $newSalary->deduction = 0;
+            $newSalary->total = $totalDate*$hour*$price->coeficient*$price->salary;
+            $newSalary->month = $month;
+            $newSalary->year = $year;
+            $newSalary->note = '';
+            //$newSalary->save();
+            $data = $newSalary;
         }
-        
+        return response()->json(['success' => false, 'code' => '200', 'data' => $data]);
     }
 }

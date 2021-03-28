@@ -19,8 +19,9 @@ class CreateSalaryTable extends Migration
             $table->integer('totalDate');
             $table->integer('bonus');
             $table->integer('deduction');
-            $table->integer('month');
             $table->integer('total');
+            $table->integer('month');
+            $table->integer('year');
             $table->text('note')->nullable();
             $table->timestamps();
             $table->foreign('specificSalaryID')
