@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Model\Attendance;
+use App\Model\Salary;
 use Illuminate\Http\Request;
 use App\User;
 use Carbon\Carbon;
@@ -18,8 +19,9 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $attend = Attendance::all();
-        return response()->json(['success' => true, 'code' => '200', 'data' => $position]);
+        //$attend = Attendance::all();
+        //return response()->json(['success' => true, 'code' => '200', 'data' => $position]);
+        return $this->updateSalary(Carbon::now()->month);
     }
 
     /**
@@ -135,5 +137,19 @@ class AttendanceController extends Controller
     public function destroy(Attendance $attendance)
     {
         //
+    }
+
+    public function updateSalary($month)
+    {
+        // $now = Carbon::now();
+        // $month = $now->month;
+        $attend = Attendance::whereMonth('date',$month)->count();
+        $salary = Salary::where('month','=',$month)->get();
+        if($salary->count()>=1){
+            return response()->json(['success' => true, 'code' => '200', 'data' => $salary]);
+        }else{
+            return response()->json(['success' => false, 'code' => '200', 'data' => "no data"]);
+        }
+        
     }
 }

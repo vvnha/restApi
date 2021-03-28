@@ -24,9 +24,9 @@ class PositionSeeder extends Seeder
         ]);
 
          DB::table('salarys')->insert([
-            ['specificSalaryID' => '1', 'totalDate' => '10', 'bonus' => '0', 'deduction'=>'0', 'total' => '100000', 'note'=>''],
-            ['specificSalaryID' => '2', 'totalDate' => '20', 'bonus' => '0', 'deduction'=>'0', 'total' => '200000', 'note'=>''],
-            ['specificSalaryID' => '3', 'totalDate' => '70', 'bonus' => '0', 'deduction'=>'0', 'total' => '700000', 'note'=>'']
+            ['specificSalaryID' => '1', 'totalDate' => '10', 'bonus' => '0', 'deduction'=>'0','month'=>'3', 'total' => '100000', 'note'=>''],
+            ['specificSalaryID' => '2', 'totalDate' => '20', 'bonus' => '0', 'deduction'=>'0','month'=>'2', 'total' => '200000', 'note'=>''],
+            ['specificSalaryID' => '3', 'totalDate' => '70', 'bonus' => '0', 'deduction'=>'0','month'=>'1', 'total' => '700000', 'note'=>'']
          ]);
     }
 }
