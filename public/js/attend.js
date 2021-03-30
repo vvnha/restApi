@@ -42,7 +42,10 @@ $(document).ready(function () {
         });
         var body = {
             userID: $("#frmEditTask input[name=userID]").val(),
-            date: $("#frmEditTask input[name=date]").val()
+            hour: $("#frmEditTask input[name=hour]").val(),
+            bonus: $("#frmEditTask input[name=bonus]").val(),
+            deduction: $("#frmEditTask input[name=deduction]").val(),
+            note: $("#frmEditTask input[name=note]").val(),
         };
         $.ajax({
             type: 'PUT',
@@ -102,8 +105,12 @@ function editTaskForm(task_id) {
             $("#edit-error-bag").hide();
             $("#frmEditTask input[name=id]").val(task_id);
             $("#frmEditTask input[name=userID]").val(data.data.userID);
-            $("#frmEditTask input[name=date]").val(data.data.date);
+            $("#frmEditTask input[name=hour]").val(data.data.hour);
+            $("#frmEditTask input[name=bonus]").val(data.data.bonus);
+            $("#frmEditTask input[name=deduction]").val(data.data.deduction);
+            $("#frmEditTask input[name=note]").val(data.data.note);
             $('#editTaskModal').modal('show');
+            console.log(data);
         },
         error: function (data) {
             console.log(data);

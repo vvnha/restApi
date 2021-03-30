@@ -20,27 +20,25 @@
                         <label>
                             ID
                         </label>
-                        <input class="form-control" type="text" id="id" name="id" disabled>
+                        <input class="form-control" type="text" id="name" name="id" required>
                         <label>
-                            userID
+                            Loại lương
                         </label>
-                        <input class="form-control" type="text" id="userID" name="userID" disabled>
+                        <input class="form-control" type="text" id="name" name="type" required>
                         <label>
-                            Giờ làm
+                            Hệ số
                         </label>
-                        <input class="form-control" type="text" id="name" name="hour" required>
+                        <input class="form-control" type="text" id="name" name="coeficient" required>
+
                         <label>
-                            Tiền thưởng
+                            Giá
                         </label>
-                        <input class="form-control" type="text" id="bonus" name="bonus" required>
-                        <label>
-                            Tiền trừ
-                        </label>
-                        <input class="form-control" type="text" id="deduction" name="deduction" required>
+                        <input class="form-control" type="text" id="name" name="salary" required>
                         <label>
                             Ghi chú
                         </label>
-                        <input class="form-control" type="text" id="note" name="note">
+                        <input class="form-control" type="text" id="name" name="note">
+
                     </div>
                     <!-- <div class="form-group">
                         <div class="input-group">

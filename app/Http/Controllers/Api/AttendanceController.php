@@ -9,6 +9,7 @@ use App\User;
 use Carbon\Carbon;
 use Validator;
 use App\Http\Controllers\Controller;
+use DB;
 
 class AttendanceController extends Controller
 {
@@ -148,21 +149,25 @@ class AttendanceController extends Controller
         $ksalary = $spec->kindOfSalaryID;
         $price = $spec->kindOfSalary;
         // $totalDate = $user->attend;
-        $totalDate = Attendance::where('userID','=',$userID)->whereMonth('date','=',$month)->whereYear('date','=',$year)->get()->count();
+        $totalDate = Attendance::where('userID','=',$userID)->whereMonth('date','=',$month)->whereYear('date','=',$year)->get();
+        $bonus = $totalDate->sum('bonus');
+        $deduction = $totalDate->sum('deduction');
 
         if($checkSalary->count()>0){
             $salary = Salary::find($checkSalary->first()->id);
-            $salary->totalDate = $totalDate;
-            $salary->total = $totalDate*$hour*$price->coeficient*$price->salary;
+            $salary->totalDate = $totalDate->count();
+            $salary->bonus = $bonus;
+            $salary->deduction = $deduction;
+            $salary->total = $totalDate->count()*$hour*$price->coeficient*$price->salary;
             //$salary->save();
             $data=$salary;
         }else{
             $newSalary = new Salary();
             $newSalary->kindOfSalaryID = $ksalary;
-            $newSalary->totalDate = $totalDate;
-            $newSalary->bonus = 0;
-            $newSalary->deduction = 0;
-            $newSalary->total = $totalDate*$hour*$price->coeficient*$price->salary;
+            $newSalary->totalDate = $totalDate->count();
+            $newSalary->bonus = $bonus;
+            $newSalary->deduction = $deduction;
+            $newSalary->total = $totalDate->count()*$hour*$price->coeficient*$price->salary;
             $newSalary->month = $month;
             $newSalary->year = $year;
             $newSalary->note = '';

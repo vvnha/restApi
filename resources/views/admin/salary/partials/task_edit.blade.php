@@ -29,7 +29,6 @@
                             Hệ số
                         </label>
                         <input class="form-control" type="text" id="name" name="coeficient" required>
-
                         <label>
                             Giá
                         </label>

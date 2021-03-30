@@ -256,6 +256,8 @@
                         </ul>
                     <li><a href="admin/attend"><i class="fa fa-table"></i> <span>Diem danh</span></a></li>
                     </li>
+                    <li><a href="admin/wage"><i class="fa fa-table"></i> <span>Xem luong</span></a></li>
+                    </li>
 
                     <li><a href="admin"><i class="fa fa-circle-o text-red"></i> <span>Admin</span></a></li>
                     <li><a href=""><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>

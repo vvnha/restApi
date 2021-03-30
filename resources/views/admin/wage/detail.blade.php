@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Salary')
+@section('title', 'All orders')
 
 @section('css')
 <style type="text/css">
@@ -51,11 +51,33 @@ table {
     <!--  Hang 2 contents -->
     <!-- /.row -->
     <!-- Main row -->
-    <!-- <div class="active bg-primary" style="padding: 10px">
-        <p>OK</p>
-        <p>OK</p>
-        <p>OK</p>
-    </div> -->
+    <div class="active bg-primary" style="padding: 10px">
+        <p class="active"> Tên nhân viên: {{$user->name}}</p>
+        <p class="active"> Số điện thoại: {{$user->phone}}</p>
+        <p class="active"> Mail: {{$user->email}}</p>
+        <p class="active"> Tổng ngày làm: {{$salary->totalDate}}</p>
+        <p class="active"> Tiền thưởng: {{$salary->bonus}}</p>
+        <p class="active"> Tiền trừ: {{$salary->deduction}}</p>
+        <p class="active"> Tổng lương: {{$salary->total}}</p>
+        <p class="active"> Tháng: {{$salary->month}}-{{$salary->year}}</p>
+        <form action="{{url('admin/wage/update')}}" method="POST">
+            {{ csrf_field() }}
+            <input type="text" name="id" value="{{$salary->id}}" hidden>
+            <input type="text" name="note" style="color: red" value="{{$salary->note}}">
+            <!-- <select name="service" class="bg-green">
+                <option value="{{0}}">{{0}}</option>
+                <option value="0">0 - Chưa xác nhận</option>
+                <option value="1">1 - Đã xác nhận</option>
+                <option value="2">2 - Hoàn thành</option>
+                <option value="3">3 - Đã hủy</option>
+            </select> -->
+            <button type="submit" class="bg-primary small">CẬP NHẬT GHI CHÚ</button>
+        </form>
+
+        <!-- <p class="active"> Đặt ngày:</p>
+        <p class="active"> Số bàn: </p> -->
+
+    </div>
 
     <div class="div1">
         <div class="table-wrapper div2">
@@ -74,8 +96,6 @@ table {
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>UserID</th>
-                        <th>Tên</th>
                         <th>Giờ làm</th>
                         <th>Ngày</th>
                         <th>Tiền thưởng</th>
@@ -88,8 +108,6 @@ table {
                     @foreach($data as $value)
                     <tr>
                         <td>{{$value->id}}</td>
-                        <td>{{$value->userID}}</td>
-                        <td>{{$value->userName}}</td>
                         <td>{{$value->hour}}</td>
                         <td>{{$value->date}}</td>
                         <td>{{number_format($value->bonus)}}</td>
@@ -114,6 +132,15 @@ table {
     @include('admin.attend.partials.task_edit')
     @include('admin.attend.partials.task_delete')
 
+    <div class="active">
+        @if (\Session::has('success'))
+        <div class="alert alert-success">
+            <ul>
+                <li>{!! \Session::get('success') !!}</li>
+            </ul>
+        </div>
+        @endif
+    </div>
 </section>
 
 @endsection

@@ -76,6 +76,7 @@ table {
                         <th>STT</th>
                         <th>Loại lương</th>
                         <th>Hệ số</th>
+                        <th>Giờ làm</th>
                         <th>Giá</th>
                         <th>Ghi chú</th>
                         <th>Sửa / Xóa</th>
@@ -87,6 +88,7 @@ table {
                         <td>{{$value->id}}</td>
                         <td>{{$value->type}}</td>
                         <td>{{$value->coeficient}}</td>
+                        <td>{{$value->hour}}</td>
                         <td>{{$value->salary}}</td>
                         <td>{{$value->note}}</td>
                         <td>

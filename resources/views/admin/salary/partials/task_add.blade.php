@@ -27,6 +27,10 @@
                         <input class="form-control" type="text" id="name" name="coeficient" required>
 
                         <label>
+                            Giờ làm
+                        </label>
+                        <input class="form-control" type="text" id="name" name="hour" required>
+                        <label>
                             Giá
                         </label>
                         <input class="form-control" type="text" id="name" name="salary" required>

@@ -9,6 +9,7 @@ use App\User;
 use Carbon\Carbon;
 use Validator;
 use App\Http\Controllers\Controller;
+use DB;
 
 class AttendanceController extends Controller
 {
@@ -36,17 +37,24 @@ class AttendanceController extends Controller
         }
 
         $data = User::find((integer)$request->userID);
+        $time = Carbon::now();
         $now = Carbon::now()->toDateString();
         $timeAttend = $request->timeAttend;
         $datetime = Carbon::create($now. ' '.$timeAttend);
         $insertDate = Carbon::create($request->date);
         $checkAttend = Attendance::where('date', 'LIKE', '%' . $now . '%')->where('userID',$request->userID)->get();
+        $spec = $data->specificSalary->where('note',1)->first()->kindOfSalary;
+        $hour = $spec->hour;
+        $price = $spec->price;
 
         if($data == true){
             if($insertDate->hour<$datetime->hour || ($insertDate->hour==$datetime->hour && $insertDate->minute<=$datetime->minute + 15)){ // diem danh truoc khi ket thuc diem danh hoac sau khi do 15p
                 $attendance = new Attendance();
                 $attendance->userID = $request->userID;
+                $attendance->hour = $hour; 
                 $attendance->date =  $request->date;
+                $attendance->bonus =  0;
+                $attendance->deduction =  0;
                 // $attendance->save();
                 if($checkAttend->count()>0){
                     $newTime = Carbon::create($now. ' 12:00:00');
@@ -65,6 +73,7 @@ class AttendanceController extends Controller
                 }
                 if($result == true){
                     $attendance->save();
+                    $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
                     return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
                 }else{
                     return response()->json([
@@ -92,12 +101,14 @@ class AttendanceController extends Controller
     }
     public function update(Request $request, $id){
         $data = Attendance::find((integer)$id);
-      
+        $insertDate = Carbon::create($data->date);
           if($data == true){
             $data->fill($request->all());
             $validator = Validator::make($request->all(), [ 
                 'userID' => 'required', 
-                'date' => 'required'
+                'hour' => 'required',
+                'bonus' => 'required',
+                'deduction' => 'required'
             ]);
             if ($validator->fails()) { 
                 return response()->json([
@@ -106,6 +117,7 @@ class AttendanceController extends Controller
                 ], 422);
             }
             $data->save();
+            $this->updateSalary($insertDate->month, $insertDate->year, $data->userID);
             return response()->json(['success' => true, 'code' => '200']);
           }else{
             return response()->json([
@@ -133,26 +145,32 @@ class AttendanceController extends Controller
         $spec = $user->specificSalary->where('note',1)->first();
         $ksalary = $spec->kindOfSalaryID;
         $price = $spec->kindOfSalary;
-        $totalDate = $user->attend->count();
+        // $totalDate = $user->attend;
+        $totalDate = Attendance::where('userID','=',$userID)->whereMonth('date','=',$month)->whereYear('date','=',$year)->get();
+        //$total = Attendance::select(DB::raw('sum(hour * price) as total'))->get();
+        $bonus = $totalDate->sum('bonus');
+        $deduction = $totalDate->sum('deduction');
+        $totalTime = $totalDate->sum('hour');
 
         if($checkSalary->count()>0){
             $salary = Salary::find($checkSalary->first()->id);
-            $price = $spec->kindOfSalary;
-            $salary->totalDate = $totalDate;
-            $salary->total = $totalDate*4*$price->coeficient*$price->salary;
-            //$salary->save();
+            $salary->totalDate = $totalDate->count();
+            $salary->bonus = $bonus;
+            $salary->deduction = $deduction;
+            $salary->total = $totalTime*$price->coeficient*$price->salary+$bonus-$deduction;
+            $salary->save();
             $data=$salary;
         }else{
             $newSalary = new Salary();
             $newSalary->kindOfSalaryID = $ksalary;
-            $newSalary->totalDate = $totalDate;
-            $newSalary->bonus = 0;
-            $newSalary->deduction = 0;
-            $newSalary->total = $totalDate*4*$price->coeficient*$price->salary;
+            $newSalary->totalDate = $totalDate->count();
+            $newSalary->bonus = $bonus;
+            $newSalary->deduction = $deduction;
+            $newSalary->total = $totalTime*$price->coeficient*$price->salary+$bonus-$deduction;
             $newSalary->month = $month;
             $newSalary->year = $year;
             $newSalary->note = '';
-            //$newSalary->save();
+            $newSalary->save();
             $data = $newSalary;
         }
         return response()->json(['success' => false, 'code' => '200', 'data' => $data]);

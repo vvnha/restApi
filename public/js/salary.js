@@ -8,6 +8,7 @@ $(document).ready(function () {
         var body = {
             type: $("#frmAddTask input[name=type]").val(),
             coeficient: $("#frmAddTask input[name=coeficient]").val(),
+            hour: $("#frmAddTask input[name=hour]").val(),
             salary: $("#frmAddTask input[name=salary]").val(),
             note: $("#frmAddTask input[name=note]").val()
         };
@@ -44,6 +45,7 @@ $(document).ready(function () {
         var body = {
             type: $("#frmEditTask input[name=type]").val(),
             coeficient: $("#frmEditTask input[name=coeficient]").val(),
+            hour: $("#frmEditTask input[name=hour]").val(),
             salary: $("#frmEditTask input[name=salary]").val(),
             note: $("#frmEditTask input[name=note]").val()
         };
