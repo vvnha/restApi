@@ -42,7 +42,7 @@ class AttendanceController extends Controller
         $timeAttend = $request->timeAttend;
         $datetime = Carbon::create($now. ' '.$timeAttend);
         $insertDate = Carbon::create($request->date);
-        $checkAttend = Attendance::where('date', 'LIKE', '%' . $now . '%')->where('userID',$request->userID)->get();
+        $checkAttend = Attendance::where('userID',$data->id)->whereYear('date',$insertDate->year)->whereMonth('date',$insertDate->month)->whereDay('date',$insertDate->day)->get();
         $spec = $data->specificSalary->where('note',1)->first()->kindOfSalary;
         $hour = $spec->hour;
         $price = $spec->price;
@@ -84,7 +84,7 @@ class AttendanceController extends Controller
             }else{
                 return response()->json([
                     'error'    => true,
-                    'messages' => '404',
+                    'messages' => "The time is over.",
                 ], 422);
             }
           }else{
@@ -162,7 +162,7 @@ class AttendanceController extends Controller
             $data=$salary;
         }else{
             $newSalary = new Salary();
-            $newSalary->kindOfSalaryID = $ksalary;
+            $newSalary->specificSalaryID = $spec->id;
             $newSalary->totalDate = $totalDate->count();
             $newSalary->bonus = $bonus;
             $newSalary->deduction = $deduction;
@@ -174,5 +174,36 @@ class AttendanceController extends Controller
             $data = $newSalary;
         }
         return response()->json(['success' => false, 'code' => '200', 'data' => $data]);
+    }
+    public function searchdate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+              'dateS' => 'required'
+            ]);
+            if ($validator->fails()) { 
+                return redirect()->back();        
+        }
+        $date = Carbon::create($request->dateS);
+
+
+        $data = Attendance::whereYear('date',$date->year)->whereMonth('date',$date->month)->whereDay('date',$date->day)->paginate(8);
+        // $data = $user->getSalary;
+        $collection = $data->count();
+        return view('admin.attend.index',['data'=>$data,'collection'=>$collection]);
+    }
+    public function searchuser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+              'gmail' => 'required'
+            ]);
+            if ($validator->fails()) { 
+                return redirect()->back();        
+        }
+        $user = User::where('email', 'LIKE' ,'%'.$request->gmail.'%')->first();
+        $data = $user->attend;
+        $collection = $data->count();
+        return view('admin.attend.index',['data'=>$data,'collection'=>$collection]);
+        
+    
     }
 }

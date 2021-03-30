@@ -50,6 +50,8 @@ table {
 
     <!--  Hang 2 contents -->
     <!-- /.row -->
+    @component('admin/attend/searchuser')
+    @endcomponent
     <!-- Main row -->
     <!-- <div class="active bg-primary" style="padding: 10px">
         <p>OK</p>
@@ -63,13 +65,34 @@ table {
                 <div class="row">
                     <div class="col-sm-6">
                         <h2>Manage <b>Attendance</b></h2>
+                        <a onclick="event.preventDefault();addTaskForm();" href="#" class="btn btn-success"
+                            data-toggle="modal"><span>Add New Food</span></a>
+                    </div>
+                    <div class="col-sm-6" data-toggle="modal">
+                        <form action="{{url('admin/attend/searchdate')}}" method="POST">
+                            {{ csrf_field() }}
+                            <div class="row" style="margin: 5px 0 0;">
+                                <p class="col-sm-6"></p>
+                                <input class="col-sm-5" type="date" class="form-control" id="dateS" name="dateS"
+                                    value="{{0}}" style="color: black;border-radius: 5px 5px 5px 5px;">
+                                <button type="submit" class="col-sm-1" style="background: #39a8dd; color: white;">OK
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Manage <b>Attendance</b></h2>
                     </div>
                     <div class="col-sm-6">
                         <a onclick="event.preventDefault();addTaskForm();" href="#" class="btn btn-success"
                             data-toggle="modal"><span>Add New Food</span></a>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>

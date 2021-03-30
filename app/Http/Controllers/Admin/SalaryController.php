@@ -164,4 +164,33 @@ class SalaryController extends Controller
         ], 200);
     }
     
+    public function searchuser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+              'gmail' => 'required'
+            ]);
+            if ($validator->fails()) { 
+                return redirect()->back();        
+        }
+        $user = User::where('email', 'LIKE' ,'%'.$request->gmail.'%')->first();
+        $data = $user->getSalary;
+        $collection = $data->count();
+        return view('admin.wage.index',['data'=>$data,'collection'=>$collection]);
+    }
+    public function searchdate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+              'dateS' => 'required'
+            ]);
+            if ($validator->fails()) { 
+                return redirect()->back();        
+        }
+        $date = Carbon::create($request->dateS);
+
+
+        $data = Salary::where('month',$date->month)->where('year',$date->year)->paginate(8);
+        // $data = $user->getSalary;
+        $collection = $data->count();
+        return view('admin.wage.index',['data'=>$data,'collection'=>$collection]);
+    }
 }

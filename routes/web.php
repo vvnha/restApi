@@ -77,7 +77,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     #Route::get('/salary', 'AdminController@salary');
     Route::resource('/salary','KindOfSalaryController');
     Route::resource('/attend','AttendanceController');
+    Route::post('/attend/searchdate', ['as' => 'search', 'uses' => 'AttendanceController@searchdate']);
+    Route::get('/attend/find/searchuser', ['as' => 'search', 'uses' => 'AttendanceController@searchuser']);
     Route::resource('/wage','SalaryController');
     Route::post('/wage/update', ['as' => 'editW', 'uses' => 'SalaryController@editSalary']);
     Route::get('/wage/get/{id}', ['as' => 'deleW', 'uses' => 'SalaryController@getSalary']);
+    Route::get('/wage/find/searchuser', ['as' => 'search', 'uses' => 'SalaryController@searchuser']);
+    Route::post('/wage/find/searchdate', ['as' => 'search', 'uses' => 'SalaryController@searchdate']);
 });

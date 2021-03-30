@@ -110,8 +110,9 @@ class UserController extends Controller
 
         foreach($accounts as $value ){
             if($value->positionID == 4 || $value->positionID==6){
-                $result = SpecficSalary::where('userID',$value->id)->get();
-                $value->ksalary = $result[0]['kindOfSalaryID'];
+                //$result = SpecficSalary::where('userID',$value->id)->get();
+                //$value->ksalary = $result[0]['kindOfSalaryID'];
+                $value->ksalary =$value->specificSalary->where('note',1)->first()->kindOfSalaryID;
             }
             
         }
