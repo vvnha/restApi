@@ -61,75 +61,83 @@ class AttendanceController extends Controller
         $hour = $spec->hour;
         $insertDate = Carbon::create($request->date);
         $timeAttend = Shift::where('position',$data->positionID)->get();
-        
+        $type = 1;
         if($data == true){
-            foreach($timeAttend as $value){
-                $checkIn = Carbon::create($insertDate->toDateString(). ' '.$value->checkIn);
-                $checkOut = Carbon::create($insertDate->toDateString(). ' '.$value->checkOut);
-                $value->checkInTime = Carbon::create($insertDate->toDateString(). ' '.$value->checkIn);
-                $value->checkOutTime = Carbon::create($insertDate->toDateString(). ' '.$value->checkOut);
-                $diff = $checkIn->diffInMinutes($checkOut);
-                $value->check = $insertDate->between($checkIn->subMinutes(30), $checkOut->subMinutes($diff/2-30));
-            }
-            $result = $timeAttend->where('check',true);
-            if($result->count()>0){
-                $shift = $result->first();
-                $originCheckIn = Carbon::create($insertDate->toDateString(). ' '.$shift->checkIn);
-                $checkInTime = $shift->checkInTime;
-                $checkOutTime = $shift->checkOutTime;
-                $getAttend = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->get();
-                //return response()->json(['success' => false, 'messages' => $checkAttend],422);
-                if($getAttend->where('shiftID',$shift->id)->count()>0){
-                    $attendResult = false;
-                }else{
-                    $attendResult = true;
+            if($type == 2){
+                foreach($timeAttend as $value){
+                    $checkIn = Carbon::create($insertDate->toDateString(). ' '.$value->checkIn);
+                    $checkOut = Carbon::create($insertDate->toDateString(). ' '.$value->checkOut);
+                    $value->checkInTime = Carbon::create($insertDate->toDateString(). ' '.$value->checkIn);
+                    $value->checkOutTime = Carbon::create($insertDate->toDateString(). ' '.$value->checkOut);
+                    $diff = $checkIn->diffInMinutes($checkOut);
+                    $value->check = $insertDate->between($checkIn->subMinutes(30), $checkOut->subMinutes($diff/2-30));
                 }
-
-                if($insertDate->isBefore($checkInTime->addMinutes(15))){
-                    if($insertDate->isBefore($originCheckIn)){
-                        $deduction = 0;
-                        $note = '';
-                        
+                $result = $timeAttend->where('check',true);
+                if($result->count()>0){
+                    $shift = $result->first();
+                    $originCheckIn = Carbon::create($insertDate->toDateString(). ' '.$shift->checkIn);
+                    $checkInTime = $shift->checkInTime;
+                    $checkOutTime = $shift->checkOutTime;
+                    $getAttend = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->get();
+                    //return response()->json(['success' => false, 'messages' => $checkAttend],422);
+                    if($getAttend->where('shiftID',$shift->id)->count()>0){
+                        $attendResult = false;
                     }else{
-                        $deduction = 100000;
-                        $note = 'Đi trễ';
+                        $attendResult = true;
                     }
-                }else {
-                    $deduction = 200000;
-                    $note = 'Đi trễ sau giờ điểm danh quá 15 phút';
-                }
 
-                // truong hop diem danh lien tuc tu ca1 sang ca2 thi khong xet dieu kien tru luong doi voi ca2
-                if($getAttend->count()>0){
-                    foreach($getAttend as $value){
-                        $value->checkOut = $value->shift->checkOut;
-                        $value->checkIn = $shift->checkIn;
-                        $value->check = $value->shift->checkOut == $shift->checkIn && $value->shift->id != $shift->id;
+                    if($insertDate->isBefore($checkInTime->addMinutes(15))){
+                        if($insertDate->isBefore($originCheckIn)){
+                            $deduction = 0;
+                            $note = '';
+                            
+                        }else{
+                            $deduction = 100000;
+                            $note = 'Đi trễ';
+                        }
+                    }else {
+                        $deduction = 200000;
+                        $note = 'Đi trễ sau giờ điểm danh quá 15 phút';
                     }
-                    $resultAttend = $getAttend->where('check',true);
-                    if($resultAttend->count()>0){
-                        $deduction = 0;
-                        $note = 'Tăng ca';
+
+                    // truong hop diem danh lien tuc tu ca1 sang ca2 thi khong xet dieu kien tru luong doi voi ca2
+                    if($getAttend->count()>0){
+                        foreach($getAttend as $value){
+                            $value->checkOut = $value->shift->checkOut;
+                            $value->checkIn = $shift->checkIn;
+                            $value->check = $value->shift->checkOut == $shift->checkIn && $value->shift->id != $shift->id;
+                        }
+                        $resultAttend = $getAttend->where('check',true);
+                        if($resultAttend->count()>0){
+                            $deduction = 0;
+                            $note = 'Tăng ca';
+                        }
                     }
-                }
-                return response()->json(['success' => false, 'messages' => $deduction],200);
-                
-                if($attendResult == true ){ //neu chua diem danh hoac diem danh tiep tuc thi insert
-                    $attendance = new Attendance();
-                    $attendance->userID = $request->userID;
-                    $attendance->date =  $request->date;
-                    $attendance->hour = $hour;
-                    $attendance->shiftID =  $shift->id;
-                    $attendance->bonus =  0;
-                    $attendance->deduction = $deduction;
-                    $attendance->note = $attendance->note .', '. $note;
-                    $attendance->save();
-                    return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
+                    return response()->json(['success' => false, 'messages' => $deduction],200);
+                    
+                    if($attendResult == true ){ //neu chua diem danh hoac diem danh tiep tuc thi insert
+                        $attendance = new Attendance();
+                        $attendance->userID = $request->userID;
+                        $attendance->date =  $request->date;
+                        $attendance->hour = $hour;
+                        $attendance->shiftID =  $shift->id;
+                        $attendance->bonus =  0;
+                        $attendance->deduction = $deduction;
+                        $attendance->note = $attendance->note .', '. $note;
+                        $attendance->save();
+                        return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
+                    }else{
+                        return response()->json(['success' => false, 'messages' => 'You have already attendance!'],422);
+                    }
                 }else{
-                    return response()->json(['success' => false, 'messages' => 'You have already attendance!'],422);
+                    return response()->json(['success' => false, 'messages' => 'The time is over'],422);
                 }
             }else{
-                return response()->json(['success' => false, 'messages' => 'The time is over'],422);
+                //khi checkout
+                $attendance = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->first();
+                $diff = $insertDate->diffInHours($attendance->date);
+                $attendance->hour = $diff;
+                return response()->json(['success' => false, 'messages' => $attendance ],200);
             }
         }else{
             return response()->json(['success' => false, 'messages' => 'Error network', 404]);
