@@ -134,11 +134,16 @@ class AttendanceController extends Controller
                 }
             }else{
                 //khi checkout
-                $attendance = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->first();
-                $diff = $insertDate->diffInHours($attendance->date);
-                $attendance->hour = $diff;
-                $attendance->save();
-                return response()->json(['success' => false, 'messages' => $attendance ],200);
+                $checkAttend = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->get();
+                if($checkAttend->count()>0){
+                    $attendance = $checkAttend->first();
+                    $diff = $insertDate->diffInHours($attendance->date);
+                    $attendance->hour = $diff;
+                    $attendance->save();
+                    return response()->json(['success' => false, 'messages' => $attendance ],200);
+                }else{
+                    return response()->json(['success' => false, 'messages' => 'You have not been attended'],422);
+                }
             }
         }else{
             return response()->json(['success' => false, 'messages' => 'Error network', 404]);
