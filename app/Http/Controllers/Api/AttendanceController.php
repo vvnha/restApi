@@ -137,6 +137,7 @@ class AttendanceController extends Controller
                 $attendance = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->first();
                 $diff = $insertDate->diffInHours($attendance->date);
                 $attendance->hour = $diff;
+                $attendance->save();
                 return response()->json(['success' => false, 'messages' => $attendance ],200);
             }
         }else{
