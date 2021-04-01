@@ -55,6 +55,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('/abc', ['as' => 'abc', 'uses' => 'AbcController@postAbc']);
     Route::get('salary/{id}', 'UserController@getSalary');
     Route::resource('attend', 'AttendanceController');
+    Route::resource('shift', 'ShiftController');
     
 
     Route::post('login', 'AuthController@login');

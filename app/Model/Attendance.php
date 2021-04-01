@@ -13,4 +13,7 @@ class Attendance extends Model
     protected function user(){
         return $this->belongsto('App\User','userID');
     }
+    protected function shift(){
+        return $this->belongsto('App\Model\Shift','shiftID');
+    }
 }

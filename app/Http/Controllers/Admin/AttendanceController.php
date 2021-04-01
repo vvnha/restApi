@@ -26,72 +26,76 @@ class AttendanceController extends Controller
     {
         $validator = Validator::make($request->all(), [ 
             'userID' => 'required', 
-            'date' => 'required',
-            'timeAttend' => 'required'
+            'date' => 'required'
         ]);
         if ($validator->fails()) { 
-            return response()->json([
-                'error'    => true,
-                'messages' => $validator->errors(),
-            ], 422);
+            return response()->json(['error'=>$validator->errors()], 401);            
         }
 
         $data = User::find((integer)$request->userID);
-        $time = Carbon::now();
         $now = Carbon::now()->toDateString();
-        $timeAttend = $request->timeAttend;
-        $datetime = Carbon::create($now. ' '.$timeAttend);
-        $insertDate = Carbon::create($request->date);
-        $checkAttend = Attendance::where('userID',$data->id)->whereYear('date',$insertDate->year)->whereMonth('date',$insertDate->month)->whereDay('date',$insertDate->day)->get();
+        //$timeAttend = $request->timeAttend;
+        //$datetime = Carbon::create($now. ' '.$timeAttend);
         $spec = $data->specificSalary->where('note',1)->first()->kindOfSalary;
         $hour = $spec->hour;
-        $price = $spec->price;
-
+        $insertDate = Carbon::create($request->date);
+        $timeAttend = Shift::where('position',$data->positionID)->get();
+        
         if($data == true){
-            if($insertDate->hour<$datetime->hour || ($insertDate->hour==$datetime->hour && $insertDate->minute<=$datetime->minute + 15)){ // diem danh truoc khi ket thuc diem danh hoac sau khi do 15p
-                $attendance = new Attendance();
-                $attendance->userID = $request->userID;
-                $attendance->hour = $hour; 
-                $attendance->date =  $request->date;
-                $attendance->bonus =  0;
-                $attendance->deduction =  0;
-                // $attendance->save();
+            foreach($timeAttend as $value){
+                $checkIn = Carbon::create($insertDate->toDateString(). ' '.$value->checkIn);
+                $checkOut = Carbon::create($insertDate->toDateString(). ' '.$value->checkOut);
+                $value->checkInTime = Carbon::create($insertDate->toDateString(). ' '.$value->checkIn);
+                $value->checkOutTime = Carbon::create($insertDate->toDateString(). ' '.$value->checkOut);
+                $diff = $checkIn->diffInMinutes($checkOut);
+                $value->check = $insertDate->between($checkIn->subMinutes(30), $checkOut->subMinutes($diff/2-30));
+            }
+            $result = $timeAttend->where('check',true);
+            if($result->count()>0){
+                $shift = $result->first();
+                $originCheckIn = Carbon::create($insertDate->toDateString(). ' '.$shift->checkIn);
+                $checkInTime = $shift->checkInTime;
+                $checkOutTime = $shift->checkOutTime;
+                $checkAttend = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->where('shiftID',$shift->id)->get();
+                //return response()->json(['success' => false, 'messages' => $checkAttend],422);
                 if($checkAttend->count()>0){
-                    $newTime = Carbon::create($now. ' 12:00:00');
-                    if($data->positionID == 6 && $checkAttend->count()<2 && ($insertDate->hour > $newTime->hour|| ($insertDate->hour ==  $newTime->hour && $insertDate->minute > $datetime->minute + 10 ))){ // diem danh lan 2 doi voi part time staff (position =6) và thgian phai truoc thoi gian diem danh (bat buoc sau 12h)
-                        if(Carbon::create($checkAttend[0]->date)->hour != $insertDate->hour){ // thoi gian diem danh khong duoc trung voi thoi gian diem danh cua ca1
-                            $result = true;
-                        }else{
-                            $result = false;
-                        }
+                    $attendResult = false;
+                }else{
+                    $attendResult = true;
+                }
+                if($insertDate->isBefore($checkInTime->addMinutes(15))){
+                    if($insertDate->isBefore($originCheckIn)){
+                        $deduction = 0;
+                        $note = '';
                         
                     }else{
-                        $result = false;
+                        $deduction = 100000;
+                        $note = 'Đi trễ';
                     }
-                }else{
-                    $result = true;
+                }else {
+                    $deduction = 200000;
+                    $note = 'Đi trễ sau giờ điểm danh quá 15 phút';
                 }
-                if($result == true){
+                if($attendResult == true){
+                    $attendance = new Attendance();
+                    $attendance->userID = $request->userID;
+                    $attendance->date =  $request->date;
+                    $attendance->hour = $hour;
+                    $attendance->shiftID =  $shift->id;
+                    $attendance->bonus =  0;
+                    $attendance->deduction = $deduction;
+                    $attendance->note = $attendance->note .', '. $note;
+                    //return response()->json(['success' => false, 'code' => $checkAttend]);
                     $attendance->save();
-                    $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
-                    return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
+                    return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
                 }else{
-                    return response()->json([
-                        'error'    => true,
-                        'messages' => 'You have alredy had attendance('.$checkAttend->count().')',
-                    ], 422);
+                    return response()->json(['success' => false, 'messages' => 'You have already attendance!'],422);
                 }
             }else{
-                return response()->json([
-                    'error'    => true,
-                    'messages' => "The time is over.",
-                ], 422);
+                return response()->json(['success' => false, 'messages' => 'The time is over'],422);
             }
-          }else{
-            return response()->json([
-                'error'    => true,
-                'messages' => '404',
-            ], 422);
+        }else{
+            return response()->json(['success' => false, 'messages' => 'Error network', 404]);
         }
     }
     public function show(Request $request, $id)
