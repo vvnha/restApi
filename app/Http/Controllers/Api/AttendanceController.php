@@ -70,8 +70,10 @@ class AttendanceController extends Controller
                     $value->checkInTime = Carbon::create($insertDate->toDateString(). ' '.$value->checkIn);
                     $value->checkOutTime = Carbon::create($insertDate->toDateString(). ' '.$value->checkOut);
                     $diff = $checkIn->diffInMinutes($checkOut);
+                    $value->checkSpan = $insertDate->between($checkIn, $checkOut);
                     $value->check = $insertDate->between($checkIn->subMinutes(30), $checkOut->subMinutes($diff/2-30));
                 }
+                //return response()->json(['success' => false, 'messages' => $timeAttend ],200);
                 $result = $timeAttend->where('check',true);
                 if($result->count()>0){
                     $shift = $result->first();
@@ -81,9 +83,9 @@ class AttendanceController extends Controller
                     $getAttend = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->get();
                     //return response()->json(['success' => false, 'messages' => $checkAttend],422);
                     if($getAttend->where('shiftID',$shift->id)->count()>0){
-                        $attendResult = false;
+                        $attendResult = 0;
                     }else{
-                        $attendResult = true;
+                        $attendResult = 1;
                     }
 
                     if($insertDate->isBefore($checkInTime->addMinutes(15))){
@@ -111,11 +113,12 @@ class AttendanceController extends Controller
                         if($resultAttend->count()>0){
                             $deduction = 0;
                             $note = 'Tăng ca';
+                            $attendResult = 2;
                         }
                     }
-                    return response()->json(['success' => false, 'messages' => $deduction],200);
+                    //return response()->json(['success' => false, 'messages' => $deduction],200);
                     
-                    if($attendResult == true ){ //neu chua diem danh hoac diem danh tiep tuc thi insert
+                    if($attendResult == 1 ){ //neu chua diem danh hoac diem danh tiep tuc thi insert
                         $attendance = new Attendance();
                         $attendance->userID = $request->userID;
                         $attendance->date =  $request->date;
@@ -127,11 +130,29 @@ class AttendanceController extends Controller
                         $attendance->save();
                         return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
                     }else{
+                        // if($attendResult == 2){ // diem danh tang ca
+                        //     $attendance = $getAttend->first();
+                        //     $diff = $insertDate->diffInHours($attendance->date);
+                        //     $attendance->hour = $diff;
+                        //     $attendance->deduction = $deduction;
+                        //     $attendance->note = $attendance->note .', '. $note;
+                        //     $attendance->save();
+                        //     return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
+                        // }else{
+                        //     return response()->json(['success' => false, 'messages' => 'You have already attendance! Do you wanna check out!'],208);
+                        // }
                         //if() // the time is over for attendance
                         return response()->json(['success' => false, 'messages' => 'You have already attendance! Do you wanna check out!'],208);
                     }
                 }else{
-                    return response()->json(['success' => false, 'messages' => 'The time is over'],422);
+                    $getAttendSpan = $timeAttend->where('checkSpan',true)->first();
+                    $getAttend = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->where('shiftID',$getAttendSpan->id)->get();
+                    if($getAttend->count()>0 ){
+                        return response()->json(['success' => false, 'messages' => 'You have already attendance! Do you wanna check out!'],208);
+                        //return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
+                    }else{
+                         return response()->json(['success' => false, 'messages' => 'The time is over'],422);
+                    }
                 }
             }else{
                 //khi checkout
@@ -215,9 +236,19 @@ class AttendanceController extends Controller
      * @param  \App\Model\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Attendance $attendance)
+    public function update(Request $request)
     {
-        //
+        $insertDate = Carbon::create($request->date);
+        $checkAttend = Attendance::where('userID','=',$request->userID)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->get();
+        if($checkAttend->count()>0){
+            $attendance = $checkAttend->first();
+            $diff = $insertDate->diffInHours($attendance->date);
+            $attendance->hour = $diff;
+            $attendance->save();
+            return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
+        }else{
+            return response()->json(['success' => false, 'messages' => 'You have not been attended'],422);
+        }
     }
 
     /**
