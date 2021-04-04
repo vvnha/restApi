@@ -45,7 +45,7 @@ class OrderTbController extends Controller
     $orderTable->save();
 
     $eatTime = new EatTime();
-    $eatTime->orderID = $orderTable->id;
+    $eatTime->orderID = $orderTable->orderID;
     $eatTime->eatTime = $eatT;
     $eatT->save();
 
