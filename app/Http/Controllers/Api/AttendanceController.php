@@ -73,7 +73,7 @@ class AttendanceController extends Controller
                     $value->checkSpan = $insertDate->between($checkIn, $checkOut);
                     $value->check = $insertDate->between($checkIn->subMinutes(30), $checkOut->subMinutes($diff/2-30));
                 }
-                //return response()->json(['success' => false, 'messages' => $timeAttend ],200);
+                
                 $result = $timeAttend->where('check',true);
                 if($result->count()>0){
                     $shift = $result->first();
@@ -81,13 +81,18 @@ class AttendanceController extends Controller
                     $checkInTime = $shift->checkInTime;
                     $checkOutTime = $shift->checkOutTime;
                     $getAttend = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->get();
-                    //return response()->json(['success' => false, 'messages' => $checkAttend],422);
+                    
                     if($getAttend->where('shiftID',$shift->id)->count()>0){
                         $attendResult = 0;
+                        
                     }else{
-                        $attendResult = 1;
-                    }
+                        // if($getAttend->whereNotNull('checkOut')->count()>0){
+                        //     $attendResult = 2;
+                        // }else{
+                            $attendResult = 1;
+                        // }
 
+                    }
                     if($insertDate->isBefore($checkInTime->addMinutes(15))){
                         if($insertDate->isBefore($originCheckIn)){
                             $deduction = 0;
@@ -101,14 +106,16 @@ class AttendanceController extends Controller
                         $deduction = 200000;
                         $note = 'Đi trễ sau giờ điểm danh quá 15 phút';
                     }
-
-                    // truong hop diem danh lien tuc tu ca1 sang ca2 thi khong xet dieu kien tru luong doi voi ca2
+                    //truong hop diem danh lien tuc tu ca1 sang ca2 thi khong xet dieu kien tru luong doi voi ca2
                     if($getAttend->count()>0){
                         foreach($getAttend as $value){
                             $value->checkOut = $value->shift->checkOut;
                             $value->checkIn = $shift->checkIn;
+                            $value->timeCheckOut = Carbon::create($insertDate->toDateString()." ".$value->checkOut)->toDateTimeString();
                             $value->check = $value->shift->checkOut == $shift->checkIn && $value->shift->id != $shift->id;
+                            //$value->check = $insertDate->isAfter($shift->checkInTime);
                         }
+                        //return response()->json(['success' => false, 'messages' => $getAttend ],200);
                         $resultAttend = $getAttend->where('check',true);
                         if($resultAttend->count()>0){
                             $deduction = 0;
@@ -116,7 +123,6 @@ class AttendanceController extends Controller
                             $attendResult = 2;
                         }
                     }
-                    //return response()->json(['success' => false, 'messages' => $deduction],200);
                     
                     if($attendResult == 1 ){ //neu chua diem danh hoac diem danh tiep tuc thi insert
                         $attendance = new Attendance();
@@ -130,25 +136,13 @@ class AttendanceController extends Controller
                         $attendance->save();
                         return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
                     }else{
-                        // if($attendResult == 2){ // diem danh tang ca
-                        //     $attendance = $getAttend->first();
-                        //     $diff = $insertDate->diffInHours($attendance->date);
-                        //     $attendance->hour = $diff;
-                        //     $attendance->deduction = $deduction;
-                        //     $attendance->note = $attendance->note .', '. $note;
-                        //     $attendance->save();
-                        //     return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
-                        // }else{
-                        //     return response()->json(['success' => false, 'messages' => 'You have already attendance! Do you wanna check out!'],208);
-                        // }
-                        //if() // the time is over for attendance
-                        return response()->json(['success' => false, 'messages' => 'You have already attendance! Do you wanna check out!'],208);
+                        return response()->json(['success' => false, 'messages' => 'You have already attendance! Do you wanna check out!(2)'],208);
                     }
                 }else{
                     $getAttendSpan = $timeAttend->where('checkSpan',true)->first();
                     $getAttend = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->where('shiftID',$getAttendSpan->id)->get();
                     if($getAttend->count()>0 ){
-                        return response()->json(['success' => false, 'messages' => 'You have already attendance! Do you wanna check out!'],208);
+                        return response()->json(['success' => false, 'messages' => 'You have already attendance! Do you wanna check out!(1)'],208);
                         //return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
                     }else{
                          return response()->json(['success' => false, 'messages' => 'The time is over'],422);
@@ -244,6 +238,7 @@ class AttendanceController extends Controller
             $attendance = $checkAttend->first();
             $diff = $insertDate->diffInHours($attendance->date);
             $attendance->hour = $diff;
+            $attendance->checkOut = $insertDate;
             $attendance->save();
             return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
         }else{

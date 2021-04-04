@@ -101,6 +101,7 @@ table {
                         <th>Tên</th>
                         <th>Giờ làm</th>
                         <th>Ngày</th>
+                        <th>Ngày checkOut</th>
                         <th>Tiền thưởng</th>
                         <th>Tiền trừ</th>
                         <th>Ghi chú</th>
@@ -115,6 +116,7 @@ table {
                         <td>{{$value->userName}}</td>
                         <td>{{$value->hour}}</td>
                         <td>{{$value->date}}</td>
+                        <td>{{$value->checkOut}}</td>
                         <td>{{number_format($value->bonus)}}</td>
                         <td>{{number_format($value->deduction)}}</td>
                         <td>{{$value->note}}</td>

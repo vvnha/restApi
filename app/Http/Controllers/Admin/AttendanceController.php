@@ -106,6 +106,7 @@ class AttendanceController extends Controller
     public function update(Request $request, $id){
         $data = Attendance::find((integer)$id);
         $insertDate = Carbon::create($data->date);
+        $dateTam = Carbon::create($data->date);
           if($data == true){
             $data->fill($request->all());
             $validator = Validator::make($request->all(), [ 
@@ -120,6 +121,7 @@ class AttendanceController extends Controller
                     'messages' => $validator->errors(),
                 ], 422);
             }
+            $data->checkOut = $dateTam->addHours($request->hour);
             $data->save();
             $this->updateSalary($insertDate->month, $insertDate->year, $data->userID);
             return response()->json(['success' => true, 'code' => '200']);
