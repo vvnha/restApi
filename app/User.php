@@ -53,7 +53,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Model\Attendance','userID');
     }
     protected function specificSalary(){
-        return $this->hasOne('App\Model\SpecficSalary','userID');
+        return $this->hasMany('App\Model\SpecficSalary','userID');
     }
     protected function getSalary(){
         return $this->hasManyThrough('App\Model\Salary','App\Model\SpecficSalary','userID','specificSalaryID','id');

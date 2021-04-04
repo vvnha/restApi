@@ -52,6 +52,7 @@ class UserController extends Controller
     }
     public function position(Request $request)
     {
+        $user = User::find($request->id);
         $validator = Validator::make($request->all(), [ 
               'id' => 'required|integer', 
               'positionID' => 'required'
@@ -61,8 +62,8 @@ class UserController extends Controller
         }
         $ps = $request->positionID;
         if($ps == 4 || $ps == 6){
-            $checkSpec = SpecficSalary::where('userID',$request->id)->count();
-            if($checkSpec < 1){
+            $checkSpec = SpecficSalary::where('userID',$request->id)->where('note',1)->count();
+            if($checkSpec < 1 || $user->positionID != $ps){
                 $spec = new SpecficSalary();
                 $spec->userID = $request->id;
                 if($ps == 4){
@@ -70,20 +71,20 @@ class UserController extends Controller
                 }else{
                     $spec->kindOfSalaryID = 2;
                 }
+                $spec->note = 1;
+                if( $user->positionID != $ps){
+                    $checkSpec = SpecficSalary::where('userID',$request->id)->where('note',1)->update(['note' => 0]);
+                }
                 $spec->save();
             }
         }else{
-            $checkSpec = SpecficSalary::where('userID',$request->id)->get();
+            $checkSpec = SpecficSalary::where('userID',$request->id)->where('note',1)->get();
             // dd($checkSpec);
             if(count($checkSpec) >= 1){
-                $checkSpec = SpecficSalary::where('userID',$request->id)->delete();
-
-                //dd($checkSpec['id']);
-                //$del=SpecficSalary::where('id', $id)->delete();
+                $checkSpec = SpecficSalary::where('userID',$request->id)->where('note',1)->update(['note' => 0]);
             }
         }
         $ldate = date('Y-m-d H:i:s');
-        $user = User::find($request->id);
         $user->positionID = $request->positionID;
         $user->updated_at = $ldate;
         $user->save();
@@ -109,8 +110,9 @@ class UserController extends Controller
 
         foreach($accounts as $value ){
             if($value->positionID == 4 || $value->positionID==6){
-                $result = SpecficSalary::where('userID',$value->id)->get();
-                $value->ksalary = $result[0]['kindOfSalaryID'];
+                //$result = SpecficSalary::where('userID',$value->id)->get();
+                //$value->ksalary = $result[0]['kindOfSalaryID'];
+                $value->ksalary =$value->specificSalary->where('note',1)->first()->kindOfSalaryID;
             }
             
         }

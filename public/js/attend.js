@@ -6,15 +6,13 @@ $(document).ready(function () {
             }
         });
         var body = {
-            type: $("#frmAddTask input[name=type]").val(),
-            coeficient: $("#frmAddTask input[name=coeficient]").val(),
-            hour: $("#frmAddTask input[name=hour]").val(),
-            salary: $("#frmAddTask input[name=salary]").val(),
-            note: $("#frmAddTask input[name=note]").val()
+            userID: $("#frmAddTask input[name=userID]").val(),
+            date: $("#frmAddTask input[name=date]").val(),
+            timeAttend: $("#frmAddTask input[name=timeAttend]").val(),
         };
         $.ajax({
             type: 'POST',
-            url: 'admin/salary',
+            url: 'admin/attend',
             data: body,
             dataType: 'json',
             success: function (data) {
@@ -25,10 +23,10 @@ $(document).ready(function () {
             error: function (data) {
                 var errors = $.parseJSON(data.responseText);
                 $('#add-task-errors').html('');
-                $.each(errors.messages, function (key, value) {
-                    console.log(value);
-                    $('#add-task-errors').append('<li>' + value + '</li>');
-                });
+                // $.each(errors.messages, function (key, value) {
+                console.log(value);
+                $('#add-task-errors').append('<li>' + errors.messages + '</li>');
+                //});
                 $("#add-error-bag").show();
             }
         });
@@ -43,15 +41,15 @@ $(document).ready(function () {
             }
         });
         var body = {
-            type: $("#frmEditTask input[name=type]").val(),
-            coeficient: $("#frmEditTask input[name=coeficient]").val(),
+            userID: $("#frmEditTask input[name=userID]").val(),
             hour: $("#frmEditTask input[name=hour]").val(),
-            salary: $("#frmEditTask input[name=salary]").val(),
-            note: $("#frmEditTask input[name=note]").val()
+            bonus: $("#frmEditTask input[name=bonus]").val(),
+            deduction: $("#frmEditTask input[name=deduction]").val(),
+            note: $("#frmEditTask input[name=note]").val(),
         };
         $.ajax({
             type: 'PUT',
-            url: 'admin/salary/' + $("#frmEditTask input[name=id]").val(),
+            url: 'admin/attend/' + $("#frmEditTask input[name=id]").val(),
             data: body,
             dataType: 'json',
             success: function (data) {
@@ -79,7 +77,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: 'DELETE',
-            url: 'admin/salary/' + $("#frmDeleteTask input[name=id]").val(),
+            url: 'admin/attend/' + $("#frmDeleteTask input[name=id]").val(),
             dataType: 'json',
             success: function (data) {
                 $("#frmDeleteTask .close").click();
@@ -102,15 +100,17 @@ function addTaskForm() {
 function editTaskForm(task_id) {
     $.ajax({
         type: 'GET',
-        url: 'admin/salary/' + task_id,
+        url: 'admin/attend/' + task_id,
         success: function (data) {
             $("#edit-error-bag").hide();
             $("#frmEditTask input[name=id]").val(task_id);
-            $("#frmEditTask input[name=type]").val(data.data.type);
-            $("#frmEditTask input[name=coeficient]").val(data.data.coeficient);
-            $("#frmEditTask input[name=salary]").val(data.data.salary);
+            $("#frmEditTask input[name=userID]").val(data.data.userID);
+            $("#frmEditTask input[name=hour]").val(data.data.hour);
+            $("#frmEditTask input[name=bonus]").val(data.data.bonus);
+            $("#frmEditTask input[name=deduction]").val(data.data.deduction);
             $("#frmEditTask input[name=note]").val(data.data.note);
             $('#editTaskModal').modal('show');
+            console.log(data);
         },
         error: function (data) {
             console.log(data);
@@ -121,9 +121,9 @@ function editTaskForm(task_id) {
 function deleteTaskForm(task_id) {
     $.ajax({
         type: 'GET',
-        url: 'admin/salary/' + task_id,
+        url: 'admin/attend/' + task_id,
         success: function (data) {
-            $("#frmDeleteTask #delete-title").html("Delete Salary (" + data.data.type + " ID: " + data.data.id + ")?");
+            $("#frmDeleteTask #delete-title").html("Delete Salary ( ID: " + data.data.id + ")?");
             $("#frmDeleteTask input[name=id]").val(data.data.id);
             $('#deleteTaskModal').modal('show');
         },

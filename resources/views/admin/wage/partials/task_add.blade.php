@@ -18,26 +18,30 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            Loại lương
+                            Email
                         </label>
-                        <input class="form-control" type="text" id="name" name="type" required>
+                        <input class="form-control" type="text" id="name" name="email" required>
                         <label>
-                            Hệ số
+                            Month
                         </label>
-                        <input class="form-control" type="text" id="name" name="coeficient" required>
+                        <input class="form-control" type="text" id="name" name="month" required>
 
                         <label>
-                            Giờ làm
+                            Year
                         </label>
-                        <input class="form-control" type="text" id="name" name="hour" required>
+                        <input class="form-control" type="text" id="name" name="year" required>
                         <label>
-                            Giá
+                            Bonus
                         </label>
-                        <input class="form-control" type="text" id="name" name="salary" required>
+                        <input class="form-control" type="text" id="name" name="bonus" required>
                         <label>
-                            Ghi chú
+                            Deduction
                         </label>
-                        <input class="form-control" type="text" id="name" name="note">
+                        <input class="form-control" type="text" id="name" name="deduction" required>
+                        <label>
+                            Note
+                        </label>
+                        <input class="form-control" type="text" id="name" name="note" required>
 
                     </div>
                     <!-- <div class="form-group">

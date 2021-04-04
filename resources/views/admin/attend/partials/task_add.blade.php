@@ -18,27 +18,18 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            Loại lương
+                            userID
                         </label>
-                        <input class="form-control" type="text" id="name" name="type" required>
+                        <input class="form-control" type="text" id="name" name="userID" required>
                         <label>
-                            Hệ số
+                            Thoi gian
                         </label>
-                        <input class="form-control" type="text" id="name" name="coeficient" required>
+                        <input class="form-control" type="text" id="name" name="date" required>
 
                         <label>
-                            Giờ làm
+                            Gio diem danh
                         </label>
-                        <input class="form-control" type="text" id="name" name="hour" required>
-                        <label>
-                            Giá
-                        </label>
-                        <input class="form-control" type="text" id="name" name="salary" required>
-                        <label>
-                            Ghi chú
-                        </label>
-                        <input class="form-control" type="text" id="name" name="note">
-
+                        <input class="form-control" type="text" id="name" name="timeAttend" required>
                     </div>
                     <!-- <div class="form-group">
                         <div class="input-group">

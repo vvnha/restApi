@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\Gate;
 use App\Model\OrderTb;
 use App\Model\Foods;
+use App\Model\EatTime;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
@@ -79,7 +80,23 @@ class OrderTbController extends Controller
         return response()->json(['error' => $validator->errors()], 401);
       }
       if (Gate::allows('admin-user', $orderTable->userID)) {
+        if($request->service == 1){
+          $eatT = 2;
+        }else{
+          $eatT = 0;
+        }
+        $checkTime = EatTime::where('orderID',$id)->first();
+        $eatTime = EatTime::find((integer)$checkTime->id);
+        //return response()->json(['success' => true, 'code' => $checkTime->id]);
+        if($eatTime->count()>0){
+           $eatTime->eatTime = $eatT;
+        }else{
+          $eatTime = new EatTime();
+          $eatTime->orderID = $id;
+          $eatTime->eatTime = $eatT;
+        }
         $orderTable->save();
+        $eatTime->save();
         return response()->json(['success' => true, 'code' => '200']);
       } else {
         return response()->json(['success' => false, 'code' => '401', 'data' => "No permission to update"]);
@@ -131,13 +148,15 @@ class OrderTbController extends Controller
     $second = date("s", strtotime($timeInput));
     $datetime = Carbon::create($year, $month, $day, $hour, $minute, $second);
 
-    $order = OrderTb::where('orderDate', 'LIKE', '%' . $dateInput . '%')->get();
+    $order = OrderTb::whereYear('orderDate', $datetime->year)->whereMonth('orderDate',$datetime->month)->whereDay('orderDate',$datetime->day)->get();
     if ($order == true) {
-
       $result = "";
       foreach ($order as $items) {
         $itemOrderDate = Carbon::create($items->orderDate);
-        if ($datetime->diffInHours($itemOrderDate) <= 2 && ($items->service == '1' || $items->service == '0')) {
+        $eatT = EatTime::where('orderID',$items->orderID)->first();
+        $timeTable = $eatT->eatTime;
+        //return response()->json(['success' => true, 'code' => '200', 'data' => $datetime->between($itemOrderDate,$itemOrderDate->addHours((integer)$timeTable))]);
+        if ($datetime->diffInHours($itemOrderDate) <=$timeTable && ($items->service == '1' || $items->service == '0')) {
           //$result = array_push($result, $items->);
           //$result = $items->perNum + "," + $result;
           $result =  $items->perNum . "," . $result;
@@ -177,4 +196,5 @@ class OrderTbController extends Controller
       return response()->json(['success' => false, 'code' => '401', 'data' => "No permission to update"]);
     }
   }
+
 }

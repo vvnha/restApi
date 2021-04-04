@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Salary')
+@section('title', 'All orders')
 
 @section('css')
 <style type="text/css">
@@ -51,18 +51,40 @@ table {
     <!--  Hang 2 contents -->
     <!-- /.row -->
     <!-- Main row -->
-    <!-- <div class="active bg-primary" style="padding: 10px">
-        <p>OK</p>
-        <p>OK</p>
-        <p>OK</p>
-    </div> -->
+    <div class="active bg-primary" style="padding: 10px">
+        <p class="active"> Tên nhân viên: {{$user->name}}</p>
+        <p class="active"> Số điện thoại: {{$user->phone}}</p>
+        <p class="active"> Mail: {{$user->email}}</p>
+        <p class="active"> Tổng ngày làm: {{$salary->totalDate}}</p>
+        <p class="active"> Tiền thưởng: {{$salary->bonus}}</p>
+        <p class="active"> Tiền trừ: {{$salary->deduction}}</p>
+        <p class="active"> Tổng lương: {{$salary->total}}</p>
+        <p class="active"> Tháng: {{$salary->month}}-{{$salary->year}}</p>
+        <form action="{{url('admin/wage/update')}}" method="POST">
+            {{ csrf_field() }}
+            <input type="text" name="id" value="{{$salary->id}}" hidden>
+            <input type="text" name="note" style="color: red" value="{{$salary->note}}">
+            <!-- <select name="service" class="bg-green">
+                <option value="{{0}}">{{0}}</option>
+                <option value="0">0 - Chưa xác nhận</option>
+                <option value="1">1 - Đã xác nhận</option>
+                <option value="2">2 - Hoàn thành</option>
+                <option value="3">3 - Đã hủy</option>
+            </select> -->
+            <button type="submit" class="bg-primary small">CẬP NHẬT GHI CHÚ</button>
+        </form>
+
+        <!-- <p class="active"> Đặt ngày:</p>
+        <p class="active"> Số bàn: </p> -->
+
+    </div>
 
     <div class="div1">
         <div class="table-wrapper div2">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Manage <b>Food</b></h2>
+                        <h2>Manage <b>Attendance</b></h2>
                     </div>
                     <div class="col-sm-6">
                         <a onclick="event.preventDefault();addTaskForm();" href="#" class="btn btn-success"
@@ -73,11 +95,11 @@ table {
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>STT</th>
-                        <th>Loại lương</th>
-                        <th>Hệ số</th>
+                        <th>ID</th>
                         <th>Giờ làm</th>
-                        <th>Giá</th>
+                        <th>Ngày</th>
+                        <th>Tiền thưởng</th>
+                        <th>Tiền trừ</th>
                         <th>Ghi chú</th>
                         <th>Sửa / Xóa</th>
                     </tr>
@@ -86,10 +108,10 @@ table {
                     @foreach($data as $value)
                     <tr>
                         <td>{{$value->id}}</td>
-                        <td>{{$value->type}}</td>
-                        <td>{{$value->coeficient}}</td>
                         <td>{{$value->hour}}</td>
-                        <td>{{$value->salary}}</td>
+                        <td>{{$value->date}}</td>
+                        <td>{{number_format($value->bonus)}}</td>
+                        <td>{{number_format($value->deduction)}}</td>
                         <td>{{$value->note}}</td>
                         <td>
                             <a onclick="event.preventDefault();editTaskForm({{$value->id}});" href="#"
@@ -106,10 +128,19 @@ table {
             </table>
         </div>
     </div>
-    @include('admin.salary.partials.task_add')
-    @include('admin.salary.partials.task_edit')
-    @include('admin.salary.partials.task_delete')
+    @include('admin.attend.partials.task_add')
+    @include('admin.attend.partials.task_edit')
+    @include('admin.attend.partials.task_delete')
 
+    <div class="active">
+        @if (\Session::has('success'))
+        <div class="alert alert-success">
+            <ul>
+                <li>{!! \Session::get('success') !!}</li>
+            </ul>
+        </div>
+        @endif
+    </div>
 </section>
 
 @endsection
@@ -117,7 +148,7 @@ table {
 @section('scripts')
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="public/js/salary.js"></script>
+<script type="text/javascript" src="public/js/attend.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('.btn-number').click(function(e) {

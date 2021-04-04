@@ -41,7 +41,8 @@ class KindOfSalaryController extends Controller
     {
         $rules = [ 
             'type' => 'required',
-            'coeficient' => 'required', 
+            'coeficient' => 'required',
+            'hour' => 'required', 
             'salary' => 'required|integer'
         ];
         $validator = Validator::make($request->all(), $rules);
@@ -54,6 +55,7 @@ class KindOfSalaryController extends Controller
         $kSalary = new KindOfSalary();
         $kSalary->type = $request->type;
         $kSalary->coeficient = $request->coeficient;
+        $kSalary->hour = $request->hour;
         $kSalary->salary = $request->salary;
         $kSalary->note = $request->note;
         $kSalary->save();
@@ -100,7 +102,8 @@ class KindOfSalaryController extends Controller
     {
         $rules = [ 
             'type' => 'required',
-            'coeficient' => 'required', 
+            'coeficient' => 'required',
+            'hour' => 'required', 
             'salary' => 'required|integer'
         ];
         $validator = Validator::make($request->all(), $rules);

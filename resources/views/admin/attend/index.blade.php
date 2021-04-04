@@ -50,6 +50,8 @@ table {
 
     <!--  Hang 2 contents -->
     <!-- /.row -->
+    @component('admin/attend/searchuser')
+    @endcomponent
     <!-- Main row -->
     <!-- <div class="active bg-primary" style="padding: 10px">
         <p>OK</p>
@@ -62,22 +64,46 @@ table {
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Manage <b>Food</b></h2>
+                        <h2>Manage <b>Attendance</b></h2>
+                        <a onclick="event.preventDefault();addTaskForm();" href="#" class="btn btn-success"
+                            data-toggle="modal"><span>Add New Food</span></a>
+                    </div>
+                    <div class="col-sm-6" data-toggle="modal">
+                        <form action="{{url('admin/attend/searchdate')}}" method="POST">
+                            {{ csrf_field() }}
+                            <div class="row" style="margin: 5px 0 0;">
+                                <p class="col-sm-6"></p>
+                                <input class="col-sm-5" type="date" class="form-control" id="dateS" name="dateS"
+                                    value="{{0}}" style="color: black;border-radius: 5px 5px 5px 5px;">
+                                <button type="submit" class="col-sm-1" style="background: #39a8dd; color: white;">OK
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Manage <b>Attendance</b></h2>
                     </div>
                     <div class="col-sm-6">
                         <a onclick="event.preventDefault();addTaskForm();" href="#" class="btn btn-success"
                             data-toggle="modal"><span>Add New Food</span></a>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>STT</th>
-                        <th>Loại lương</th>
-                        <th>Hệ số</th>
+                        <th>ID</th>
+                        <th>UserID</th>
+                        <th>Tên</th>
                         <th>Giờ làm</th>
-                        <th>Giá</th>
+                        <th>Ngày</th>
+                        <th>Ngày checkOut</th>
+                        <th>Tiền thưởng</th>
+                        <th>Tiền trừ</th>
                         <th>Ghi chú</th>
                         <th>Sửa / Xóa</th>
                     </tr>
@@ -86,10 +112,13 @@ table {
                     @foreach($data as $value)
                     <tr>
                         <td>{{$value->id}}</td>
-                        <td>{{$value->type}}</td>
-                        <td>{{$value->coeficient}}</td>
+                        <td>{{$value->userID}}</td>
+                        <td>{{$value->userName}}</td>
                         <td>{{$value->hour}}</td>
-                        <td>{{$value->salary}}</td>
+                        <td>{{$value->date}}</td>
+                        <td>{{$value->checkOut}}</td>
+                        <td>{{number_format($value->bonus)}}</td>
+                        <td>{{number_format($value->deduction)}}</td>
                         <td>{{$value->note}}</td>
                         <td>
                             <a onclick="event.preventDefault();editTaskForm({{$value->id}});" href="#"
@@ -106,9 +135,9 @@ table {
             </table>
         </div>
     </div>
-    @include('admin.salary.partials.task_add')
-    @include('admin.salary.partials.task_edit')
-    @include('admin.salary.partials.task_delete')
+    @include('admin.attend.partials.task_add')
+    @include('admin.attend.partials.task_edit')
+    @include('admin.attend.partials.task_delete')
 
 </section>
 
@@ -117,7 +146,7 @@ table {
 @section('scripts')
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="public/js/salary.js"></script>
+<script type="text/javascript" src="public/js/attend.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('.btn-number').click(function(e) {

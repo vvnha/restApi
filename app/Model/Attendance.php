@@ -11,6 +11,9 @@ class Attendance extends Model
     protected $keyType = 'integer';
     protected $guarded = [];
     protected function user(){
-        return $this->belongsto('App\Model\OrderTb','userID');
+        return $this->belongsto('App\User','userID');
+    }
+    protected function shift(){
+        return $this->belongsto('App\Model\Shift','shiftID');
     }
 }
