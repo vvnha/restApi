@@ -262,9 +262,9 @@ class OrderController extends Controller
             $resultLabel = '';
             foreach ($order as $items) {
                 $itemOrderDate = Carbon::create($items->orderDate);
-                $eatT = EatTime::where('orderID',$items->orderID)->first();
-                $timeTable = $eatT->eatTime;
-                if ($datetime->diffInHours($itemOrderDate) <=$timeTable && ($items->service == '1' || $items->service == '0')) {
+                // $eatT = EatTime::where('orderID',$items->orderID)->first();
+                // $timeTable = $eatT->eatTime;
+                if ($datetime->diffInHours($items->eatTime) <=$timeTable && ($items->service == '1' || $items->service == '0')) {
                     $resultLabel =  $items->perNum . "," . $resultLabel;
                 // dd($items->perNum);
                 //     $result = array_merge($result,$items->perNum);

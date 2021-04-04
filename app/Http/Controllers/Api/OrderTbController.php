@@ -42,13 +42,8 @@ class OrderTbController extends Controller
     $orderTable->perNum = $request->perNum;
     $orderTable->service = $request->service;
     $orderTable->dateClick = $request->dateClick;
+    $orderTable->eatTime = 2;
     $orderTable->save();
-
-    $eatTime = new EatTime();
-    $eatTime->orderID = $orderTable->orderID;
-    $eatTime->eatTime = $eatT;
-    $eatTime->save();
-  
     return response()->json(['success' => true, 'code' => 201]);
   }
 
@@ -161,10 +156,10 @@ class OrderTbController extends Controller
       $result = "";
       foreach ($order as $items) {
         $itemOrderDate = Carbon::create($items->orderDate);
-        $eatT = EatTime::where('orderID',$items->orderID)->first();
-        $timeTable = $eatT->eatTime;
+        // $eatT = EatTime::where('orderID',$items->orderID)->first();
+        // $timeTable = $eatT->eatTime;
         //return response()->json(['success' => true, 'code' => '200', 'data' => $datetime->between($itemOrderDate,$itemOrderDate->addHours((integer)$timeTable))]);
-        if ($datetime->diffInHours($itemOrderDate) <=$timeTable && ($items->service == '1' || $items->service == '0')) {
+        if ($datetime->diffInHours($items->eatTime) <=$timeTable && ($items->service == '1' || $items->service == '0')) {
           //$result = array_push($result, $items->);
           //$result = $items->perNum + "," + $result;
           $result =  $items->perNum . "," . $result;
