@@ -54,3 +54,4 @@ class UserSeeder extends Seeder
          ]);
     }
 }
+// php artisan passport:client --personal
