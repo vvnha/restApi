@@ -44,7 +44,7 @@ class OrderController extends Controller
         extract($tk);
         $ldate = date('Y-m-d');
 //         $order = OrderTb::orderBy('orderID', 'DESC')->whereIn('service', [0,1,2,3])->paginate(8);
-        $order = OrderTb::All()->paginate(8);
+        $order = OrderTb::paginate(15);
         return view('admin.order.allorder',['foods'=>$order,'collection'=>$collection,'xacnhan'=>'all','chuaxacnhan'=>$chuaxacnhan,'daxacnhan'=>$daxacnhan,'hoanthanh'=>$hoanthanh]);
     }
 
