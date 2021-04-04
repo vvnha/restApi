@@ -85,6 +85,7 @@ class OrderController extends Controller
     {
         $data = OrderTb::find((int)$id);
         $Namefood =Foods::all();
+        $eatTime = $data->eatTime;
         $iduser = $data->userID;
         $user = User::find($iduser);
         $timeorder = $data->orderDate;
@@ -99,7 +100,7 @@ class OrderController extends Controller
               $food->foodName = $name;
             }
         }
-        return view('admin.order.vieworder',['foods'=>$data->detail,'userss'=>$user,'stt'=> 0,'giodat'=>$time,'datngay'=>$timeorder,'total'=>$total,'service'=>$service,'id'=>$id, 'Namefood'=>$Namefood,'perNum'=>$perNum,'eatTime'=>$data->eatTime]);
+        return view('admin.order.vieworder',['foods'=>$data->detail,'userss'=>$user,'stt'=> 0,'giodat'=>$time,'datngay'=>$timeorder,'total'=>$total,'service'=>$service,'id'=>$id, 'Namefood'=>$Namefood,'perNum'=>$perNum,'eatTime'=>$eatTime]);
     }
 
     public function editservice(Request $request)

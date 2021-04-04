@@ -57,7 +57,6 @@ table {
         <p class="active"> Ngày đặt: {{$giodat}}</p>
         <p class="active"> Đặt ngày: {{$datngay}}</p>
         <p class="active"> Số bàn: {{$perNum}}</p>
-        <!-- <p class="active"> Gio an: {{$eatTime->eatTime}}</p> -->
 
         <form action="{{url('admin/order/vieworder/edittimeeat')}}" method="POST">
             {{ csrf_field() }}
