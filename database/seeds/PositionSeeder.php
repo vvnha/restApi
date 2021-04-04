@@ -11,42 +11,22 @@ class PositionSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('positions')->insert([
-            ['name' => 'admin'],
-            ['name' => 'manager'],
-            ['name' => 'user'],
-            ['name' => 'staff']
+        DB::table('kindOfSalarys')->insert([
+            ['type' => 'thường', 'coeficient' => '1', 'salary' => '10000', 'note'=>'1'],
+            ['type' => 'bán thời gian', 'coeficient' => '1', 'salary' => '10000', 'note'=>'1'],
+            ['type' => 'bán thời gian', 'coeficient' => '1', 'salary' => '10000', 'note'=>'2']
          ]);
-         DB::table('users')->insert([
-            ['name' => 'Võ Văn Nhã','email' => 'nhavo14@gmail.com','phone' => '0905903902', 'password'=>'123', 'positionID' => '1'],
-            ['name' => 'Trần Văn Quý','email' => 'quytran@gmail.com','phone' => '0905903902', 'password'=>'123', 'positionID' => '1'],
-            ['name' => 'Nguyễn Văn Tuyên','email' => 'tuyen1@gmail.com','phone' => '0905903902', 'password'=>'123', 'positionID' => '2']
-         ]);
-         DB::table('contacts')->insert([
-            ['userID' => '1', 'mess' => 'Oke la', 'time' => '2020-11-26 10:44:52'],
-            ['userID' => '1', 'mess' => 'Oke ngon', 'time' => '2020-11-26 10:44:52']
-         ]);
-         DB::table('kindOfFoods')->insert([
-            ['name' => 'food', 'detail' => '', 'img' => ''],
-            ['name' => 'drink', 'detail' => '', 'img' => ''],
-            ['name' => 'other', 'detail' => '', 'img' => '']
-         ]);
-         DB::table('foods')->insert([
-            ['foodName' => 'Bánh xèo','img' => 'food1.jpg', 'price'=>'200000', 'rating'=>'4.9', 'hits'=>'5', 'ingres' =>'Cá, thịt' , 'parentID'=>'1' ],
-            ['foodName' => 'Bánh Canh','img' => 'food2.jpg', 'price'=>'300000', 'rating'=>'4.9', 'hits'=>'5', 'ingres' => 'Giá, thịt' , 'parentID'=>'1'  ]
-         ]);
-         DB::table('comments')->insert([
-            ['userID' => '1','userName' => 'Võ Văn Nhã','mess'=>'Món này thì ngon', 'time' => '2020-11-26 10:44:52', 'foodID'=>'1' ],
-            ['userID' => '2','userName' => 'Trần Văn Quý','mess'=>'Món này cũng được', 'time' => '2020-11-26 10:44:52', 'foodID'=>'1' ]
-         ]);
-         DB::table('orderTables')->insert([
-            ['userID' => '1','total' => '2000000', 'orderDate'=>'2020-11-26 10:44:52', 'perNum'=>'4,5', 'dateClick'=>'2020-11-26 10:44:52' ],
-            ['userID' => '2','total' => '6000000', 'orderDate'=>'2020-11-26 10:44:52', 'perNum'=>'4,5', 'dateClick'=>'2020-11-26 10:44:52' ],
-         ]);
-         DB::table('orderDetails')->insert([
-            ['orderID' => '1','foodID' => '1', 'qty'=>'1', 'price' => '200000'],
-            ['orderID' => '2','foodID' => '2', 'qty'=>'2', 'price' => '300000'],
-            ['orderID' => '1','foodID' => '1', 'qty'=>'1', 'price' => '200000']
+         
+         DB::table('specificSalarys')->insert([
+            ['userID' => '1', 'kindOfSalaryID'=>'1'],
+            ['userID' => '2', 'kindOfSalaryID'=>'2'],
+            ['userID' => '3', 'kindOfSalaryID'=>'3']
+        ]);
+
+         DB::table('salarys')->insert([
+            ['specificSalaryID' => '1', 'totalDate' => '10', 'bonus' => '0', 'deduction'=>'0','month'=>'3','year'=>'2021', 'total' => '100000', 'note'=>''],
+            ['specificSalaryID' => '2', 'totalDate' => '20', 'bonus' => '0', 'deduction'=>'0','month'=>'2','year'=>'2021', 'total' => '200000', 'note'=>''],
+            ['specificSalaryID' => '3', 'totalDate' => '70', 'bonus' => '0', 'deduction'=>'0','month'=>'1','year'=>'2021', 'total' => '700000', 'note'=>'']
          ]);
     }
 }

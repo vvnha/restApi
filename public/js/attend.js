@@ -5,14 +5,15 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        var body = {
+            userID: $("#frmAddTask input[name=userID]").val(),
+            date: $("#frmAddTask input[name=date]").val(),
+            timeAttend: $("#frmAddTask input[name=timeAttend]").val(),
+        };
         $.ajax({
             type: 'POST',
-            url: 'admin/order/vieworder/add',
-            data: {
-                foodName: $("#frmAddTask :selected").val(),
-                soluong: $("#frmAddTask input[name=soluong]").val(),
-                id: $("#frmAddTask input[name=id]").val(),
-            },
+            url: 'admin/attend',
+            data: body,
             dataType: 'json',
             success: function (data) {
                 $('#frmAddTask').trigger("reset");
@@ -22,10 +23,10 @@ $(document).ready(function () {
             error: function (data) {
                 var errors = $.parseJSON(data.responseText);
                 $('#add-task-errors').html('');
-                $.each(errors.messages, function (key, value) {
-                    console.log(value);
-                    $('#add-task-errors').append('<li>' + value + '</li>');
-                });
+                // $.each(errors.messages, function (key, value) {
+                console.log(value);
+                $('#add-task-errors').append('<li>' + errors.messages + '</li>');
+                //});
                 $("#add-error-bag").show();
             }
         });
@@ -39,13 +40,17 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        var body = {
+            userID: $("#frmEditTask input[name=userID]").val(),
+            hour: $("#frmEditTask input[name=hour]").val(),
+            bonus: $("#frmEditTask input[name=bonus]").val(),
+            deduction: $("#frmEditTask input[name=deduction]").val(),
+            note: $("#frmEditTask input[name=note]").val(),
+        };
         $.ajax({
             type: 'PUT',
-            url: 'admin/order/vieworder/update/' + $("#frmEditTask input[name=task_id]").val(),
-            data: {
-                task: $("#frmEditTask input[name=task]").val(),
-                soluong: $("#frmEditTask input[name=soluong]").val(),
-            },
+            url: 'admin/attend/' + $("#frmEditTask input[name=id]").val(),
+            data: body,
             dataType: 'json',
             success: function (data) {
                 console.log(data);
@@ -72,14 +77,14 @@ $(document).ready(function () {
         });
         $.ajax({
             type: 'DELETE',
-            url: 'admin/order/vieworder/delete/' + $("#frmDeleteTask input[name=task_id]").val(),
+            url: 'admin/attend/' + $("#frmDeleteTask input[name=id]").val(),
             dataType: 'json',
             success: function (data) {
                 $("#frmDeleteTask .close").click();
                 window.location.reload();
             },
             error: function (data) {
-                console.log(data);
+                console.log(url);
             }
         });
     });
@@ -95,13 +100,17 @@ function addTaskForm() {
 function editTaskForm(task_id) {
     $.ajax({
         type: 'GET',
-        url: 'admin/order/vieworder/detail/' + task_id,
+        url: 'admin/attend/' + task_id,
         success: function (data) {
             $("#edit-error-bag").hide();
-            $("#frmEditTask input[name=task]").val(data.namefood);
-            $("#frmEditTask input[name=soluong]").val(data.task.qty);
-            $("#frmEditTask input[name=task_id]").val(data.task.detailID);
+            $("#frmEditTask input[name=id]").val(task_id);
+            $("#frmEditTask input[name=userID]").val(data.data.userID);
+            $("#frmEditTask input[name=hour]").val(data.data.hour);
+            $("#frmEditTask input[name=bonus]").val(data.data.bonus);
+            $("#frmEditTask input[name=deduction]").val(data.data.deduction);
+            $("#frmEditTask input[name=note]").val(data.data.note);
             $('#editTaskModal').modal('show');
+            console.log(data);
         },
         error: function (data) {
             console.log(data);
@@ -112,10 +121,10 @@ function editTaskForm(task_id) {
 function deleteTaskForm(task_id) {
     $.ajax({
         type: 'GET',
-        url: 'admin/order/vieworder/detail/' + task_id,
+        url: 'admin/attend/' + task_id,
         success: function (data) {
-            $("#frmDeleteTask #delete-title").html("Delete Food (" + data.namefood + " ID: " + data.task.detailID + ")?");
-            $("#frmDeleteTask input[name=task_id]").val(data.task.detailID);
+            $("#frmDeleteTask #delete-title").html("Delete Salary ( ID: " + data.data.id + ")?");
+            $("#frmDeleteTask input[name=id]").val(data.data.id);
             $('#deleteTaskModal').modal('show');
         },
         error: function (data) {

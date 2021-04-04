@@ -28,10 +28,12 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     #Accounts
     Route::get('/account', ['as' => 'users', 'uses' => 'UserController@account']);
     Route::get('account/allusers', ['as' => 'usersall', 'uses' => 'UserController@allusers']);
+    Route::get('account/searchuser', ['as' => 'search', 'uses' => 'UserController@searchuser']);
     Route::get('account/block/{id}', ['as' => 'block', 'uses' => 'UserController@block']);
     Route::get('account/blocks', ['as' => 'blocks', 'uses' => 'UserController@blocks']);
     Route::post('/account/position', ['as' => 'positions', 'uses' => 'UserController@position']);
     Route::get('account/manager', ['as' => 'manager', 'uses' => 'UserController@manager']);
+    Route::post('/account/changetype', ['as' => 'changetype', 'uses' => 'UserController@changetype']);
 
     #foods
     Route::get('/food', ['as' => 'foods', 'uses' => 'FoodController@allfood']);
@@ -57,7 +59,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     Route::get('/order/vieworder/{id}', ['as' => 'show1', 'uses' => 'OrderController@vieworder']);
     Route::post('/order/vieworder/editservice', ['as' => 'editO', 'uses' => 'OrderController@editservice']);
     Route::post('/order/vieworder/thanhtoan', ['as'   => 'thanhtoan','uses' => 'OrderController@thanhtoan']);
+    Route::post('/order/vieworder/edittimeeat', ['as' => 'edittimeeat', 'uses' => 'OrderController@edittimeeat']);
+    Route::get('/order/vieworder/edittable/{id}', ['as' => 'edittable', 'uses' => 'OrderController@edittable']);
+    Route::post('/order/vieworder/searchtable', ['as' => 'edittable11','uses' => 'OrderController@searchtable']);
 
+    
     Route::post('/order/vieworder/add', ['as'   => 'store1', 'uses' => 'OrderController@addfood']);
     Route::delete('/order/vieworder/delete/{id}', ['as'   => 'destroy1','uses' => 'OrderController@destroy']);
     Route::get('/order/vieworder/detail/{id}', ['as'   => 'show21','uses' => 'OrderController@show']);
@@ -70,4 +76,16 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
 
     #In hoa don
     Route::get('/printorder/{id}', 'OrderController@hoadon');
+
+    #salary
+    #Route::get('/salary', 'AdminController@salary');
+    Route::resource('/salary','KindOfSalaryController');
+    Route::resource('/attend','AttendanceController');
+    Route::post('/attend/searchdate', ['as' => 'search', 'uses' => 'AttendanceController@searchdate']);
+    Route::get('/attend/find/searchuser', ['as' => 'search', 'uses' => 'AttendanceController@searchuser']);
+    Route::resource('/wage','SalaryController');
+    Route::post('/wage/update', ['as' => 'editW', 'uses' => 'SalaryController@editSalary']);
+    Route::get('/wage/get/{id}', ['as' => 'deleW', 'uses' => 'SalaryController@getSalary']);
+    Route::get('/wage/find/searchuser', ['as' => 'search', 'uses' => 'SalaryController@searchuser']);
+    Route::post('/wage/find/searchdate', ['as' => 'search', 'uses' => 'SalaryController@searchdate']);
 });

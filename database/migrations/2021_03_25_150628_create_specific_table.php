@@ -18,6 +18,7 @@ class CreateSpecificTable extends Migration
             $table->increments('id');
             $table->integer('userID')->length(13)->unsigned();
             $table->integer('kindOfSalaryID')->length(13)->unsigned();
+            $table->text('note')->nullable();
             $table->timestamps();
             $table->foreign('userID')
             ->references('id')

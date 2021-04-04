@@ -40,7 +40,8 @@ Route::group(['namespace' => 'Api'], function () {
 
     //Route::resource('orders', 'OrderTbController');
     Route::get('/orders/getUser/{id}', ['as' => 'getID', 'uses' => 'OrderTbController@getParentUser']);
-    Route::post('/orders/search', 'OrderTbController@search');
+    Route::post('/orders/search', ['as' => 'searchOrder', 'uses' =>'OrderTbController@search1']);
+    //Route::post('/orders/search1', 'OrderTbController@search1');
     //Route::get('/orders/getDetail/{id}',['as'=>'getID','uses'=>'OrderTbController@getChildDetail']);
 
     //Route::resource('orderDetails', 'OrderDetailController');
@@ -54,7 +55,11 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::get('/abc', ['as' => 'abc', 'uses' => 'AbcController@index']);
     Route::post('/abc', ['as' => 'abc', 'uses' => 'AbcController@postAbc']);
-
+    Route::get('salary/{id}', 'UserController@getSalary');
+    Route::resource('attend', 'AttendanceController');
+    Route::put('attend/update', 'AttendanceController@update');
+    Route::resource('shift', 'ShiftController');
+    
 
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');

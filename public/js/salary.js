@@ -5,14 +5,17 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        var body = {
+            type: $("#frmAddTask input[name=type]").val(),
+            coeficient: $("#frmAddTask input[name=coeficient]").val(),
+            hour: $("#frmAddTask input[name=hour]").val(),
+            salary: $("#frmAddTask input[name=salary]").val(),
+            note: $("#frmAddTask input[name=note]").val()
+        };
         $.ajax({
             type: 'POST',
-            url: 'admin/order/vieworder/add',
-            data: {
-                foodName: $("#frmAddTask :selected").val(),
-                soluong: $("#frmAddTask input[name=soluong]").val(),
-                id: $("#frmAddTask input[name=id]").val(),
-            },
+            url: 'admin/salary',
+            data: body,
             dataType: 'json',
             success: function (data) {
                 $('#frmAddTask').trigger("reset");
@@ -39,13 +42,17 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        var body = {
+            type: $("#frmEditTask input[name=type]").val(),
+            coeficient: $("#frmEditTask input[name=coeficient]").val(),
+            hour: $("#frmEditTask input[name=hour]").val(),
+            salary: $("#frmEditTask input[name=salary]").val(),
+            note: $("#frmEditTask input[name=note]").val()
+        };
         $.ajax({
             type: 'PUT',
-            url: 'admin/order/vieworder/update/' + $("#frmEditTask input[name=task_id]").val(),
-            data: {
-                task: $("#frmEditTask input[name=task]").val(),
-                soluong: $("#frmEditTask input[name=soluong]").val(),
-            },
+            url: 'admin/salary/' + $("#frmEditTask input[name=id]").val(),
+            data: body,
             dataType: 'json',
             success: function (data) {
                 console.log(data);
@@ -72,14 +79,14 @@ $(document).ready(function () {
         });
         $.ajax({
             type: 'DELETE',
-            url: 'admin/order/vieworder/delete/' + $("#frmDeleteTask input[name=task_id]").val(),
+            url: 'admin/salary/' + $("#frmDeleteTask input[name=id]").val(),
             dataType: 'json',
             success: function (data) {
                 $("#frmDeleteTask .close").click();
                 window.location.reload();
             },
             error: function (data) {
-                console.log(data);
+                console.log(url);
             }
         });
     });
@@ -95,12 +102,14 @@ function addTaskForm() {
 function editTaskForm(task_id) {
     $.ajax({
         type: 'GET',
-        url: 'admin/order/vieworder/detail/' + task_id,
+        url: 'admin/salary/' + task_id,
         success: function (data) {
             $("#edit-error-bag").hide();
-            $("#frmEditTask input[name=task]").val(data.namefood);
-            $("#frmEditTask input[name=soluong]").val(data.task.qty);
-            $("#frmEditTask input[name=task_id]").val(data.task.detailID);
+            $("#frmEditTask input[name=id]").val(task_id);
+            $("#frmEditTask input[name=type]").val(data.data.type);
+            $("#frmEditTask input[name=coeficient]").val(data.data.coeficient);
+            $("#frmEditTask input[name=salary]").val(data.data.salary);
+            $("#frmEditTask input[name=note]").val(data.data.note);
             $('#editTaskModal').modal('show');
         },
         error: function (data) {
@@ -112,10 +121,10 @@ function editTaskForm(task_id) {
 function deleteTaskForm(task_id) {
     $.ajax({
         type: 'GET',
-        url: 'admin/order/vieworder/detail/' + task_id,
+        url: 'admin/salary/' + task_id,
         success: function (data) {
-            $("#frmDeleteTask #delete-title").html("Delete Food (" + data.namefood + " ID: " + data.task.detailID + ")?");
-            $("#frmDeleteTask input[name=task_id]").val(data.task.detailID);
+            $("#frmDeleteTask #delete-title").html("Delete Salary (" + data.data.type + " ID: " + data.data.id + ")?");
+            $("#frmDeleteTask input[name=id]").val(data.data.id);
             $('#deleteTaskModal').modal('show');
         },
         error: function (data) {
