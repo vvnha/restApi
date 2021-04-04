@@ -16,6 +16,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'Api'], function () {
 
     Route::get('/', ['as' => 'dashboard', 'uses' => 'HomeController@index']);
+    Route::post('/testattendance','HomeController@attendance');
 
     // Tạm thời bỏ qua user dưới đây
 
