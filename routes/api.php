@@ -39,7 +39,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     //Route::resource('orders', 'OrderTbController');
     Route::get('/orders/getUser/{id}', ['as' => 'getID', 'uses' => 'OrderTbController@getParentUser']);
-    Route::post('/orders/search', 'OrderTbController@search1');
+    Route::post('/orders/searchs', ['as' => 'searchOrder', 'uses' =>'OrderTbController@search1']);
     //Route::post('/orders/search1', 'OrderTbController@search1');
     //Route::get('/orders/getDetail/{id}',['as'=>'getID','uses'=>'OrderTbController@getChildDetail']);
 
