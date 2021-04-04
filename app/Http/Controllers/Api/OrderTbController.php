@@ -136,7 +136,8 @@ class OrderTbController extends Controller
       return response()->json(['success' => false, 'code' => '404']);
     }
   }
-  public function search(Request $request)
+
+  public function search1(Request $request)
   {
     $dateInput = $request->input('date');
     $timeInput = $request->input('time');
@@ -170,6 +171,7 @@ class OrderTbController extends Controller
       return response()->json(['success' => false, 'code' => '404']);
     }
   }
+ 
   public function getChildDetail(Request $request, $id)
   {
     $data = OrderTb::find((int)$id);
