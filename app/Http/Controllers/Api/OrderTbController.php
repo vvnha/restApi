@@ -95,6 +95,7 @@ class OrderTbController extends Controller
           $eatTime->orderID = $id;
           $eatTime->eatTime = $eatT;
         }
+        $orderTable->service = '0';
         $orderTable->save();
         $eatTime->save();
         return response()->json(['success' => true, 'code' => '200']);
