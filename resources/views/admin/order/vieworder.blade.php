@@ -61,9 +61,9 @@ table {
 
         <form action="{{url('admin/order/vieworder/edittimeeat')}}" method="POST">
             {{ csrf_field() }}
-            <input type="" name="id" hidden value="{{$eatTime->id}}">
+            <input type="" name="id" hidden value="{{$id}}">
             <select name="eatTime" class="bg-green">
-                <option value="{{$eatTime->eatTime}}">{{$eatTime->eatTime}}</option>
+                <option value="{{$eatTime}}">{{$eatTime}}</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>

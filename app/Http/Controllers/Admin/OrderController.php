@@ -92,7 +92,6 @@ class OrderController extends Controller
         $total = $data->total;
         $service = $data->service;
         $perNum =$data->perNum;
-        $eatT = EatTime::where('orderID',$id)->first();
 
         if ($data == true) {
             foreach ($data->detail as $food) {
@@ -100,7 +99,7 @@ class OrderController extends Controller
               $food->foodName = $name;
             }
         }
-        return view('admin.order.vieworder',['foods'=>$data->detail,'userss'=>$user,'stt'=> 0,'giodat'=>$time,'datngay'=>$timeorder,'total'=>$total,'service'=>$service,'id'=>$id, 'Namefood'=>$Namefood,'perNum'=>$perNum,'eatTime'=>$eatT]);
+        return view('admin.order.vieworder',['foods'=>$data->detail,'userss'=>$user,'stt'=> 0,'giodat'=>$time,'datngay'=>$timeorder,'total'=>$total,'service'=>$service,'id'=>$id, 'Namefood'=>$Namefood,'perNum'=>$perNum,'eatTime'=>$data->eatTime]);
     }
 
     public function editservice(Request $request)
@@ -119,7 +118,7 @@ class OrderController extends Controller
 
         $id = $request->id;
         $ldate = date('Y-m-d H:i:s');
-        $data = EatTime::find((int)$id);
+        $data = OrderTb::find((int)$id);
         $data->eatTime=$request->eatTime;
         $data->updated_at = $ldate;
         $data->save();
@@ -264,7 +263,7 @@ class OrderController extends Controller
                 $itemOrderDate = Carbon::create($items->orderDate);
                 // $eatT = EatTime::where('orderID',$items->orderID)->first();
                 // $timeTable = $eatT->eatTime;
-                if ($datetime->diffInHours($items->eatTime) <=$timeTable && ($items->service == '1' || $items->service == '0')) {
+                if ($datetime->diffInHours($itemOrderDate) <= $items->eatTime && ($items->service == '1' || $items->service == '0')) {
                     $resultLabel =  $items->perNum . "," . $resultLabel;
                 // dd($items->perNum);
                 //     $result = array_merge($result,$items->perNum);
