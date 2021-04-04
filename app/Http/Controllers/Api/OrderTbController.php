@@ -159,7 +159,7 @@ class OrderTbController extends Controller
         // $eatT = EatTime::where('orderID',$items->orderID)->first();
         // $timeTable = $eatT->eatTime;
         //return response()->json(['success' => true, 'code' => '200', 'data' => $datetime->between($itemOrderDate,$itemOrderDate->addHours((integer)$timeTable))]);
-        if ($datetime->diffInHours($items->eatTime) <=$timeTable && ($items->service == '1' || $items->service == '0')) {
+        if ($datetime->diffInHours($itemOrderDate) <= $items->eatTime && ($items->service == '1' || $items->service == '0')) {
           //$result = array_push($result, $items->);
           //$result = $items->perNum + "," + $result;
           $result =  $items->perNum . "," . $result;
