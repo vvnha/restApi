@@ -63,7 +63,7 @@ class AttendanceController extends Controller
         $timeAttend = Shift::where('position',$data->positionID)->get();
         $type = 1;
         if($data == true){
-            if($type == 2){
+            if($type == 1){
                 foreach($timeAttend as $value){
                     $checkIn = Carbon::create($insertDate->toDateString(). ' '.$value->checkIn);
                     $checkOut = Carbon::create($insertDate->toDateString(). ' '.$value->checkOut);
@@ -127,7 +127,8 @@ class AttendanceController extends Controller
                         $attendance->save();
                         return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
                     }else{
-                        return response()->json(['success' => false, 'messages' => 'You have already attendance!'],422);
+                        //if() // the time is over for attendance
+                        return response()->json(['success' => false, 'messages' => 'You have already attendance! Do you wanna check out!'],208);
                     }
                 }else{
                     return response()->json(['success' => false, 'messages' => 'The time is over'],422);
