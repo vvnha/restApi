@@ -42,8 +42,14 @@ class OrderTbController extends Controller
     $orderTable->perNum = $request->perNum;
     $orderTable->service = $request->service;
     $orderTable->dateClick = $request->dateClick;
-
     $orderTable->save();
+
+    $eatTime = new EatTime();
+    $eatTime->orderID = $orderTable->id;
+    $eatTime->eatTime = $eatT;
+    $eatT->save();
+
+    
     return response()->json(['success' => true, 'code' => 201]);
   }
 
@@ -85,19 +91,20 @@ class OrderTbController extends Controller
         }else{
           $eatT = 0;
         }
-        $checkTime = EatTime::where('orderID',$id)->first();
-        $eatTime = EatTime::find((integer)$checkTime->id);
-        //return response()->json(['success' => true, 'code' => $checkTime->id]);
-        if($eatTime->count()>0){
-           $eatTime->eatTime = $eatT;
-        }else{
-          $eatTime = new EatTime();
-          $eatTime->orderID = $id;
-          $eatTime->eatTime = $eatT;
-        }
+        // $checkTime = EatTime::where('orderID',$id)->first();
+        // $eatTime = EatTime::find((integer)$checkTime->id);
+        // //return response()->json(['success' => true, 'code' => $checkTime->id]);
+        // if($eatTime->count()>0){
+        //    $eatTime->eatTime = $eatT;
+        // }else{
+        //   $eatTime = new EatTime();
+        //   $eatTime->orderID = $id;
+        //   $eatTime->eatTime = $eatT;
+
+        // }
+        // $eatTime->save();
         $orderTable->service = '0';
         $orderTable->save();
-        $eatTime->save();
         return response()->json(['success' => true, 'code' => '200']);
       } else {
         return response()->json(['success' => false, 'code' => '401', 'data' => "No permission to update"]);
