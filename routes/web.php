@@ -59,7 +59,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin::', 'prefix' => 'admin','mi
     Route::get('/order/vieworder/{id}', ['as' => 'show1', 'uses' => 'OrderController@vieworder']);
     Route::post('/order/vieworder/editservice', ['as' => 'editO', 'uses' => 'OrderController@editservice']);
     Route::post('/order/vieworder/thanhtoan', ['as'   => 'thanhtoan','uses' => 'OrderController@thanhtoan']);
+    Route::post('/order/vieworder/edittimeeat', ['as' => 'edittimeeat', 'uses' => 'OrderController@edittimeeat']);
+    Route::get('/order/vieworder/edittable/{id}', ['as' => 'edittable', 'uses' => 'OrderController@edittable']);
+    Route::post('/order/vieworder/searchtable', ['as' => 'edittable11','uses' => 'OrderController@searchtable']);
 
+    
     Route::post('/order/vieworder/add', ['as'   => 'store1', 'uses' => 'OrderController@addfood']);
     Route::delete('/order/vieworder/delete/{id}', ['as'   => 'destroy1','uses' => 'OrderController@destroy']);
     Route::get('/order/vieworder/detail/{id}', ['as'   => 'show21','uses' => 'OrderController@show']);

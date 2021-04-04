@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\OrderTb;
+use App\Model\EatTime;
 use App\Model\OrderDetail;
 use App\Model\Foods;
 use App\User;
 use Validator;
 use Auth;
+use Carbon\Carbon;
 
 
 class OrderController extends Controller
@@ -87,14 +89,16 @@ class OrderController extends Controller
         $time = $data->dateClick;
         $total = $data->total;
         $service = $data->service;
-       $perNum =$data->perNum;
+        $perNum =$data->perNum;
+        $eatT = EatTime::where('orderID',$id)->first();
+
         if ($data == true) {
             foreach ($data->detail as $food) {
               $name = Foods::find((int)$food->foodID)->foodName;
               $food->foodName = $name;
             }
         }
-        return view('admin.order.vieworder',['foods'=>$data->detail,'userss'=>$user,'stt'=> 0,'giodat'=>$time,'datngay'=>$timeorder,'total'=>$total,'service'=>$service,'id'=>$id, 'Namefood'=>$Namefood,'perNum'=>$perNum]);
+        return view('admin.order.vieworder',['foods'=>$data->detail,'userss'=>$user,'stt'=> 0,'giodat'=>$time,'datngay'=>$timeorder,'total'=>$total,'service'=>$service,'id'=>$id, 'Namefood'=>$Namefood,'perNum'=>$perNum,'eatTime'=>$eatT]);
     }
 
     public function editservice(Request $request)
@@ -103,6 +107,18 @@ class OrderController extends Controller
         $ldate = date('Y-m-d H:i:s');
         $data = OrderTb::find((int)$id);
         $data->service=$request->service;
+        $data->updated_at = $ldate;
+        $data->save();
+        return redirect()->back();
+    }
+
+    public function edittimeeat(Request $request)
+    {
+
+        $id = $request->id;
+        $ldate = date('Y-m-d H:i:s');
+        $data = EatTime::find((int)$id);
+        $data->eatTime=$request->eatTime;
         $data->updated_at = $ldate;
         $data->save();
         return redirect()->back();
@@ -217,5 +233,89 @@ class OrderController extends Controller
         return view('admin.order.hoadon',['foods'=>$data->detail,'userss'=>$user,'id'=>$id,'stt'=> 1,'tongsotien'=>0,'date'=>$date,'perNum'=>$perNum,'nameA'=>$nameA]);
     }
 
+    public function edittable($id)
+    {
+        $data = OrderTb::find((int)$id);
+        $date = $data->orderDate;
+        $timestamp = strtotime($date);
+        $new_date = date("Y-m-d", $timestamp);
+        $new_date1 = date("H:i:s", $timestamp);
+        $new_date = $new_date ."T".$new_date1;
+        return view('admin.order.edittable',['data'=>$data,'dateOrder'=>$new_date]);
+    }
+
+    public function searchtable(Request $request)
+    {
+        $datetime = Carbon::create($request->datetime);
+        $data = OrderTb::find((int)$request->id);
+        $date = $data->orderDate;
+        $timestamp = strtotime($date);
+        $new_date = date("Y-m-d", $timestamp);
+        $new_date1 = date("H:i:s", $timestamp);
+        $new_date = $new_date ."T".$new_date1;
+        
+        $order = OrderTb::whereYear('orderDate', $datetime->year)->whereMonth('orderDate',$datetime->month)->whereDay('orderDate',$datetime->day)->get();
+        if ($order == true) {
+            $result = array();
+            $resultLabel = '';
+            foreach ($order as $items) {
+                $itemOrderDate = Carbon::create($items->orderDate);
+                $eatT = EatTime::where('orderID',$items->orderID)->first();
+                $timeTable = $eatT->eatTime;
+                if ($datetime->diffInHours($itemOrderDate) <=$timeTable && ($items->service == '1' || $items->service == '0')) {
+                    $resultLabel =  $items->perNum . "," . $resultLabel;
+                // dd($items->perNum);
+                //     $result = array_merge($result,$items->perNum);
+                // }
+                    $result1 = explode( ',', $items->perNum );
+                    $counts = count($result1);
+                    $i=0;
+                    for ($i; $i < $counts; $i++) { 
+                        $d = $result1[$i];
+                        $t = explode( '//', $d);
+                        $result = array_merge($result, $t);
+                    }
+                }
+            }
+        }
+        if(isset($request->numberTable)){
+            $numberTable = $request->numberTable;
+            $newTable = explode( ',', $numberTable);
+            $res = true;
+            for ($i = 0; $i < count($newTable); $i++) { 
+                
+                if(in_array($newTable[$i],$result)){
+                    
+                    $res = false;
+                }
+            }
+            if($res == false){
+                $message = "Bàn vừa chọn đã được đặt, mời đặt lại!";
+                return view('admin.order.edittable',['data'=>$data,'orderedLabel'=>$resultLabel, 'ordered'=>$result,'dateOrder'=> $request->datetime, 'messages'=>$message]);
+            }else{
+                $data->perNum = $request->numberTable;
+                $message = "Đã sửa thành công!";
+                $data->save();
+                return view('admin.order.edittable',['data'=>$data,'orderedLabel'=>$resultLabel, 'ordered'=>$result,'dateOrder'=> $request->datetime, 'messages'=>$message]);
+            }
+        }
+        if(isset($request->orderDate)){
+            $orderD = Carbon::create($request->orderDate);
+            $message = $orderD;
+            $data->orderDate = $orderD;
+            $data->save();
+            return redirect()->back();
+        }
+        //dd($resultLabel);
+        return view('admin.order.edittable',['data'=>$data,'orderedLabel'=>$resultLabel, 'ordered'=>$result,'dateOrder'=> $request->datetime]);
+        
+        // if ($result != "") {
+        //     $result = substr($result, 0, -1);
+        // }
+        // return response()->json(['success' => true, 'code' => '200', 'data' => $result]);
+        // } else {
+        // return response()->json(['success' => false, 'code' => '404']);
+        // }
+    }
 
 }

@@ -81,17 +81,22 @@ class OrderTbController extends Controller
       }
       if (Gate::allows('admin-user', $orderTable->userID)) {
         if($request->service == 1){
-          $eatTime = new EatTime();
-          $eatTime->orderID = $id;
-          $eatTime->eatTime = 2;
-          $eatTime->save();
+          $eatT = 2;
+        }else{
+          $eatT = 0;
+        }
+        $checkTime = EatTime::where('orderID',$id)->first();
+        $eatTime = EatTime::find((integer)$checkTime->id);
+        //return response()->json(['success' => true, 'code' => $checkTime->id]);
+        if($eatTime->count()>0){
+           $eatTime->eatTime = $eatT;
         }else{
           $eatTime = new EatTime();
           $eatTime->orderID = $id;
-          $eatTime->eatTime = 0;
-          $eatTime->save();
+          $eatTime->eatTime = $eatT;
         }
         $orderTable->save();
+        $eatTime->save();
         return response()->json(['success' => true, 'code' => '200']);
       } else {
         return response()->json(['success' => false, 'code' => '401', 'data' => "No permission to update"]);
@@ -191,4 +196,5 @@ class OrderTbController extends Controller
       return response()->json(['success' => false, 'code' => '401', 'data' => "No permission to update"]);
     }
   }
+
 }
