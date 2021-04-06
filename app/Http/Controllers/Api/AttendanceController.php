@@ -140,9 +140,15 @@ class AttendanceController extends Controller
                     }
                 }else{
                     $getAttendSpan = $timeAttend->where('checkSpan',true)->first();
-                    $getAttend = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->where('shiftID',$getAttendSpan->id)->get();
-                    if($getAttend->count()>0 ){
-                        return response()->json(['success' => false, 'messages' => 'You have already attendance! Do you wanna check out!(1)'],208);
+                    //return response()->json(['success' => false, 'messages' => $getAttendSpan],422);
+                    //$getAttend = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->where('shiftID',$getAttendSpan->th)->get();
+                    if($getAttendSpan!=null){
+                        $getAttend = Attendance::where('userID','=',$data->id)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->where('shiftID',$getAttendSpan->th)->get();
+                        if($getAttend->count()>0){
+                            return response()->json(['success' => false, 'messages' => 'You have already attendance! Do you wanna check out!(1)'],208);
+                        }else{
+                            return response()->json(['success' => false, 'messages' => 'The time is over'],422);
+                        }
                         //return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
                     }else{
                          return response()->json(['success' => false, 'messages' => 'The time is over'],422);
