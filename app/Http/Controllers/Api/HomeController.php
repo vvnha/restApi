@@ -25,8 +25,8 @@ class HomeController extends Controller
     public function attendance(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'userID' => 'required',
-            'date' => 'required'
+            'idUser' => 'required',
+            'datetime' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -35,11 +35,10 @@ class HomeController extends Controller
 
         $response = [
             'success' => true,
-            'id' => $request->userID,
-            'messages'=>'ok',
-            'datetime' => $request->date,
+            'code' => $request->idUser,
+            'datetime' => $request->datetime,
         ];
 
-        return response()->json($response,200);
+        return response()->json($response);
     }
 }

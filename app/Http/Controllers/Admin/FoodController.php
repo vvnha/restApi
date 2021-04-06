@@ -171,5 +171,4 @@ class FoodController extends Controller
         $food->save();
         return redirect()->back()->with('success', 'Cập nhật thành công!');
     }
-
 }
