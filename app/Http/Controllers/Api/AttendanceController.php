@@ -240,17 +240,25 @@ class AttendanceController extends Controller
      */
     public function update(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'date' => 'required'
-        ]);
+        
+        // $validator = Validator::make(json_decode($request[0]), [
+        //     'collect' => 'required'
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors(), 'code' => 401]);
-        }
-        $attendList = json_decode($request->date);
+        // if ($validator->fails()) {
+        //     return response()->json(['error' => $validator->errors(), 'code' => 401]);
+        // }
+        // return response()->json(json_decode($request[0]));
+        
+        $attendList = json_decode($request[0])->collect;
+        
         if(count($attendList)>0){
             foreach($attendList as $value){
+                
                 $insertDate = Carbon::create($value->date);
+                if($insertDate->isAfter(Carbon::create($insertDate->toDateString().' 10:00:00'))){
+                    $insertDate = Carbon::create($insertDate->toDateString().' 10:00:00');
+                }
                 $checkAttend = Attendance::where('userID','=',$value->userID)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->get();
                 if($checkAttend->count()>0){
                     $attendance = $checkAttend->first();
