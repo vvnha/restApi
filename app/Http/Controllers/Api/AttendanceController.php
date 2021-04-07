@@ -238,17 +238,40 @@ class AttendanceController extends Controller
      */
     public function update(Request $request)
     {
-        $insertDate = Carbon::create($request->date);
-        $checkAttend = Attendance::where('userID','=',$request->userID)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->get();
-        if($checkAttend->count()>0){
-            $attendance = $checkAttend->first();
-            $diff = $insertDate->diffInHours($attendance->date);
-            $attendance->hour = $diff;
-            $attendance->checkOut = $insertDate;
-            $attendance->save();
-            return $this->updateSalary($insertDate->month,$insertDate->year,$request->userID);
+        $validator = Validator::make($request->all(), [
+            'date' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors(), 'code' => 401]);
+        }
+        $attendList = json_decode($request->date);
+        if(count($attendList)>0){
+            foreach($attendList as $value){
+                $insertDate = Carbon::create($value->date);
+                $checkAttend = Attendance::where('userID','=',$value->userID)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->get();
+                if($checkAttend->count()>0){
+                    $attendance = $checkAttend->first();
+                    $diff = $insertDate->diffInHours($attendance->date);
+                    $attendance->hour = $diff;
+                    $attendance->checkOut = $insertDate;
+                    $attendance->save();
+                    $this->updateSalary($insertDate->month,$insertDate->year,$value->userID);
+                }
+            }
+            $response = [
+                    'success' => true,
+                    'code' => $request,
+                    'datetime' => 'OK'
+                ];
+            return response()->json($response);
         }else{
-            return response()->json(['success' => false, 'messages' => 'You have not been attended'],422);
+            $response = [
+                'success' => true,
+                'code' => $request,
+                'message' => "no data"
+            ];  
+            return response()->json($response);
         }
     }
 
