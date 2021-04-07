@@ -214,8 +214,10 @@ class AttendanceController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $data = Attendance::find((integer)$id);
-        return response()->json(['success' => true, 'code' => '200', 'data' => $position]);
+        $data = User::find((integer)$id);
+        $date = Carbon::create($request->date);
+        $attend = Attendance::where('userID',$id)->whereYear('date',$date->year)->whereMonth('date',$date->month)->whereDay('date',$date->day)->get();
+        return response()->json(['success' => false, 'data' => $attend->first()->date],200);
     }
 
     /**
