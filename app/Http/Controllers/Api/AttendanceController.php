@@ -256,8 +256,8 @@ class AttendanceController extends Controller
             foreach($attendList as $value){
                 
                 $insertDate = Carbon::create($value->date);
-                if($insertDate->isAfter(Carbon::create($insertDate->toDateString().' 10:00:00'))){
-                    $insertDate = Carbon::create($insertDate->toDateString().' 10:00:00');
+                if($insertDate->isAfter(Carbon::create($insertDate->toDateString().' 22:00:00'))){
+                    $insertDate = Carbon::create($insertDate->toDateString().' 22:00:00');
                 }
                 $checkAttend = Attendance::where('userID','=',$value->userID)->whereYear('date','=',$insertDate->year)->whereMonth('date','=',$insertDate->month)->whereDay('date','=',$insertDate->day)->get();
                 if($checkAttend->count()>0){
