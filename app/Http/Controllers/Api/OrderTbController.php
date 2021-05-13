@@ -97,7 +97,7 @@ class OrderTbController extends Controller
 
         // }
         // $eatTime->save();
-        $orderTable->service = '0';
+        $orderTable->service = $request->service;
         $orderTable->save();
         return response()->json(['success' => true, 'code' => '200']);
       } else {
