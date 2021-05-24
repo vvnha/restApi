@@ -99,11 +99,11 @@ class AttendanceController extends Controller
                             $note = '';
                             
                         }else{
-                            $deduction = 100000;
+                            $deduction = 20000;
                             $note = 'Đi trễ';
                         }
                     }else {
-                        $deduction = 200000;
+                        $deduction = 50000;
                         $note = 'Đi trễ sau giờ điểm danh quá 15 phút';
                     }
                     //truong hop diem danh lien tuc tu ca1 sang ca2 thi khong xet dieu kien tru luong doi voi ca2
