@@ -191,6 +191,9 @@ class SalaryController extends Controller
         $data = Salary::where('month',$date->month)->where('year',$date->year)->paginate(8);
         // $data = $user->getSalary;
         $collection = $data->count();
+        foreach($data as $value){
+            $value->userName = $value->specficSalary->user->name;
+        }
         return view('admin.wage.index',['data'=>$data,'collection'=>$collection]);
     }
 }
