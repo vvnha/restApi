@@ -66,7 +66,7 @@ table {
                     <div class="col-sm-6">
                         <h2>Manage <b>Attendance</b></h2>
                         <a onclick="event.preventDefault();addTaskForm();" href="#" class="btn btn-success"
-                            data-toggle="modal"><span>Add New Food</span></a>
+                            data-toggle="modal"><span>Thêm</span></a>
                     </div>
                     <div class="col-sm-6" data-toggle="modal">
                         <form action="{{url('admin/attend/searchdate')}}" method="POST">
