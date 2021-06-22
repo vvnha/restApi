@@ -89,7 +89,7 @@ table {
                     </div>
                     <div class="col-sm-6">
                         <a onclick="event.preventDefault();addTaskForm();" href="#" class="btn btn-success"
-                            data-toggle="modal"><span>Add New Food</span></a>
+                            data-toggle="modal"><span>Thêm</span></a>
                     </div>
                 </div>
             </div> -->
