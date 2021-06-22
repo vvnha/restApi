@@ -22,12 +22,12 @@
                         </label>
                         <input class="form-control" type="text" id="name" name="userID" required>
                         <label>
-                            Thoi gian
+                            Thời gian
                         </label>
                         <input class="form-control" type="text" id="name" name="date" required>
 
                         <label>
-                            Gio diem danh
+                            Giờ điểm danh
                         </label>
                         <input class="form-control" type="text" id="name" name="timeAttend" required>
                     </div>
@@ -53,7 +53,7 @@
                 <div class="modal-footer">
                     <input class="btn btn-default" data-dismiss="modal" type="button" value="Cancel">
                     <button class="btn btn-info" id="btn-add" type="button" value="add">
-                        Add New Food
+                        OK
                     </button>
                     </input>
                 </div>
