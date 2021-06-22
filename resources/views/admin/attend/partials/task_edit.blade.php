@@ -65,7 +65,7 @@
                     <input id="task_id" name="task_id" type="hidden" value="0">
                     <input class="btn btn-default" data-dismiss="modal" type="button" value="Cancel">
                     <button class="btn btn-info" id="btn-edit" type="button" value="add">
-                        Update Food
+                        OK
                     </button>
                     </input>
                     </input>
