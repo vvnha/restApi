@@ -93,7 +93,7 @@ class AttendanceController extends Controller
                     return response()->json(['success' => false, 'messages' => 'You have already attendance!'],422);
                 }
             }else{
-                return response()->json(['success' => false, 'messages' => $request->all()],422);
+                return response()->json(['success' => false, 'messages' => 'The time is over'],422);
             }
         }else{
             return response()->json(['success' => false, 'messages' => 'Error network', 404]);
