@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Shift;
 use App\Model\Attendance;
 use App\Model\Salary;
 use Illuminate\Http\Request;
